@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Project>
+  <Version>
+    <File_Version>2.1</File_Version>
+    <Application>MPC-V</Application>
+    <Application_Version>2.9.0.17</Application_Version>
+    <Platform>Linux</Platform>
+  </Version>
+  <ProductCode>1299211094</ProductCode>
+  <BPM>90.000000</BPM>
+  <MasterVolume>0.707946</MasterVolume>
+  <FileList>
+    <File>./Aerial_[ProjectData]/All Sequences &amp; Songs.xal</File>
+    <File>./Aerial_[ProjectData]/Bounce - Bass.WAV</File>
+    <File>./Aerial_[ProjectData]/ice_cubes_in_glass.WAV</File>
+    <File>./Aerial_[ProjectData]/JoyaSings4.WAV</File>
+    <File>./Aerial_[ProjectData]/walk_to_indoor_pool.WAV</File>
+    <File>./Aerial_[ProjectData]/zaboo_gulp.WAV</File>
+    <File>./Aerial_[ProjectData]/Drums.Plugin.xpm</File>
+    <File>./Aerial_[ProjectData]/Bass.Plugin.xpm</File>
+    <File>./Aerial_[ProjectData]/Sounds.Drum.xpm</File>
+    <File>./Aerial_[ProjectData]/Bounces.Drum.xpm</File>
+    <File>./Aerial_[ProjectData]/Pat.Plugin.xpm</File>
+    <File>./Aerial_[ProjectData]/Audio 001.Audio.xpm</File>
+    <File>./Aerial_[ProjectData]/Midi Controller.mcn</File>
+    <File>./Aerial_[ProjectData]/Pad Perform Settings.xml</File>
+  </FileList>
+  <Mixer>
+    <Mixer.Input number="1">
+      <ProgramName>Input</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Input>
+    <Mixer.Return number="1">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Return 1</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Insert1>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Para EQ</Name>
+        <DescriptiveName>AIR Para EQ</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Para EQ</FileOrID>
+        <UID>1631998021</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>180.AMjUSA....PPIIEHPElbgARQQA......................................................................A....jA...vkCsXO...f+....9SAiJsO....+T35Q7C..........v5ha5C...vOWsUj9.....vLyLwO....+b0VQ5C.....kTmD+....7SgqGwO..........vuzMgO...f+....9C...vO</Data>
+      </Insert1>
+      <InsertEnable1>True</InsertEnable1>
+      <Insert2>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Tube Drive</Name>
+        <DescriptiveName>AIR Tube Drive</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Tube Drive</FileOrID>
+        <UID>1631999044</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>5</ProgramNumber>
+        <Data>96.AMjUSU....PPIIEHTUmXkABQxklckA..................................................................A....P....viBWWO...f+......B..vO</Data>
+      </Insert2>
+      <InsertEnable2>False</InsertEnable2>
+      <Insert4>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Compressor</Name>
+        <DescriptiveName>AIR Compressor</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Compressor</FileOrID>
+        <UID>1631994736</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>108.AMjUSA....PPIIEHC8VavIWYyM2axA..................................................................B....b....fyLyvO...f+.........3ODtdD+.........3O</Data>
+      </Insert4>
+      <InsertEnable4>True</InsertEnable4>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Return>
+    <Mixer.Return number="2">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Return 2</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Insert1>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Para EQ</Name>
+        <DescriptiveName>AIR Para EQ</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Para EQ</FileOrID>
+        <UID>1631998021</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>180.AMjUSA....PPIIEHPElbgARQQA......................................................................A....jA...fWPfsO...f+....9SAiJsO....+T35Q7C..........v5ha5C...vOWsUj9.....vLyLwO....+b0VQ5C.....kTmD+....7SgqGwO..........fUiWxO...f+....9C...vO</Data>
+      </Insert1>
+      <InsertEnable1>True</InsertEnable1>
+      <Insert2>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Tube Drive</Name>
+        <DescriptiveName>AIR Tube Drive</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Tube Drive</FileOrID>
+        <UID>1631999044</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>5</ProgramNumber>
+        <Data>96.AMjUSU....PPIIEHTUmXkABQxklckA..................................................................A....P....viBWWO...f+......B..vO</Data>
+      </Insert2>
+      <InsertEnable2>False</InsertEnable2>
+      <Insert3>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Stereo Width</Name>
+        <DescriptiveName>AIR Stereo Width</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Stereo Width</FileOrID>
+        <UID>1631998807</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>8</ProgramNumber>
+        <Data>108.AMjUSg....PPIIEHSQWYxU1afbUZjQGZ................................................................A....b.....4O0zO.....H...7C..........LIa.7C...vO</Data>
+      </Insert3>
+      <InsertEnable3>True</InsertEnable3>
+      <Insert4>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Compressor</Name>
+        <DescriptiveName>AIR Compressor</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Compressor</FileOrID>
+        <UID>1631994736</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>108.AMjUSA....PPIIEHC8VavIWYyM2axA..................................................................B....b.....0LyvO...f+......U350OHtdD+.........3O</Data>
+      </Insert4>
+      <InsertEnable4>True</InsertEnable4>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Return>
+    <Mixer.Return number="3">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Return 3</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Insert1>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Para EQ</Name>
+        <DescriptiveName>AIR Para EQ</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Para EQ</FileOrID>
+        <UID>1631998021</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>180.AMjUSA....PPIIEHPElbgARQQA......................................................................A....jA...fpbn0O...f+....9SAiJsO....+T35Q7C..........v5ha5C...vOWsUj9.....vLyLwO....+b0VQ5C.....kTmD+....7SgqGwO..............3O...f+....9C...vO</Data>
+      </Insert1>
+      <InsertEnable1>True</InsertEnable1>
+      <Insert2>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Tube Drive</Name>
+        <DescriptiveName>AIR Tube Drive</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Tube Drive</FileOrID>
+        <UID>1631999044</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>5</ProgramNumber>
+        <Data>96.AMjUSU....PPIIEHTUmXkABQxklckA..................................................................A....P.....yLyTO...f+......B..vO</Data>
+      </Insert2>
+      <InsertEnable2>True</InsertEnable2>
+      <Insert3>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Stereo Width</Name>
+        <DescriptiveName>AIR Stereo Width</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Stereo Width</FileOrID>
+        <UID>1631998807</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>9</ProgramNumber>
+        <Data>108.AMjUSk....PPIIEHSQWYxU1afbUZjQGZ................................................................A....b........3O..........PA..vO.....rrC.7SJ1AvO</Data>
+      </Insert3>
+      <InsertEnable3>False</InsertEnable3>
+      <Insert4>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Compressor</Name>
+        <DescriptiveName>AIR Compressor</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Compressor</FileOrID>
+        <UID>1631994736</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>108.AMjUSA....PPIIEHC8VavIWYyM2axA..................................................................B....b....f+++uO...f+.....fRgquODtdD+.........3O</Data>
+      </Insert4>
+      <InsertEnable4>True</InsertEnable4>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Return>
+    <Mixer.Return number="4">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Return 4</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Insert1>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Reverb</Name>
+        <DescriptiveName>AIR Reverb</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Reverb</FileOrID>
+        <UID>1631998582</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>152.AMjUSA....PPIIEHRUlckImX........................................................................A....HA...fCvT0OPJb88....7iUFmwO5MI09....7i5QgiO3iBG+....9C...vO.........9C........f+...............+....7C</Data>
+      </Insert1>
+      <InsertEnable1>True</InsertEnable1>
+      <Insert4>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Para EQ</Name>
+        <DescriptiveName>AIR Para EQ</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Para EQ</FileOrID>
+        <UID>1631998021</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>180.AMjUSA....PPIIEHPElbgARQQA......................................................................A....jA....246wOqppp9....9SAiJsO....+T35Q7C..........v5ha5C...vOWsUj9.....vLyLwO....+b0VQ5C.....kTmD+....7SgqGwO...........d990OqppJx....9C...vO</Data>
+      </Insert4>
+      <InsertEnable4>True</InsertEnable4>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Return>
+    <Mixer.Submix number="1">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 1</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>3</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>1.000000</Send1>
+      <Send2>1.000000</Send2>
+      <Send3>1.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Submix number="2">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 2</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Submix number="3">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 3</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Submix number="4">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 4</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Submix number="5">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 5</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Submix number="6">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 6</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Submix number="7">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 7</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Submix number="8">
+      <Program.Xfader.Route>0</Program.Xfader.Route>
+      <ProgramName>Submix 8</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Submix>
+    <Mixer.Output number="1">
+      <Xfader.Position>0.500000</Xfader.Position>
+      <Xfader.Curve>0</Xfader.Curve>
+      <ProgramName>Outputs 1/2</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Insert1>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Compressor</Name>
+        <DescriptiveName>AIR Compressor</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Compressor</FileOrID>
+        <UID>1631994736</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>108.AMjUSA....PPIIEHC8VavIWYyM2axA..................................................................B....b.....A..zO...f+.....P35QoO.....X+++6CB..vO</Data>
+      </Insert1>
+      <InsertEnable1>True</InsertEnable1>
+      <Insert2>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Tube Drive</Name>
+        <DescriptiveName>AIR Tube Drive</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Tube Drive</FileOrID>
+        <UID>1631999044</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>96.AMjUSA....PPIIEHTUmXkABQxklckA..................................................................A....P..............+.........vO</Data>
+      </Insert2>
+      <InsertEnable2>True</InsertEnable2>
+      <Insert3>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Para EQ</Name>
+        <DescriptiveName>AIR Para EQ</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Para EQ</FileOrID>
+        <UID>1631998021</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>180.AMjUSA....PPIIEHPElbgARQQA......................................................................A....jA...PTMdQOqppJx....9yiF.mOv2OE+PGZQ5C...3O...f+v6iw5y+oFuO.hVj9....9CVh0xO9yh79b0VQ5C...3OeQkP+fGEN7SbnEoO...f+....9CMyL2OqppJx....9C878uO</Data>
+      </Insert3>
+      <InsertEnable3>True</InsertEnable3>
+      <Insert4>
+        <Is64Bits>0</Is64Bits>
+        <Name>AIR Maximizer</Name>
+        <DescriptiveName>AIR Maximizer</DescriptiveName>
+        <FormatName>MPC</FormatName>
+        <Category></Category>
+        <ManufacturerName>AIR Music Technology</ManufacturerName>
+        <FileOrID>MPC:AIR Maximizer</FileOrID>
+        <UID>1631997304</UID>
+        <IsInstrument>0</IsInstrument>
+        <NumInput>2</NumInput>
+        <NumOutput>2</NumOutput>
+        <ProgramNumber>0</ProgramNumber>
+        <Data>104.AMjUSA....PPIIEHMEFdo0VZ5Ulb....................................................................A....X........3OS03c+....7C..........7Ham5C</Data>
+      </Insert4>
+      <InsertEnable4>True</InsertEnable4>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Output>
+    <Mixer.Output number="2">
+      <ProgramName>Outputs 3/4</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Output>
+    <Mixer.Output number="3">
+      <ProgramName>Outputs 5/6</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Output>
+    <Mixer.Output number="4">
+      <ProgramName>Outputs 7/8</ProgramName>
+      <AudioRoute>
+        <AudioRoute>2</AudioRoute>
+        <AudioRouteSubIndex>0</AudioRouteSubIndex>
+        <AudioRouteChannelBitmap>3</AudioRouteChannelBitmap>
+        <InsertsEnabled>True</InsertsEnabled>
+      </AudioRoute>
+      <Send1>0.000000</Send1>
+      <Send2>0.000000</Send2>
+      <Send3>0.000000</Send3>
+      <Send4>0.000000</Send4>
+      <Volume>0.707946</Volume>
+      <Mute>False</Mute>
+      <Solo>False</Solo>
+      <Pan>0.500000</Pan>
+      <AutomationFilter>1</AutomationFilter>
+    </Mixer.Output>
+    <Mixer.XFader.Breakpoint>0.500000</Mixer.XFader.Breakpoint>
+    <Mixer.XFader.Curve>0</Mixer.XFader.Curve>
+  </Mixer>
+  <QLinkAssignments>
+    <CurrentMode>Screen</CurrentMode>
+    <ProjectMode>
+      <QLink index="1">
+        <Type index="0">Master</Type>
+        <Parameter>7</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="2">
+        <Type index="1">Master</Type>
+        <Parameter>7</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="3">
+        <Type index="2">Master</Type>
+        <Parameter>7</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="4">
+        <Type index="3">Master</Type>
+        <Parameter>7</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="5">
+        <Type index="0">Master</Type>
+        <Parameter>10</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="6">
+        <Type index="1">Master</Type>
+        <Parameter>10</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="7">
+        <Type index="2">Master</Type>
+        <Parameter>10</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="8">
+        <Type index="3">Master</Type>
+        <Parameter>10</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="9">
+        <Type index="0">Master</Type>
+        <Parameter>256</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="10">
+        <Type index="1">Master</Type>
+        <Parameter>256</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="11">
+        <Type index="2">Master</Type>
+        <Parameter>256</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="12">
+        <Type index="3">Master</Type>
+        <Parameter>256</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="13">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="14">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="15">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="16">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+    </ProjectMode>
+    <PadParameterMode>
+      <QLink index="1">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="2">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="3">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="4">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="5">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="6">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="7">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="8">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="9">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="10">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="11">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="12">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="13">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="14">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="15">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+      <QLink index="16">
+        <Parameter>2147483647</Parameter>
+        <Momentary>0</Momentary>
+      </QLink>
+    </PadParameterMode>
+  </QLinkAssignments>
+  <MidiLearnAssignments/>
+  <EmulationType type="NONE"/>
+  <MasterTempo.Enabled>1</MasterTempo.Enabled>
+  <MasterTempo.Value>90.000000</MasterTempo.Value>
+  <Notes-Title></Notes-Title>
+  <Notes-Artist></Notes-Artist>
+  <Notes-OriginalArtist></Notes-OriginalArtist>
+  <Notes-Album></Notes-Album>
+  <Notes-Year></Notes-Year>
+  <Notes-Genre></Notes-Genre>
+  <Notes-Copyright></Notes-Copyright>
+  <Notes></Notes>
+  <Key>C Major</Key>
+</Project>
