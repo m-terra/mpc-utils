@@ -14,6 +14,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -24,10 +25,11 @@ public class ReorderSeqs {
 
     private static final String PROJECT_FOLDER_SUFFIX = "_[ProjectData]";
     private static final String ALL_SEQS_FILE_NAME = "All Sequences & Songs.xal";
+    private static final String SEQ_SUFFIX = "sxq";
     private final String projectName;
     private final File srcDir;
     private final File targetDir;
-    private Map<String, String> seqFilesMap = new HashMap<>();
+    private final Map<String, String> seqFilesMap = new HashMap<>();
     private Document document;
 
     private ReorderSeqs(String projectName, File srcDir, File targetDir) {
@@ -48,7 +50,7 @@ public class ReorderSeqs {
                         .loadDoc()
                         .reorderSeqs()
                         .writeResult()
-                        .overwriteSeqSongsFile();
+                        .updateFiles();
 
             }
         }
@@ -64,9 +66,9 @@ public class ReorderSeqs {
             throw new RuntimeException(e);
         }
 
-        Collection<File> seqFiles = FileUtils.listFiles(srcDir, new String[]{"sxq"}, false);
+        Collection<File> seqFiles = FileUtils.listFiles(srcDir, new String[]{SEQ_SUFFIX}, false);
         for (File src : seqFiles) {
-            String seq = StringUtils.substringBefore(src.getName(), ".sxq");
+            String seq = StringUtils.substringBefore(src.getName(), "." + SEQ_SUFFIX);
             seqFilesMap.put(seq, seq);
         }
         return this;
@@ -91,13 +93,19 @@ public class ReorderSeqs {
     private ReorderSeqs writeResult() {
         try {
             targetDir.createNewFile();
-
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
             Path orig = Paths.get(srcDir.getParentFile().getPath(), projectName + ".xpj");
             Path target = Paths.get(targetDir.getPath(), projectName + ".xpj");
             FileUtils.copyFile(orig.toFile(), target.toFile());
-
-            orig = Paths.get(srcDir.getParentFile().getPath(), projectName + PROJECT_FOLDER_SUFFIX);
-            target = Paths.get(targetDir.getPath(), projectName + PROJECT_FOLDER_SUFFIX);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Path orig = Paths.get(srcDir.getParentFile().getPath(), projectName + PROJECT_FOLDER_SUFFIX);
+            Path target = Paths.get(targetDir.getPath(), projectName + PROJECT_FOLDER_SUFFIX);
             FileUtils.copyDirectory(orig.toFile(), target.toFile());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -105,17 +113,35 @@ public class ReorderSeqs {
         return this;
     }
 
-    private ReorderSeqs overwriteSeqSongsFile() {
+    private ReorderSeqs updateFiles() {
+        File outputProj = new File(targetDir, projectName + PROJECT_FOLDER_SUFFIX);
         try {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer;
             transformer = tf.newTransformer();
 
-            File outputProj = new File(targetDir, projectName + PROJECT_FOLDER_SUFFIX);
             File output = new File(outputProj, ALL_SEQS_FILE_NAME);
             FileOutputStream outStream = new FileOutputStream(output);
             document.setXmlStandalone(true);
             transformer.transform(new DOMSource(document), new StreamResult(outStream));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            for (Map.Entry<String, String> entry : seqFilesMap.entrySet()) {
+                if (!entry.getKey().equals(entry.getValue())) {
+                    File src = new File(outputProj, entry.getKey() + "." + SEQ_SUFFIX);
+                    File dest = new File(outputProj, entry.getValue() + "." + SEQ_SUFFIX + "tmp");
+                    FileUtils.copyFile(src, dest);
+                }
+            }
+            Collection<File> seqFiles = FileUtils.listFiles(srcDir, new String[]{SEQ_SUFFIX + "tmp"}, false);
+            for (File src : seqFiles) {
+                Path fileToMovePath = Paths.get(src.getPath());
+                Path targetPath = Paths.get(StringUtils.substringBefore(src.getPath(), "tmp"));
+                Files.move(fileToMovePath, targetPath);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
