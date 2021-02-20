@@ -8,7 +8,7 @@ public class MpcUtilsTest {
 
     @Test
     public void reorderSeqs() throws Exception {
-        String[] args = new String[]{"reorderSeqs", "./src/test/resources"};
+        String[] args = new String[]{"reorderSeqs", "./src/test/resources", "./target"};
         MpcUtils.main(args);
     }
 
