@@ -17,9 +17,9 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class ReorderSeqs {
 
@@ -29,8 +29,10 @@ public class ReorderSeqs {
     private final String projectName;
     private final File srcDir;
     private final File targetDir;
-    private final Map<String, String> seqFilesMap = new HashMap<>();
     private Document document;
+    private final List<SeqInfo> seqInfoList = new ArrayList<>();
+    private NodeList seqNodeList;
+    private NodeList songSeqIdxNodeList;
 
     private ReorderSeqs(String projectName, File srcDir, File targetDir) {
         this.projectName = projectName;
@@ -48,8 +50,8 @@ public class ReorderSeqs {
                 System.out.printf("Found project '%s'%n", projectName);
                 new ReorderSeqs(projectName, dir, targetDir)
                         .loadDoc()
-                        .reorderSeqs()
-                        .writeResult()
+                        .loadSeqsAndSong()
+                        .copyProject()
                         .updateFiles();
 
             }
@@ -65,32 +67,36 @@ public class ReorderSeqs {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        Collection<File> seqFiles = FileUtils.listFiles(srcDir, new String[]{SEQ_SUFFIX}, false);
-        for (File src : seqFiles) {
-            String seq = StringUtils.substringBefore(src.getName(), "." + SEQ_SUFFIX);
-            seqFilesMap.put(seq, seq);
-        }
         return this;
     }
 
-    private ReorderSeqs reorderSeqs() {
-        // MPCVObject/AllSeqSamps/Songs
+    private ReorderSeqs loadSeqsAndSong() {
         document.getDocumentElement().normalize();
 
         Element all = (Element) document.getDocumentElement().getElementsByTagName("AllSeqSamps").item(0);
         Element songs = (Element) all.getElementsByTagName("Songs").item(0);
         Element song = (Element) songs.getElementsByTagName("Song").item(0);
         Element name = (Element) song.getElementsByTagName("Name").item(0);
-        NodeList seqIdxs = song.getElementsByTagName("SeqIndex");
+        songSeqIdxNodeList = song.getElementsByTagName("SeqIndex");
         String songName = name.getTextContent();
 
-        System.out.printf("Found song '%s' with '%s' sequences used%n", songName, seqIdxs.getLength());
+        Element seqs = (Element) all.getElementsByTagName("Sequences").item(0);
+        seqNodeList = seqs.getElementsByTagName("Sequence");
+
+
+        for (int i = 0; i < seqNodeList.getLength(); i++) {
+            Element seqNode = (Element) seqNodeList.item(i);
+            String seqNo = seqNode.getAttribute("number");
+            Element nameEl = (Element) seqNode.getElementsByTagName("Name").item(0);
+            seqInfoList.add(new SeqInfo(nameEl.getTextContent(), seqNo));
+        }
+
+        System.out.printf("Found song '%s' with '%s' entries, total sequences '%s'%n", songName, songSeqIdxNodeList.getLength(), seqNodeList.getLength());
 
         return this;
     }
 
-    private ReorderSeqs writeResult() {
+    private ReorderSeqs copyProject() {
         try {
             targetDir.createNewFile();
         } catch (Exception e) {
@@ -129,11 +135,21 @@ public class ReorderSeqs {
         }
 
         try {
-            for (Map.Entry<String, String> entry : seqFilesMap.entrySet()) {
-                if (!entry.getKey().equals(entry.getValue())) {
-                    File src = new File(outputProj, entry.getKey() + "." + SEQ_SUFFIX);
-                    File dest = new File(outputProj, entry.getValue() + "." + SEQ_SUFFIX + "tmp");
+            for (SeqInfo seqInfo : seqInfoList) {
+                if (seqInfo.newIdx != null) {
+                    File src = new File(outputProj, seqInfo.currentIdx + "." + SEQ_SUFFIX);
+                    File dest = new File(outputProj, seqInfo.newIdx + "." + SEQ_SUFFIX + "tmp");
                     FileUtils.copyFile(src, dest);
+
+                    Element seq = (Element) seqNodeList.item(Integer.parseInt(seqInfo.newIdx) - 1);
+                    Element name = (Element) seq.getElementsByTagName("Name").item(0);
+                    name.setTextContent(seqInfo.name);
+
+                    for (Integer pos : seqInfo.posInSong) {
+                        Element songSeqIdx = (Element) songSeqIdxNodeList.item(pos);
+                        songSeqIdx.setTextContent(seqInfo.newIdx);
+                    }
+                    System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.currentIdx, seqInfo.newIdx);
                 }
             }
             Collection<File> seqFiles = FileUtils.listFiles(srcDir, new String[]{SEQ_SUFFIX + "tmp"}, false);
