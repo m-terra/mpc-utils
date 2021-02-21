@@ -51,6 +51,7 @@ public class ReorderSeqs {
                 new ReorderSeqs(projectName, dir, targetDir)
                         .loadDoc()
                         .loadSeqsAndSong()
+                        .calculateNewOrder()
                         .copyProject()
                         .updateFiles();
 
@@ -93,6 +94,14 @@ public class ReorderSeqs {
 
         System.out.printf("Found song '%s' with '%s' entries, total sequences '%s'%n", songName, songSeqIdxNodeList.getLength(), seqNodeList.getLength());
 
+        return this;
+    }
+
+    private ReorderSeqs calculateNewOrder() {
+        for (SeqInfo seqInfo : seqInfoList) {
+
+
+        }
         return this;
     }
 
