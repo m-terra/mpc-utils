@@ -56,15 +56,17 @@ public class Reorderer {
     }
 
     private void calculateNewOrder(ProjectInfo projectInfo) {
-        boolean hasAir = false;
+        boolean hasAir = projectInfo.seqInfoMap.values().stream()
+                .anyMatch(seqInfo -> "air".equalsIgnoreCase(seqInfo.name));
+        System.out.printf("Song has Air sequence '%s'%n", hasAir);
         for (SeqInfo seqInfo : projectInfo.seqInfoMap.values()) {
-            if ("air".equalsIgnoreCase(seqInfo.name)) {
-                hasAir = true;
-                continue;
+            if (hasAir) {
+                seqInfo.newIdx = String.valueOf(seqInfo.posInSong.get(0));
+            } else {
+                seqInfo.newIdx = String.valueOf(seqInfo.posInSong.get(0) - 1);
             }
-
-
         }
+        //todo newIdx close gaps
     }
 
     private void updateFiles(ProjectInfo projectInfo, File srcDir, File targetDir, String projectName) {
@@ -78,18 +80,14 @@ public class Reorderer {
             FileOutputStream outStream = new FileOutputStream(output);
             projectInfo.document.setXmlStandalone(true);
             transformer.transform(new DOMSource(projectInfo.document), new StreamResult(outStream));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
-        try {
             for (SeqInfo seqInfo : projectInfo.seqInfoMap.values()) {
-                if (seqInfo.newIdx != null) {
+                if (seqInfo.needsMoving()) {
                     File src = new File(outputProj, seqInfo.currentIdx + "." + MpcUtils.SEQ_SUFFIX);
                     File dest = new File(outputProj, seqInfo.newIdx + "." + MpcUtils.SEQ_SUFFIX + "tmp");
                     FileUtils.copyFile(src, dest);
 
-                    Element seq = (Element) projectInfo.seqNodeList.item(Integer.parseInt(seqInfo.newIdx) - 1);
+                    Element seq = projectInfo.getSequenceNodeByNumber(seqInfo.newIdx);
                     Element name = (Element) seq.getElementsByTagName("Name").item(0);
                     name.setTextContent(seqInfo.name);
 
@@ -98,6 +96,8 @@ public class Reorderer {
                         songSeqIdx.setTextContent(seqInfo.newIdx);
                     }
                     System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.name, seqInfo.currentIdx, seqInfo.newIdx);
+                } else {
+                    System.out.printf("Sequence '%s' keeps index '%s'%n", seqInfo.name, seqInfo.currentIdx);
                 }
             }
             Collection<File> seqFiles = FileUtils.listFiles(srcDir, new String[]{MpcUtils.SEQ_SUFFIX + "tmp"}, false);

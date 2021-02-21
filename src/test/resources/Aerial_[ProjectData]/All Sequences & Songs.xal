@@ -50,6 +50,7 @@
         <Active>True</Active>
         <Name>VoxAuto</Name>
       </Sequence>
+      , seqInfo.newIdx
       <Sequence number="11">
         <Active>True</Active>
         <Name>SnipQuiet</Name>

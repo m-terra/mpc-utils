@@ -12,19 +12,13 @@ public class ProjectHelper {
     public static void copyProject(File srcDir, File targetDir, String projectName) {
         try {
             targetDir.createNewFile();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
+
             Path orig = Paths.get(srcDir.getParentFile().getPath(), projectName + ".xpj");
             Path target = Paths.get(targetDir.getPath(), projectName + ".xpj");
             FileUtils.copyFile(orig.toFile(), target.toFile());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            Path orig = Paths.get(srcDir.getParentFile().getPath(), projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
-            Path target = Paths.get(targetDir.getPath(), projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+
+            orig = Paths.get(srcDir.getParentFile().getPath(), projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+            target = Paths.get(targetDir.getPath(), projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
             FileUtils.copyDirectory(orig.toFile(), target.toFile());
         } catch (Exception e) {
             throw new RuntimeException(e);

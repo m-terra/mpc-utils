@@ -44,5 +44,15 @@ public class ProjectInfo {
                 songName, songSeqIdxNodeList.getLength(), seqNodeList.getLength());
     }
 
+    public Element getSequenceNodeByNumber(String number) {
+        for (int i = 0; i < seqNodeList.getLength(); i++) {
+            Element seqNode = (Element) seqNodeList.item(i);
+            String seqNo = seqNode.getAttribute("number");
+            if (number.equals(seqNo)) {
+                return seqNode;
+            }
+        }
+        throw new RuntimeException("SequenceNode with number '" + number + "' not found");
+    }
 
 }
