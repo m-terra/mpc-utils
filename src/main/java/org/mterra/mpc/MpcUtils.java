@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MpcUtils {
@@ -17,6 +18,7 @@ public class MpcUtils {
                 String srcDir = args[1];
                 String targetDir = args[2];
                 System.out.printf("Command '%s' srcDir '%s' targetDir '%s'%n", cmd, srcDir, targetDir);
+                assert (!Objects.equals(srcDir, targetDir));
                 ReorderSeqs.inPath(srcDir, targetDir);
                 break;
             default:

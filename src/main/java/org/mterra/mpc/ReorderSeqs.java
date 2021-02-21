@@ -17,9 +17,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class ReorderSeqs {
 
@@ -29,8 +27,8 @@ public class ReorderSeqs {
     private final String projectName;
     private final File srcDir;
     private final File targetDir;
+    private final Map<String, SeqInfo> seqInfoMap = new HashMap<>();
     private Document document;
-    private final List<SeqInfo> seqInfoList = new ArrayList<>();
     private NodeList seqNodeList;
     private NodeList songSeqIdxNodeList;
 
@@ -84,12 +82,17 @@ public class ReorderSeqs {
         Element seqs = (Element) all.getElementsByTagName("Sequences").item(0);
         seqNodeList = seqs.getElementsByTagName("Sequence");
 
-
         for (int i = 0; i < seqNodeList.getLength(); i++) {
             Element seqNode = (Element) seqNodeList.item(i);
             String seqNo = seqNode.getAttribute("number");
             Element nameEl = (Element) seqNode.getElementsByTagName("Name").item(0);
-            seqInfoList.add(new SeqInfo(nameEl.getTextContent(), seqNo));
+            seqInfoMap.put(seqNo, new SeqInfo(nameEl.getTextContent(), seqNo));
+        }
+
+        for (int i = 0; i < songSeqIdxNodeList.getLength(); i++) {
+            Element songEl = (Element) songSeqIdxNodeList.item(i);
+            String seqNo = songEl.getTextContent();
+            seqInfoMap.get(String.valueOf(Integer.parseInt(seqNo) + 1)).posInSong.add(i);
         }
 
         System.out.printf("Found song '%s' with '%s' entries, total sequences '%s'%n", songName, songSeqIdxNodeList.getLength(), seqNodeList.getLength());
@@ -98,7 +101,10 @@ public class ReorderSeqs {
     }
 
     private ReorderSeqs calculateNewOrder() {
-        for (SeqInfo seqInfo : seqInfoList) {
+        for (SeqInfo seqInfo : seqInfoMap.values()) {
+            if ("air".equalsIgnoreCase(seqInfo.name)) {
+                continue;
+            }
 
 
         }
@@ -144,7 +150,7 @@ public class ReorderSeqs {
         }
 
         try {
-            for (SeqInfo seqInfo : seqInfoList) {
+            for (SeqInfo seqInfo : seqInfoMap.values()) {
                 if (seqInfo.newIdx != null) {
                     File src = new File(outputProj, seqInfo.currentIdx + "." + SEQ_SUFFIX);
                     File dest = new File(outputProj, seqInfo.newIdx + "." + SEQ_SUFFIX + "tmp");
@@ -158,7 +164,7 @@ public class ReorderSeqs {
                         Element songSeqIdx = (Element) songSeqIdxNodeList.item(pos);
                         songSeqIdx.setTextContent(seqInfo.newIdx);
                     }
-                    System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.currentIdx, seqInfo.newIdx);
+                    System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.name, seqInfo.currentIdx, seqInfo.newIdx);
                 }
             }
             Collection<File> seqFiles = FileUtils.listFiles(srcDir, new String[]{SEQ_SUFFIX + "tmp"}, false);
