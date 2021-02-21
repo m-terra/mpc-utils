@@ -4,12 +4,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ProjectInfo {
 
-    final Map<String, SeqInfo> seqInfoMap = new HashMap<>();
+    final Map<Integer, SeqInfo> seqInfoMap = new TreeMap<>();
     Document document;
     NodeList seqNodeList;
     NodeList songSeqIdxNodeList;
@@ -31,13 +31,13 @@ public class ProjectInfo {
             Element seqNode = (Element) seqNodeList.item(i);
             String seqNo = seqNode.getAttribute("number");
             Element nameEl = (Element) seqNode.getElementsByTagName("Name").item(0);
-            seqInfoMap.put(seqNo, new SeqInfo(nameEl.getTextContent(), seqNo));
+            seqInfoMap.put(Integer.parseInt(seqNo), new SeqInfo(nameEl.getTextContent(), seqNo));
         }
 
         for (int i = 0; i < songSeqIdxNodeList.getLength(); i++) {
             Element songEl = (Element) songSeqIdxNodeList.item(i);
             String seqNo = songEl.getTextContent();
-            seqInfoMap.get(String.valueOf(Integer.parseInt(seqNo) + 1)).posInSong.add(i);
+            seqInfoMap.get(Integer.parseInt(seqNo) + 1).posInSong.add(i);
         }
 
         System.out.printf("Found song '%s' with '%s' entries, total sequences '%s'%n",

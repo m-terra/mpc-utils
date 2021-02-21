@@ -56,8 +56,10 @@ public class Reorderer {
     }
 
     private void calculateNewOrder(ProjectInfo projectInfo) {
+        boolean hasAir = false;
         for (SeqInfo seqInfo : projectInfo.seqInfoMap.values()) {
             if ("air".equalsIgnoreCase(seqInfo.name)) {
+                hasAir = true;
                 continue;
             }
 
