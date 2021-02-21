@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 public class ProjectInfo {
@@ -48,7 +49,7 @@ public class ProjectInfo {
         for (int i = 0; i < seqNodeList.getLength(); i++) {
             Element seqNode = (Element) seqNodeList.item(i);
             String seqNo = seqNode.getAttribute("number");
-            if (number.equals(seqNo)) {
+            if (Objects.equals(number, seqNo)) {
                 return seqNode;
             }
         }
