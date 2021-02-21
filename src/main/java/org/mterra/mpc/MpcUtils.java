@@ -1,13 +1,14 @@
 package org.mterra.mpc;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import org.mterra.mpc.seq.Reorderer;
+
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class MpcUtils {
+
+    public static final String PROJECT_FOLDER_SUFFIX = "_[ProjectData]";
+    public static final String ALL_SEQS_FILE_NAME = "All Sequences & Songs.xal";
+    public static final String SEQ_SUFFIX = "sxq";
 
     public static void main(String[] args) {
         String cmd = args[0];
@@ -19,7 +20,7 @@ public class MpcUtils {
                 String targetDir = args[2];
                 System.out.printf("Command '%s' srcDir '%s' targetDir '%s'%n", cmd, srcDir, targetDir);
                 assert (!Objects.equals(srcDir, targetDir));
-                ReorderSeqs.inPath(srcDir, targetDir);
+                Reorderer.inPath(srcDir, targetDir);
                 break;
             default:
                 printUsage(cmd);

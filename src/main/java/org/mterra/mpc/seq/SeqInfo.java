@@ -1,4 +1,4 @@
-package org.mterra.mpc;
+package org.mterra.mpc.seq;
 
 import java.util.ArrayList;
 import java.util.List;
