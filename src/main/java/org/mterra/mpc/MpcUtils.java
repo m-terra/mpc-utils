@@ -11,25 +11,12 @@ public class MpcUtils {
     public static final String SEQ_SUFFIX = "sxq";
 
     public static void main(String[] args) {
-        String cmd = args[0];
-
-        switch (cmd) {
-            case "reorderSeqs":
-                assert (args.length == 3);
-                String srcDir = args[1];
-                String targetDir = args[2];
-                System.out.printf("Command '%s' srcDir '%s' targetDir '%s'%n", cmd, srcDir, targetDir);
-                assert (!Objects.equals(srcDir, targetDir));
-                Reorderer.inPath(srcDir, targetDir);
-                break;
-            default:
-                printUsage(cmd);
-        }
-
-    }
-
-    private static void printUsage(String cmd) {
-        System.out.printf("Command not supported: %s%n", cmd);
+        assert (args.length == 2);
+        String srcDir = args[0];
+        String targetDir = args[1];
+        assert (!Objects.equals(srcDir, targetDir));
+        System.out.printf("srcDir '%s' targetDir '%s'%n", srcDir, targetDir);
+        Reorderer.inPath(srcDir, targetDir);
     }
 
 }
