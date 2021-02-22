@@ -14,82 +14,47 @@ import java.util.*;
 
 public class Reorderer {
 
-    public static void inPath(String scanDirPath, String targetDirPath) {
-        File scanDir = new File(scanDirPath);
-        File targetDir = new File(targetDirPath);
-        for (File srcDir : scanDir.listFiles()) {
-            System.out.printf("Checking %s%n", srcDir.getName());
-            if (srcDir.getName().contains(MpcUtils.PROJECT_FOLDER_SUFFIX)) {
-                String projectName = StringUtils.substringBefore(srcDir.getName(), MpcUtils.PROJECT_FOLDER_SUFFIX);
-                System.out.printf("Found project '%s'%n", projectName);
-                Reorderer inst = new Reorderer();
-                MpcProject mpcProject = new MpcProject();
-                mpcProject.loadSequencesAndSongs(srcDir);
-                inst.calculateNewOrder(mpcProject);
-                ProjectHelper.copyProject(srcDir, targetDir, projectName);
-                inst.updateFiles(mpcProject, srcDir, targetDir, projectName);
-            }
-        }
-    }
-
-    private void calculateNewOrder(MpcProject mpcProject) {
+    public Map<Integer, SeqInfo> calculateNewOrder(MpcProject mpcProject) {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
-        boolean hasAir = mpcProject.seqInfoMap.values().stream()
-                .anyMatch(seqInfo -> "air".equalsIgnoreCase(seqInfo.name));
         List<SeqInfo> notUsedInSong = new ArrayList<>();
-        System.out.printf("Song has Air sequence '%s'%n", hasAir);
         for (SeqInfo seqInfo : mpcProject.seqInfoMap.values()) {
-            if ("air".equalsIgnoreCase(seqInfo.name)) {
-                seqInfo.newIdx = seqInfo.currentIdx;
-                ordered.put(seqInfo.posInSong.get(0), seqInfo);
-            } else if (seqInfo.posInSong.size() == 0) {
+            if (seqInfo.getPosInSong().size() == 0) {
                 notUsedInSong.add(seqInfo);
             } else {
-                seqInfo.newIdx = String.valueOf(seqInfo.posInSong.get(0));
-                ordered.put(seqInfo.posInSong.get(0), seqInfo);
+                ordered.put(seqInfo.getPosInSong().get(0), seqInfo);
             }
         }
 
         Map<Integer, SeqInfo> finalOrdered = new TreeMap<>();
-        Iterator<SeqInfo> start = ordered.values().iterator();
-        if (hasAir) {
-            start.next();
-        }
-        Integer prev = Integer.parseInt(start.next().newIdx);
-
-
+        int finalIndex = 0;
         for (SeqInfo seqInfo : ordered.values()) {
-            seqInfo.newIdx = String.valueOf(prev);
-            finalOrdered.put(prev, seqInfo);
-            prev++;
+            finalOrdered.put(finalIndex++, seqInfo);
         }
         for (SeqInfo seqInfo : notUsedInSong) {
-            seqInfo.newIdx = String.valueOf(prev);
-            finalOrdered.put(prev, seqInfo);
-            prev++;
+            finalOrdered.put(finalIndex++, seqInfo);
         }
-
-        mpcProject.seqInfoMap.clear();
-        mpcProject.seqInfoMap.putAll(finalOrdered);
+        return finalOrdered;
     }
 
-    private void updateFiles(MpcProject mpcProject, File srcDir, File targetDir, String projectName) {
+    public void updateFiles(MpcProject mpcProject, Map<Integer, SeqInfo> reordered, File targetDir, String projectName) {
         File targetProjDir = new File(targetDir, projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
         try {
             mpcProject.removeAllSequences();
 
-            for (SeqInfo seqInfo : mpcProject.seqInfoMap.values()) {
-                mpcProject.addSequence(seqInfo.newIdx, seqInfo.name);
-                for (Integer pos : seqInfo.posInSong) {
-                    mpcProject.changeSequenceIndexInSong(pos, seqInfo.newIdx);
+            for (Map.Entry<Integer, SeqInfo> entry : reordered.entrySet()) {
+                SeqInfo seqInfo = entry.getValue();
+                Integer newIdx = entry.getKey() + 1;
+                mpcProject.addSequence(newIdx, seqInfo.getName());
+                for (Integer pos : seqInfo.getPosInSong()) {
+                    mpcProject.changeSequenceIndexInSong(pos, entry.getKey().toString());
                 }
-                if (seqInfo.needsMoving()) {
-                    File src = new File(targetProjDir, seqInfo.currentIdx + "." + MpcUtils.SEQ_SUFFIX);
-                    File dest = new File(targetProjDir, seqInfo.newIdx + "." + MpcUtils.SEQ_SUFFIX + "tmp");
-                    FileUtils.copyFile(src, dest);
-                    System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.name, seqInfo.currentIdx, seqInfo.newIdx);
+                if (seqInfo.needsMoving(entry.getKey())) {
+                    Path src = Paths.get(targetProjDir.getPath(), seqInfo.getCurrentIdx() + "." + MpcUtils.SEQ_SUFFIX);
+                    Path dest = Paths.get(targetProjDir.getPath(), newIdx + "." + MpcUtils.SEQ_SUFFIX + "tmp");
+                    Files.move(src, dest, StandardCopyOption.REPLACE_EXISTING);
+                    System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.getName(), seqInfo.getCurrentIdx(), newIdx);
                 } else {
-                    System.out.printf("Sequence '%s' keeps index '%s'%n", seqInfo.name, seqInfo.currentIdx);
+                    System.out.printf("Sequence '%s' keeps index '%s'%n", seqInfo.getName(), seqInfo.getCurrentIdx());
                 }
             }
 

@@ -62,9 +62,17 @@
                 <Active>True</Active>
                 <Name>Live</Name>
             </Sequence>
+            <Sequence number="18">
+                <Active>True</Active>
+                <Name>Live2</Name>
+            </Sequence>
             <Sequence number="20">
                 <Active>True</Active>
                 <Name>Pre</Name>
+            </Sequence>
+            <Sequence number="22">
+                <Active>True</Active>
+                <Name>Live3</Name>
             </Sequence>
         </Sequences>
         <Songs>

@@ -84,7 +84,7 @@ public class MpcProject {
         for (int i = 0; i < songSeqIdxNodeList.getLength(); i++) {
             Element songEl = (Element) songSeqIdxNodeList.item(i);
             String seqNo = songEl.getTextContent();
-            seqInfoMap.get(Integer.parseInt(seqNo) + 1).posInSong.add(i);
+            seqInfoMap.get(Integer.parseInt(seqNo) + 1).getPosInSong().add(i);
         }
 
         System.out.printf("Found song '%s' with '%s' entries, total sequences '%s'%n",
@@ -102,9 +102,9 @@ public class MpcProject {
         }
     }
 
-    public void addSequence(String number, String name) {
+    public void addSequence(Integer number, String name) {
         Element seq = (Element) sequenceNodeTemplate.cloneNode(true);
-        seq.setAttribute("number", number);
+        seq.setAttribute("number", number.toString());
         Element nameEl = (Element) seq.getElementsByTagName("Name").item(0);
         nameEl.setTextContent(name);
         seqs.appendChild(seq);

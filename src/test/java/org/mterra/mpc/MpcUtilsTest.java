@@ -22,27 +22,29 @@ public class MpcUtilsTest {
     @BeforeAll
     public static void prepare() throws Exception {
         FileUtils.deleteDirectory(resultDir);
-        resultDir.mkdirs();
+        Assertions.assertTrue(resultDir.mkdirs());
     }
 
     @Test
-    public void withAir() throws Exception {
-        String[] args = new String[]{"./src/test/resources/Aerial", "./target/result"};
+    public void noLives() throws Exception {
+        String projectName = "Aerial";
+        String[] args = new String[]{"./src/test/resources/" + projectName, "./target/result"};
         MpcUtils.main(args);
-        assertSequenceNumber("./target/result/Aerial");
-        assertFileContent("Aerial", "1.sxq", "1");
-        assertFileContent("Aerial", "20.sxq", "20");
-        assertFileContent("Aerial", "5.sxq", "4");
+        assertSequenceNumber("./target/result/" + projectName);
+        assertFileContent(projectName, "1.sxq", "20");
     }
 
     @Test
-    public void noAir() throws Exception {
-        String[] args = new String[]{"./src/test/resources/NoAir", "./target/result"};
+    public void withLives() throws Exception {
+        String projectName = "WithLives";
+        String[] args = new String[]{"./src/test/resources/" + projectName, "./target/result"};
         MpcUtils.main(args);
-        assertSequenceNumber("./target/result/NoAir");
-        assertFileContent("NoAir", "1.sxq", "1");
-        assertFileContent("NoAir", "20.sxq", "20");
-        assertFileContent("NoAir", "5.sxq", "4");
+        assertSequenceNumber("./target/result/" + projectName);
+        assertFileContent(projectName, "1.sxq", "20");
+        assertFileContent(projectName, "14.sxq", "live1");
+        assertFileContent(projectName, "15.sxq", "live2");
+        assertFileContent(projectName, "16.sxq", "live3");
+        Assertions.assertFalse(new File("./target/result/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX + "/22.sxq").exists());
     }
 
     private void assertFileContent(String projDirPrefix, String filename, String expectedContent) throws IOException {

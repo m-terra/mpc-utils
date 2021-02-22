@@ -58,10 +58,6 @@
                 <Active>True</Active>
                 <Name>Out</Name>
             </Sequence>
-            <Sequence number="16">
-                <Active>True</Active>
-                <Name>Live</Name>
-            </Sequence>
             <Sequence number="20">
                 <Active>True</Active>
                 <Name>Air</Name>
