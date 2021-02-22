@@ -2,7 +2,7 @@ package org.mterra.mpc;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mterra.mpc.seq.MpcProject;
 import org.w3c.dom.Element;
@@ -17,17 +17,17 @@ import java.nio.file.Path;
 
 public class MpcUtilsTest {
 
-    private final File resultDir = new File("./target/result");
+    private static final File resultDir = new File("./target/result");
 
-    @BeforeEach
-    public void prepare() throws Exception {
+    @BeforeAll
+    public static void prepare() throws Exception {
         FileUtils.deleteDirectory(resultDir);
         resultDir.mkdirs();
     }
 
     @Test
     public void withAir() throws Exception {
-        String[] args = new String[]{"./src/test/resources/Air", "./target/result"};
+        String[] args = new String[]{"./src/test/resources/Aerial", "./target/result"};
         MpcUtils.main(args);
         assertSequenceNumber("./target/result/Aerial");
         assertFileContent("Aerial", "1.sxq", "1");
@@ -56,7 +56,7 @@ public class MpcUtilsTest {
         project.loadSequencesAndSongs(new File(parentDir + MpcUtils.PROJECT_FOLDER_SUFFIX));
         NodeList seqNodes = project.getSeqNodeList();
 
-        int seqIdx = 0;
+        int seqIdx = 1;
         for (int i = 0; i < seqNodes.getLength(); i++) {
             Element seq = (Element) seqNodes.item(i);
             String number = seq.getAttribute("number");

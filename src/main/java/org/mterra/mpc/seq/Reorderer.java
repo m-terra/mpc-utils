@@ -41,6 +41,7 @@ public class Reorderer {
         for (SeqInfo seqInfo : mpcProject.seqInfoMap.values()) {
             if ("air".equalsIgnoreCase(seqInfo.name)) {
                 seqInfo.newIdx = seqInfo.currentIdx;
+                ordered.put(seqInfo.posInSong.get(0), seqInfo);
             } else if (seqInfo.posInSong.size() == 0) {
                 notUsedInSong.add(seqInfo);
             } else {
@@ -49,21 +50,27 @@ public class Reorderer {
             }
         }
 
-        Integer prev = null;
+        Map<Integer, SeqInfo> finalOrdered = new TreeMap<>();
+        Iterator<SeqInfo> start = ordered.values().iterator();
+        if (hasAir) {
+            start.next();
+        }
+        Integer prev = Integer.parseInt(start.next().newIdx);
+
+
         for (SeqInfo seqInfo : ordered.values()) {
-            if (prev != null) {
-                seqInfo.newIdx = String.valueOf(prev + 1);
-            }
-            prev = Integer.parseInt(seqInfo.newIdx);
+            seqInfo.newIdx = String.valueOf(prev);
+            finalOrdered.put(prev, seqInfo);
+            prev++;
         }
         for (SeqInfo seqInfo : notUsedInSong) {
-            prev++;
-            ordered.put(prev, seqInfo);
             seqInfo.newIdx = String.valueOf(prev);
+            finalOrdered.put(prev, seqInfo);
+            prev++;
         }
 
         mpcProject.seqInfoMap.clear();
-        mpcProject.seqInfoMap.putAll(ordered);
+        mpcProject.seqInfoMap.putAll(finalOrdered);
     }
 
     private void updateFiles(MpcProject mpcProject, File srcDir, File targetDir, String projectName) {
