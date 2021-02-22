@@ -18,9 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Reorderer {
 
@@ -61,10 +59,13 @@ public class Reorderer {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
         boolean hasAir = projectInfo.seqInfoMap.values().stream()
                 .anyMatch(seqInfo -> "air".equalsIgnoreCase(seqInfo.name));
+        List<SeqInfo> notUsedInSong = new ArrayList<>();
         System.out.printf("Song has Air sequence '%s'%n", hasAir);
         for (SeqInfo seqInfo : projectInfo.seqInfoMap.values()) {
             if ("air".equalsIgnoreCase(seqInfo.name)) {
                 seqInfo.newIdx = seqInfo.currentIdx;
+            } else if (seqInfo.posInSong.size() == 0) {
+                notUsedInSong.add(seqInfo);
             } else if (hasAir) {
                 seqInfo.newIdx = String.valueOf(seqInfo.posInSong.get(0));
                 ordered.put(seqInfo.posInSong.get(0), seqInfo);
@@ -81,27 +82,32 @@ public class Reorderer {
             }
             prev = Integer.parseInt(seqInfo.newIdx);
         }
+        for (SeqInfo seqInfo : notUsedInSong) {
+            prev++;
+            ordered.put(prev, seqInfo);
+            seqInfo.newIdx = String.valueOf(prev);
+        }
+
+        projectInfo.seqInfoMap.clear();
+        projectInfo.seqInfoMap.putAll(ordered);
     }
 
     private void updateFiles(ProjectInfo projectInfo, File srcDir, File targetDir, String projectName) {
         File targetProjDir = new File(targetDir, projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
         try {
+            projectInfo.removeAllSequences();
 
             for (SeqInfo seqInfo : projectInfo.seqInfoMap.values()) {
+                projectInfo.addSequence(seqInfo.newIdx, seqInfo.name);
+                for (Integer pos : seqInfo.posInSong) {
+                    Element songSeqIdx = (Element) projectInfo.songSeqIdxNodeList.item(pos);
+                    songSeqIdx.setTextContent(seqInfo.newIdx);
+                }
+
                 if (seqInfo.needsMoving()) {
                     File src = new File(targetProjDir, seqInfo.currentIdx + "." + MpcUtils.SEQ_SUFFIX);
                     File dest = new File(targetProjDir, seqInfo.newIdx + "." + MpcUtils.SEQ_SUFFIX + "tmp");
                     FileUtils.copyFile(src, dest);
-
-                    //todo rebuild instead of alter
-                    Element seq = projectInfo.getSequenceNodeByNumber(seqInfo.newIdx);
-                    Element name = (Element) seq.getElementsByTagName("Name").item(0);
-                    name.setTextContent(seqInfo.name);
-
-                    for (Integer pos : seqInfo.posInSong) {
-                        Element songSeqIdx = (Element) projectInfo.songSeqIdxNodeList.item(pos);
-                        songSeqIdx.setTextContent(seqInfo.newIdx);
-                    }
                     System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.name, seqInfo.currentIdx, seqInfo.newIdx);
                 } else {
                     System.out.printf("Sequence '%s' keeps index '%s'%n", seqInfo.name, seqInfo.currentIdx);

@@ -2,18 +2,19 @@ package org.mterra.mpc.seq;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 
 public class ProjectInfo {
 
     final Map<Integer, SeqInfo> seqInfoMap = new TreeMap<>();
     Document document;
+    Element seqs;
     NodeList seqNodeList;
     NodeList songSeqIdxNodeList;
+    Node sequenceNodeTemplate;
 
     public void loadSeqsAndSong() {
         document.getDocumentElement().normalize();
@@ -25,7 +26,7 @@ public class ProjectInfo {
         songSeqIdxNodeList = song.getElementsByTagName("SeqIndex");
         String songName = name.getTextContent();
 
-        Element seqs = (Element) all.getElementsByTagName("Sequences").item(0);
+        seqs = (Element) all.getElementsByTagName("Sequences").item(0);
         seqNodeList = seqs.getElementsByTagName("Sequence");
 
         for (int i = 0; i < seqNodeList.getLength(); i++) {
@@ -56,4 +57,22 @@ public class ProjectInfo {
         throw new RuntimeException("SequenceNode with number '" + number + "' not found");
     }
 
+    public void removeAllSequences() {
+        List<Node> toRemove = new ArrayList<>();
+        for (int i = 0; i < seqNodeList.getLength(); i++) {
+            toRemove.add(seqNodeList.item(i));
+        }
+        sequenceNodeTemplate = toRemove.get(0);
+        for (Node node : toRemove) {
+            seqs.removeChild(node);
+        }
+    }
+
+    public void addSequence(String number, String name) {
+        Element seq = (Element) sequenceNodeTemplate.cloneNode(true);
+        seq.setAttribute("number", number);
+        Element nameEl = (Element) seq.getElementsByTagName("Name").item(0);
+        nameEl.setTextContent(name);
+        seqs.appendChild(seq);
+    }
 }
