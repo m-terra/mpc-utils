@@ -17,15 +17,24 @@ public class MpcUtils {
     public static final String SEQ_SUFFIX = "sxq";
 
     public static void main(String[] args) {
-        assert (args.length == 2);
-        String srcDir = args[0];
-        String targetDir = args[1];
-        assert (!Objects.equals(srcDir, targetDir));
-        System.out.printf("srcDir '%s' targetDir '%s'%n", srcDir, targetDir);
-        reorder(srcDir, targetDir);
+        if (args.length == 2 || args.length == 3) {
+            String srcDir = args[0];
+            String targetDir = args[1];
+            if (Objects.equals(srcDir, targetDir)) {
+                System.out.printf("<scanDirectory> <targetDirectory> must be different%n");
+            }
+            String songNumber = "1";
+            if (args.length == 3) {
+                songNumber = args[2];
+            }
+            System.out.printf("srcDir '%s' targetDir '%s'%n", srcDir, targetDir);
+            reorder(srcDir, targetDir, songNumber);
+        } else {
+            printUsage();
+        }
     }
 
-    private static void reorder(String scanDirPath, String targetDirPath) {
+    private static void reorder(String scanDirPath, String targetDirPath, String songNumber) {
         File scanDir = new File(scanDirPath);
         File targetDir = new File(targetDirPath);
         for (File srcDir : scanDir.listFiles()) {
@@ -35,12 +44,16 @@ public class MpcUtils {
                 System.out.printf("Found project '%s'%n", projectName);
                 Reorderer inst = new Reorderer();
                 MpcProject mpcProject = new MpcProject();
-                mpcProject.loadSequencesAndSongs(srcDir);
+                mpcProject.loadSequencesAndSongs(srcDir, songNumber);
                 Map<Integer, SeqInfo> reordered = inst.calculateNewOrder(mpcProject);
                 ProjectHelper.copyProject(srcDir, targetDir, projectName);
                 inst.updateFiles(mpcProject, reordered, targetDir, projectName);
             }
         }
+    }
+
+    private static void printUsage() {
+        System.out.printf("java -jar <mpc-utils-jar> <scanDirectory> <targetDirectory> [SongNumber]%n");
     }
 
 }

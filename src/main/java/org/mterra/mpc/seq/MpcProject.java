@@ -29,12 +29,16 @@ public class MpcProject {
     private Node sequenceNodeTemplate;
 
     public void loadSequencesAndSongs(File srcDir) {
+        loadSequencesAndSongs(srcDir, "1");
+    }
+
+    public void loadSequencesAndSongs(File srcDir, String songNumber) {
         try {
             File allSeqs = new File(srcDir, MpcUtils.ALL_SEQS_FILE_NAME);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             document = db.parse(allSeqs);
-            loadElements();
+            loadElementsForSong(songNumber);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -61,12 +65,24 @@ public class MpcProject {
         return seqNodeList;
     }
 
-    private void loadElements() {
+    private void loadElementsForSong(String songNumber) {
         document.getDocumentElement().normalize();
 
         Element all = (Element) document.getDocumentElement().getElementsByTagName("AllSeqSamps").item(0);
         Element songs = (Element) all.getElementsByTagName("Songs").item(0);
-        Element song = (Element) songs.getElementsByTagName("Song").item(0);
+        NodeList songsEls = songs.getElementsByTagName("Song");
+        Element song = null;
+        for (int i = 0; i < songsEls.getLength(); i++) {
+            song = (Element) songsEls.item(i);
+            if (song.getAttribute("number").equals(songNumber)) {
+                break;
+            }
+        }
+
+        if (song == null) {
+            throw new RuntimeException("Song number " + songNumber + " not found");
+        }
+
         Element name = (Element) song.getElementsByTagName("Name").item(0);
         songSeqIdxNodeList = song.getElementsByTagName("SeqIndex");
         String songName = name.getTextContent();
