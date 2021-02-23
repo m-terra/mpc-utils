@@ -109,10 +109,15 @@ public class MpcProject {
 
     public void removeAllSequences() {
         List<Node> toRemove = new ArrayList<>();
-        for (int i = 0; i < seqNodeList.getLength(); i++) {
-            toRemove.add(seqNodeList.item(i));
+        for (int i = 0; i < seqs.getChildNodes().getLength(); i++) {
+            Node node = seqs.getChildNodes().item(i);
+            if (!(node.getNodeType() == Node.ELEMENT_NODE && ((Element) node).getTagName().equals("Count"))) {
+                toRemove.add(node);
+            }
+            if (node.getNodeType() == Node.ELEMENT_NODE && ((Element) node).getTagName().equals("Sequence")) {
+                sequenceNodeTemplate = node;
+            }
         }
-        sequenceNodeTemplate = toRemove.get(0);
         for (Node node : toRemove) {
             seqs.removeChild(node);
         }
