@@ -1,12 +1,17 @@
 # mpc-utils
 
-Reorder the sequences of AKAI MPC One/X/Live/Live2 projects according to the sequences in a song. Sequences that are not
-used in the specified song will be appended after the song sequences.
+## Description
 
-## System requirements
+Reorders the sequences of AKAI MPC One/X/Live/Live2 projects according to the sequence of sequences in a song.
 
-- Up to date java runtime environment is installed
-- The mpc-utils-jar is present on the file system
+Sequences that are not used in the specified song will be appended after the song sequences.
+
+mpc-utils will not alter the original projects but create a new project version in the specified target directory.
+
+## Setup
+
+- A Java Runtime Environment (JRE) 11 or greater is installed
+- Download the latest binary jar from https://github.com/andybaer/mpc-utils/releases
 
 ## Usage
 
