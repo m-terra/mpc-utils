@@ -11,7 +11,11 @@ public class ProjectHelper {
 
     public static void copyProject(File srcDir, File targetDir, String projectName) {
         try {
-            targetDir.createNewFile();
+            if (!targetDir.exists()) {
+                if (!targetDir.mkdirs()) {
+                    throw new RuntimeException("Cannot create target directory " + targetDir.getAbsolutePath());
+                }
+            }
 
             Path orig = Paths.get(srcDir.getParentFile().getPath(), projectName + ".xpj");
             Path target = Paths.get(targetDir.getPath(), projectName + ".xpj");
