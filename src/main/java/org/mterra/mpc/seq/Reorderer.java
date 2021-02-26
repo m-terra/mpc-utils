@@ -16,7 +16,7 @@ public class Reorderer {
     public Map<Integer, SeqInfo> calculateNewOrder(MpcProject mpcProject) {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
         List<SeqInfo> notUsedInSong = new ArrayList<>();
-        for (SeqInfo seqInfo : mpcProject.seqInfoMap.values()) {
+        for (SeqInfo seqInfo : mpcProject.getSeqInfoMap().values()) {
             if (seqInfo.getPosInSong().size() == 0) {
                 notUsedInSong.add(seqInfo);
             } else {
@@ -25,12 +25,12 @@ public class Reorderer {
         }
 
         Map<Integer, SeqInfo> finalOrdered = new TreeMap<>();
-        int finalIndex = 0;
+        int newSeqNumber = 1;
         for (SeqInfo seqInfo : ordered.values()) {
-            finalOrdered.put(finalIndex++, seqInfo);
+            finalOrdered.put(newSeqNumber++, seqInfo);
         }
         for (SeqInfo seqInfo : notUsedInSong) {
-            finalOrdered.put(finalIndex++, seqInfo);
+            finalOrdered.put(newSeqNumber++, seqInfo);
         }
         return finalOrdered;
     }
@@ -42,18 +42,18 @@ public class Reorderer {
 
             for (Map.Entry<Integer, SeqInfo> entry : reordered.entrySet()) {
                 SeqInfo seqInfo = entry.getValue();
-                Integer newIdx = entry.getKey() + 1;
-                mpcProject.addSequence(newIdx, seqInfo.getName());
+                Integer newSeqNumber = entry.getKey();
+                mpcProject.addSequence(newSeqNumber, seqInfo.getName());
                 for (Integer pos : seqInfo.getPosInSong()) {
-                    mpcProject.changeSequenceIndexInSong(pos, entry.getKey().toString());
+                    mpcProject.changeSequenceIndexInSong(pos, String.valueOf(entry.getKey() - 1));
                 }
-                if (seqInfo.needsMoving(entry.getKey())) {
-                    Path src = Paths.get(targetProjDir.getPath(), seqInfo.getCurrentIdx() + "." + MpcUtils.SEQ_SUFFIX);
-                    Path dest = Paths.get(targetProjDir.getPath(), newIdx + "." + MpcUtils.SEQ_SUFFIX + "tmp");
+                if (seqInfo.needsMoving(newSeqNumber)) {
+                    Path src = Paths.get(targetProjDir.getPath(), seqInfo.getSeqNumber() + "." + MpcUtils.SEQ_SUFFIX);
+                    Path dest = Paths.get(targetProjDir.getPath(), newSeqNumber + "." + MpcUtils.SEQ_SUFFIX + "tmp");
                     Files.move(src, dest, StandardCopyOption.REPLACE_EXISTING);
-                    System.out.printf("Moved sequence '%s' from index '%s' to index '%s'%n", seqInfo.getName(), seqInfo.getCurrentIdx(), newIdx);
+                    System.out.printf("Moved sequence '%s' from number '%s' to number '%s'%n", seqInfo.getName(), seqInfo.getSeqNumber(), newSeqNumber);
                 } else {
-                    System.out.printf("Sequence '%s' keeps index '%s'%n", seqInfo.getName(), seqInfo.getCurrentIdx());
+                    System.out.printf("Sequence '%s' keeps number '%s'%n", seqInfo.getName(), seqInfo.getSeqNumber());
                 }
             }
 

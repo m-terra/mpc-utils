@@ -21,7 +21,7 @@ import java.util.TreeMap;
 
 public class MpcProject {
 
-    final Map<Integer, SeqInfo> seqInfoMap = new TreeMap<>();
+    private final Map<Integer, SeqInfo> seqInfoMap = new TreeMap<>();
     private Document document;
     private Element seqs;
     private NodeList seqNodeList;
@@ -63,6 +63,10 @@ public class MpcProject {
 
     public NodeList getSeqNodeList() {
         return seqNodeList;
+    }
+
+    public Map<Integer, SeqInfo> getSeqInfoMap() {
+        return seqInfoMap;
     }
 
     private void loadElementsForSong(String songNumber) {

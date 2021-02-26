@@ -7,20 +7,20 @@ import java.util.Objects;
 public class SeqInfo {
 
     private final String name;
-    private final String currentIdx;
+    private final String seqNumber;
     private final List<Integer> posInSong = new ArrayList<>();
 
-    public SeqInfo(String name, String currentIdx) {
+    public SeqInfo(String name, String seqNumber) {
         this.name = name;
-        this.currentIdx = currentIdx;
+        this.seqNumber = seqNumber;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getCurrentIdx() {
-        return currentIdx;
+    public String getSeqNumber() {
+        return seqNumber;
     }
 
     public List<Integer> getPosInSong() {
@@ -28,7 +28,7 @@ public class SeqInfo {
     }
 
     public boolean needsMoving(Integer newIdx) {
-        return !Objects.equals(currentIdx, newIdx.toString());
+        return !Objects.equals(seqNumber, newIdx.toString());
     }
 
 }
