@@ -3,7 +3,6 @@ package org.mterra.mpc.seq;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.mterra.mpc.MpcUtils;
-import org.mterra.mpc.util.ProjectHelper;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -60,11 +59,14 @@ public class Reorderer {
 
             mpcProject.writeDocument(targetProjDir);
 
-            Collection<File> seqFiles = FileUtils.listFiles(targetProjDir, new String[]{MpcUtils.SEQ_SUFFIX + "tmp"}, false);
-            for (File src : seqFiles) {
-                Path fileToMovePath = Paths.get(src.getPath());
-                Path targetPath = Paths.get(StringUtils.substringBefore(src.getPath(), "tmp"));
-                Files.move(fileToMovePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            Collection<?> seqFiles = FileUtils.listFiles(targetProjDir, new String[]{MpcUtils.SEQ_SUFFIX + "tmp"}, false);
+            for (Object el : seqFiles) {
+                if (el instanceof File) {
+                    File src = (File) el;
+                    Path fileToMovePath = Paths.get(src.getPath());
+                    Path targetPath = Paths.get(StringUtils.substringBefore(src.getPath(), "tmp"));
+                    Files.move(fileToMovePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
