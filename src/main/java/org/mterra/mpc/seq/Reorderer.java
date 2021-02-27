@@ -16,8 +16,11 @@ public class Reorderer {
     public Map<Integer, SeqInfo> calculateNewOrder(MpcProject mpcProject) {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
         List<SeqInfo> notUsedInSong = new ArrayList<>();
+        SeqInfo airSeq = null;
         for (SeqInfo seqInfo : mpcProject.getSeqInfoMap().values()) {
-            if (seqInfo.getPosInSong().size() == 0) {
+            if (seqInfo.getName().equalsIgnoreCase("air")) {
+                airSeq = seqInfo;
+            } else if (seqInfo.getPosInSong().size() == 0) {
                 notUsedInSong.add(seqInfo);
             } else {
                 ordered.put(seqInfo.getPosInSong().get(0), seqInfo);
@@ -31,6 +34,12 @@ public class Reorderer {
         }
         for (SeqInfo seqInfo : notUsedInSong) {
             finalOrdered.put(newSeqNumber++, seqInfo);
+        }
+        if (airSeq != null) {
+            while (newSeqNumber % 10 != 0) {
+                newSeqNumber++;
+            }
+            finalOrdered.put(newSeqNumber, airSeq);
         }
         return finalOrdered;
     }

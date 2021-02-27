@@ -26,16 +26,16 @@ public class MpcUtilsTest {
     }
 
     @Test
-    public void noLives() throws Exception {
+    public void withAirSequence() throws Exception {
         String projectName = "Aerial";
         String[] args = new String[]{"./src/test/resources/" + projectName, "./target/result"};
         MpcUtils.main(args);
         assertSequenceNumber(args[0] + "/" + projectName, "./target/result/" + projectName);
-        assertFileContent(projectName, "1.sxq", "20");
+        assertFileContent(projectName, "20.sxq", "Air");
     }
 
     @Test
-    public void withLives() throws Exception {
+    public void withUnusedSequences() throws Exception {
         String projectName = "WithLives";
         String[] args = new String[]{"./src/test/resources/" + projectName, "./target/result"};
         MpcUtils.main(args);
@@ -62,14 +62,17 @@ public class MpcUtilsTest {
         targetProj.loadSequencesAndSongs(targetProjFolder);
 
         Assertions.assertEquals(origProj.getSeqInfoMap().size(), targetProj.getSeqInfoMap().size());
-
         NodeList seqNodes = targetProj.getSeqNodeList();
 
         int seqIdx = 1;
         for (int i = 0; i < seqNodes.getLength(); i++) {
             Element seq = (Element) seqNodes.item(i);
+            String name = seq.getElementsByTagName("Name").item(0).getTextContent();
             String number = seq.getAttribute("number");
             Integer seqNumber = Integer.parseInt(number);
+            if (name.equalsIgnoreCase("air")) {
+                seqIdx = 20;
+            }
             Assertions.assertEquals(seqIdx++, seqNumber);
             File seqFile = new File(targetProjFolder, seqNumber + ".sxq");
             Assertions.assertTrue(seqFile.exists(), "Missing sequence file " + seqFile.getAbsolutePath());

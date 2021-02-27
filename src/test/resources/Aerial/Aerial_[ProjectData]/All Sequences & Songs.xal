@@ -58,7 +58,7 @@
                 <Active>True</Active>
                 <Name>Out</Name>
             </Sequence>
-            <Sequence number="20">
+            <Sequence number="19">
                 <Active>True</Active>
                 <Name>Air</Name>
             </Sequence>
@@ -68,7 +68,7 @@
             <Song number="1">
                 <Name>Aerial</Name>
                 <TempoIgnore>False</TempoIgnore>
-                <SeqIndex repeat="1">19</SeqIndex>
+                <SeqIndex repeat="1">18</SeqIndex>
                 <SeqIndex repeat="1">0</SeqIndex>
                 <SeqIndex repeat="1">1</SeqIndex>
                 <SeqIndex repeat="1">2</SeqIndex>
@@ -85,7 +85,7 @@
                 <SeqIndex repeat="1">9</SeqIndex>
                 <SeqIndex repeat="1">1</SeqIndex>
                 <SeqIndex repeat="1">11</SeqIndex>
-                <SeqIndex repeat="1">19</SeqIndex>
+                <SeqIndex repeat="1">18</SeqIndex>
             </Song>
             <Song number="2">
                 <Name>(unnamed)</Name>
