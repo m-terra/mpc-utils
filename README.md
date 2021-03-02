@@ -15,9 +15,10 @@ mpc-utils will not alter the original projects but create a new project version 
 
 ## Usage
 
-    java -jar <mpc-utils-jar> <scanDirectory> <targetDirectory> [songNumber]
+    java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [songNumber]
 
     <mpc-utils-jar> The binary of this software
+    <command> [reorder|livesets|reorderAndLiveSet]
     <scanDirectory> The directory containing the MPC projects to reorder
     <targetDirectory> The directory to save the reordered projects
     [songNumber] Optional number of the song to use - default 1

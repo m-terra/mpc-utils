@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings>
+    <VALUE name="PadPerform.Type" val="2"/>
+    <VALUE name="PadPerform.ScaleBasedChord" val="0"/>
+    <VALUE name="PadPerform.ChromaticChord" val="0"/>
+    <VALUE name="PadPerform.ScaleType" val="8"/>
+    <VALUE name="PadPerform.BaseNote" val="3"/>
+    <VALUE name="PadPerform.BankBehaviour" val="1"/>
+    <VALUE name="PadPerform.StartOctave" val="4"/>
+    <VALUE name="PadPerform.ProgressionIndex" val="0"/>
+</settings>

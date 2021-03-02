@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class MpcProject {
+public class SequencesAndSongs {
 
     private final Map<Integer, SeqInfo> seqInfoMap = new TreeMap<>();
     private Document document;

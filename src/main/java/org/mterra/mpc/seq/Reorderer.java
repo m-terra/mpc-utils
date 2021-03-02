@@ -13,11 +13,11 @@ import java.util.*;
 
 public class Reorderer {
 
-    public Map<Integer, SeqInfo> calculateNewOrder(MpcProject mpcProject) {
+    public Map<Integer, SeqInfo> calculateNewOrder(SequencesAndSongs sequencesAndSongs) {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
         List<SeqInfo> notUsedInSong = new ArrayList<>();
         SeqInfo airSeq = null;
-        for (SeqInfo seqInfo : mpcProject.getSeqInfoMap().values()) {
+        for (SeqInfo seqInfo : sequencesAndSongs.getSeqInfoMap().values()) {
             if (seqInfo.getName().equalsIgnoreCase("air")) {
                 airSeq = seqInfo;
             } else if (seqInfo.getPosInSong().size() == 0) {
@@ -44,17 +44,17 @@ public class Reorderer {
         return finalOrdered;
     }
 
-    public void updateFiles(MpcProject mpcProject, Map<Integer, SeqInfo> reordered, File targetDir, String projectName) {
+    public void updateFiles(SequencesAndSongs sequencesAndSongs, Map<Integer, SeqInfo> reordered, File targetDir, String projectName) {
         File targetProjDir = new File(targetDir, projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
         try {
-            mpcProject.removeAllSequences();
+            sequencesAndSongs.removeAllSequences();
 
             for (Map.Entry<Integer, SeqInfo> entry : reordered.entrySet()) {
                 SeqInfo seqInfo = entry.getValue();
                 Integer newSeqNumber = entry.getKey();
-                mpcProject.addSequence(newSeqNumber, seqInfo.getName());
+                sequencesAndSongs.addSequence(newSeqNumber, seqInfo.getName());
                 for (Integer pos : seqInfo.getPosInSong()) {
-                    mpcProject.changeSequenceIndexInSong(pos, String.valueOf(entry.getKey() - 1));
+                    sequencesAndSongs.changeSequenceIndexInSong(pos, String.valueOf(entry.getKey() - 1));
                 }
                 if (seqInfo.needsMoving(newSeqNumber)) {
                     Path src = Paths.get(targetProjDir.getPath(), seqInfo.getSeqNumber() + "." + MpcUtils.SEQ_SUFFIX);
@@ -66,7 +66,7 @@ public class Reorderer {
                 }
             }
 
-            mpcProject.writeDocument(targetProjDir);
+            sequencesAndSongs.writeDocument(targetProjDir);
 
             Collection<?> seqFiles = FileUtils.listFiles(targetProjDir, new String[]{MpcUtils.SEQ_SUFFIX + "tmp"}, false);
             for (Object el : seqFiles) {
