@@ -27,4 +27,4 @@ the BPM of all filtered projects.
     <command> [reorder|filter|reorderAndLiveSet]
     <scanDirectory> The directory containing the MPC projects to reorder
     <targetDirectory> The directory to save the reordered projects
-    [songNumber|sequenceName] Optional. (reorder: Number of the song, default 1, livesets: name of the sequence)
+    [songNumber|sequenceName] Optional. reorder: song number, default '1', filter: sequence name, default 'Live'
