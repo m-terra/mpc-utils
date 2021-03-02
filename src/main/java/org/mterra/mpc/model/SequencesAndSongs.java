@@ -1,6 +1,7 @@
-package org.mterra.mpc.seq;
+package org.mterra.mpc.model;
 
 import org.mterra.mpc.MpcUtils;
+import org.mterra.mpc.util.Helper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,17 +29,17 @@ public class SequencesAndSongs {
     private NodeList songSeqIdxNodeList;
     private Node sequenceNodeTemplate;
 
-    public void loadSequencesAndSongs(File srcDir) {
-        loadSequencesAndSongs(srcDir, "1");
+    public void load(File srcDir) {
+        load(srcDir, "1");
     }
 
-    public void loadSequencesAndSongs(File srcDir, String songNumber) {
+    public void load(File srcDir, String songNumber) {
         try {
             File allSeqs = new File(srcDir, MpcUtils.ALL_SEQS_FILE_NAME);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             document = db.parse(allSeqs);
-            loadElementsForSong(songNumber);
+            loadSong(songNumber);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -69,45 +70,33 @@ public class SequencesAndSongs {
         return seqInfoMap;
     }
 
-    private void loadElementsForSong(String songNumber) {
-        document.getDocumentElement().normalize();
-
-        Element all = (Element) document.getDocumentElement().getElementsByTagName("AllSeqSamps").item(0);
-        Element songs = (Element) all.getElementsByTagName("Songs").item(0);
-        NodeList songsEls = songs.getElementsByTagName("Song");
-        Element song = null;
-        for (int i = 0; i < songsEls.getLength(); i++) {
-            song = (Element) songsEls.item(i);
-            if (song.getAttribute("number").equals(songNumber)) {
-                break;
-            }
-        }
-
-        if (song == null) {
+    private void loadSong(String songNumber) {
+        String xpathExpression = "/MPCVObject/AllSeqSamps/Songs/Song[@number='" + songNumber + "']";
+        NodeList songNodeList = Helper.evaluateXPath(document, xpathExpression);
+        if (songNodeList.getLength() == 0) {
             throw new RuntimeException("Song number " + songNumber + " not found");
         }
-
+        Element song = (Element) songNodeList.item(0);
         Element name = (Element) song.getElementsByTagName("Name").item(0);
         songSeqIdxNodeList = song.getElementsByTagName("SeqIndex");
         String songName = name.getTextContent();
 
+        Element all = (Element) document.getDocumentElement().getElementsByTagName("AllSeqSamps").item(0);
         seqs = (Element) all.getElementsByTagName("Sequences").item(0);
         seqNodeList = seqs.getElementsByTagName("Sequence");
-
         for (int i = 0; i < seqNodeList.getLength(); i++) {
             Element seqNode = (Element) seqNodeList.item(i);
             String seqNo = seqNode.getAttribute("number");
             Element nameEl = (Element) seqNode.getElementsByTagName("Name").item(0);
             seqInfoMap.put(Integer.parseInt(seqNo), new SeqInfo(nameEl.getTextContent(), seqNo));
         }
-
         for (int i = 0; i < songSeqIdxNodeList.getLength(); i++) {
             Element songEl = (Element) songSeqIdxNodeList.item(i);
             String seqNo = songEl.getTextContent();
             seqInfoMap.get(Integer.parseInt(seqNo) + 1).getPosInSong().add(i);
         }
 
-        System.out.printf("Found song '%s' with '%s' entries, total sequences '%s'%n",
+        System.out.printf("Loaded song '%s' with '%s' entries, total sequences '%s'%n",
                 songName, songSeqIdxNodeList.getLength(), seqNodeList.getLength());
     }
 
@@ -134,4 +123,11 @@ public class SequencesAndSongs {
         nameEl.setTextContent(name);
         seqs.appendChild(seq);
     }
+
+    public boolean containsSequence(String name) {
+        String xpathExpression = "/MPCVObject/AllSeqSamps/Sequences/Sequence[Name='" + name + "']/@number";
+        List<String> res = Helper.evaluateXPathToStrings(document, xpathExpression);
+        return res.size() > 0;
+    }
+
 }

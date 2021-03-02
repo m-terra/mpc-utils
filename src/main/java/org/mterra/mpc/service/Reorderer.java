@@ -1,8 +1,10 @@
-package org.mterra.mpc.seq;
+package org.mterra.mpc.service;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.mterra.mpc.MpcUtils;
+import org.mterra.mpc.model.SeqInfo;
+import org.mterra.mpc.model.SequencesAndSongs;
 
 import java.io.File;
 import java.nio.file.Files;

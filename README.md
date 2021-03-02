@@ -1,12 +1,18 @@
-# mpc-utils
+# mpc-utils for AKAI MPC One/X/Live/Live2
 
-## Description
-
-Reorders the sequences of AKAI MPC One/X/Live/Live2 projects according to the sequence of sequences in a song.
-
-Sequences that are not used in the specified song will be appended after the song sequences.
+## Non-Destructive
 
 mpc-utils will not alter the original projects but create a new project version in the specified target directory.
+
+### Sequence Reordering
+
+Reorders the sequences according to a song. Default song is '1'. Sequences that are not used in the specified song will
+be appended after the sequences used in the song.
+
+### Project Filtering
+
+Filters out projects that contain a sequence with the specified name. Default name is 'Live'. Creates a text file with
+the BPM of all filtered projects.
 
 ## Setup
 
@@ -15,10 +21,10 @@ mpc-utils will not alter the original projects but create a new project version 
 
 ## Usage
 
-    java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [songNumber]
+    java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [songNumber|sequenceName]
 
     <mpc-utils-jar> The binary of this software
-    <command> [reorder|livesets|reorderAndLiveSet]
+    <command> [reorder|filter|reorderAndLiveSet]
     <scanDirectory> The directory containing the MPC projects to reorder
     <targetDirectory> The directory to save the reordered projects
-    [songNumber] Optional number of the song to use - default 1
+    [songNumber|sequenceName] Optional. (reorder: Number of the song, default 1, livesets: name of the sequence)

@@ -1,10 +1,8 @@
 package org.mterra.mpc;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mterra.mpc.seq.SequencesAndSongs;
+import org.mterra.mpc.model.SequencesAndSongs;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -15,15 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 
-public class MpcUtilsTest {
-
-    private static final File resultDir = new File("./target/result");
-
-    @BeforeAll
-    public static void prepare() throws Exception {
-        FileUtils.deleteDirectory(resultDir);
-        Assertions.assertTrue(resultDir.mkdirs());
-    }
+public class ReorderTest extends BaseTest {
 
     @Test
     public void withAirSequence() throws Exception {
@@ -55,11 +45,11 @@ public class MpcUtilsTest {
 
     private void assertSequenceNumber(String sourceDir, String targetDir) {
         SequencesAndSongs origProj = new SequencesAndSongs();
-        origProj.loadSequencesAndSongs(new File(sourceDir + MpcUtils.PROJECT_FOLDER_SUFFIX));
+        origProj.load(new File(sourceDir + MpcUtils.PROJECT_FOLDER_SUFFIX));
 
         File targetProjFolder = new File(targetDir + MpcUtils.PROJECT_FOLDER_SUFFIX);
         SequencesAndSongs targetProj = new SequencesAndSongs();
-        targetProj.loadSequencesAndSongs(targetProjFolder);
+        targetProj.load(targetProjFolder);
 
         Assertions.assertEquals(origProj.getSeqInfoMap().size(), targetProj.getSeqInfoMap().size());
         NodeList seqNodes = targetProj.getSeqNodeList();
