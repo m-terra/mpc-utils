@@ -1,6 +1,6 @@
 package org.mterra.mpc.model;
 
-import org.mterra.mpc.service.Liveset;
+import org.mterra.mpc.service.QLinks;
 import org.mterra.mpc.util.Helper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -56,7 +56,7 @@ public class Project {
         NodeList nodeList = Helper.evaluateXPath(document, xpathExpression);
         Element qlinkAssElement = (Element) nodeList.item(0);
         NodeList typeNodeList = qlinkAssElement.getElementsByTagName("Type");
-        Element typeElement = null;
+        Element typeElement;
         if (typeNodeList.getLength() > 0) {
             typeElement = (Element) typeNodeList.item(0);
 
@@ -64,8 +64,19 @@ public class Project {
             typeElement = document.createElement("Type");
             qlinkAssElement.appendChild(typeElement);
         }
-        typeElement.setTextContent(Liveset.QLINK_TYPE_MIDI_TRACK);
+        typeElement.setTextContent(QLinks.QLINK_TYPE_MIDI_TRACK);
         typeElement.setAttribute("index", trackIndex.toString());
         qlinkAssElement.getElementsByTagName("Parameter").item(0).setTextContent(parameter);
     }
+
+    public String getQLinkProjectAssignementParameter(Integer qLinkIndex) {
+        String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']/Parameter/text()";
+        return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
+    }
+
+    public String getQLinkProjectAssignementType(Integer qLinkIndex) {
+        String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']/Type/text()";
+        return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
+    }
+
 }

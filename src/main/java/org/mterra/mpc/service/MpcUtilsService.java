@@ -58,15 +58,15 @@ public class MpcUtilsService {
         }
     }
 
-    public void createLiveset(String scanDirPath, String targetDirPath) {
+    public void configureProjectQLinks(String scanDirPath, String targetDirPath) {
         File targetDir = new File(targetDirPath);
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         for (ProjectInfo projectInfo : projects) {
-            System.out.printf("Configuring liveset for project '%s'%n", projectInfo.getProjectName());
-            Liveset liveset = new Liveset(projectInfo);
-            liveset.configureLivesetQLinks();
+            System.out.printf("Configuring project for project '%s'%n", projectInfo.getProjectName());
+            QLinks QLinks = new QLinks(projectInfo);
+            QLinks.configureProjectQLinks();
             Helper.copyProject(projectInfo, targetDir);
-            liveset.updateProjectFile(targetDir);
+            QLinks.updateProjectFile(targetDir);
         }
     }
 

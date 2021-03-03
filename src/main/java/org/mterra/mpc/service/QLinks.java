@@ -5,7 +5,7 @@ import org.mterra.mpc.model.ProjectInfo;
 
 import java.io.File;
 
-public class Liveset {
+public class QLinks {
 
     public static final String QLINK_MODE_PROJECT = "Project";
     public static final String QLINK_TYPE_MIDI_TRACK = "MidiTrack";
@@ -14,7 +14,7 @@ public class Liveset {
     private final ProjectInfo projectInfo;
     private Project project;
 
-    public Liveset(ProjectInfo projectInfo) {
+    public QLinks(ProjectInfo projectInfo) {
         this.projectInfo = projectInfo;
     }
 
@@ -26,7 +26,7 @@ public class Liveset {
         return project;
     }
 
-    public void configureLivesetQLinks() {
+    public void configureProjectQLinks() {
         Project project = getProject();
         project.setQLinkMode(QLINK_MODE_PROJECT);
 

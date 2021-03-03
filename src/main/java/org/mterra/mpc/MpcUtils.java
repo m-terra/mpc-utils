@@ -21,7 +21,7 @@ public class MpcUtils {
                 .optionalArg(true).desc("show help").build();
         options.addOption(helpOpt);
         Option commandOpt = Option.builder("c").longOpt("command").required()
-                .optionalArg(false).hasArg(true).desc("reorder|filter|bpm|liveset").build();
+                .optionalArg(false).hasArg(true).desc("reorder|filter|bpm|qlinks").build();
         options.addOption(commandOpt);
         Option inputDirOpt = Option.builder("i").longOpt("inputDirectory").required()
                 .optionalArg(false).hasArg(true).desc("input directory path").build();
@@ -73,8 +73,8 @@ public class MpcUtils {
             case "bpm":
                 service.createProjectBpmFile(inputDirectoryPath);
                 break;
-            case "liveset":
-                service.createLiveset(inputDirectoryPath, outputDirectoryPath);
+            case "qlinks":
+                service.configureProjectQLinks(inputDirectoryPath, outputDirectoryPath);
                 break;
         }
 
