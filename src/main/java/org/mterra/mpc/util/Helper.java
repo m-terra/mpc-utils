@@ -1,6 +1,7 @@
 package org.mterra.mpc.util;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mterra.mpc.MpcUtils;
 import org.mterra.mpc.model.ProjectInfo;
 import org.w3c.dom.Document;
@@ -22,10 +23,12 @@ import java.util.Map;
 public class Helper {
 
     public static void createDirs(String dir) {
-        File targetDir = new File(dir);
-        if (!targetDir.exists()) {
-            if (!targetDir.mkdirs()) {
-                throw new RuntimeException("Cannot create target directory " + targetDir.getAbsolutePath());
+        if (StringUtils.isNotBlank(dir)) {
+            File targetDir = new File(dir);
+            if (!targetDir.exists()) {
+                if (!targetDir.mkdirs()) {
+                    throw new RuntimeException("Cannot create target directory " + targetDir.getAbsolutePath());
+                }
             }
         }
     }
@@ -48,7 +51,7 @@ public class Helper {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile))) {
             targetFile.createNewFile();
             for (Map.Entry<String, String> entry : values.entrySet()) {
-                writer.write(entry.getKey() + "\t" + entry.getValue() + "\n");
+                writer.write(entry.getValue() + "\t" + entry.getKey() + "\n");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

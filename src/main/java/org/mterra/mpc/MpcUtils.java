@@ -14,11 +14,11 @@ public class MpcUtils {
 
     public static void main(String[] args) {
         String cmd = args[0];
-        if (args.length < 3) {
+        if (args.length < 2) {
             printUsage();
         }
         String srcDir = args[1];
-        String targetDir = args[2];
+        String targetDir = args.length > 2 ? args[2] : null;
         if (Objects.equals(srcDir, targetDir)) {
             System.out.printf("<scanDirectory> <targetDirectory> must be different%n");
         }
@@ -36,14 +36,16 @@ public class MpcUtils {
             if (args.length == 4) {
                 sequenceName = args[3];
             }
-            service.livesets(srcDir, targetDir, sequenceName);
+            service.filterProjects(srcDir, targetDir, sequenceName);
+        } else if ("bpm".equalsIgnoreCase(cmd)) {
+            service.createProjectBpmFile(srcDir);
         } else {
             printUsage();
         }
     }
 
     private static void printUsage() {
-        System.out.printf("java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [songNumber|sequenceName]%n");
+        System.out.printf("java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [optionals]%n");
         System.out.printf("See README.md%n");
     }
 

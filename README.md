@@ -1,6 +1,6 @@
 # mpc-utils for AKAI MPC One/X/Live/Live2
 
-## Non-Destructive
+## Non-Invasive
 
 mpc-utils will not alter the original projects but create a new project version in the specified target directory.
 
@@ -11,8 +11,11 @@ be appended after the sequences used in the song.
 
 ### Project Filtering
 
-Filters out projects that contain a sequence with the specified name. Default name is 'Live'. Creates a text file with
-the BPM of all filtered projects.
+Filters out projects that contain a sequence with the specified name. Default filter is 'Live'. C
+
+### Project BPM Listing
+
+Creates a text file with the BPM of all filtered projects.
 
 ## Setup
 
@@ -24,7 +27,7 @@ the BPM of all filtered projects.
     java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [songNumber|sequenceName]
 
     <mpc-utils-jar> The binary of this software
-    <command> [reorder|filter|reorderAndLiveSet]
+    <command> [reorder|filter|bpm]
     <scanDirectory> The directory containing the MPC projects to reorder
     <targetDirectory> The directory to save the reordered projects
     [songNumber|sequenceName] Optional. reorder: song number, default '1', filter: sequence name, default 'Live'

@@ -28,25 +28,35 @@ public class ServiceDispatcher {
         }
     }
 
-    public void livesets(String scanDirPath, String targetDirPath, String sequenceName) {
+    public void filterProjects(String scanDirPath, String targetDirPath, String sequenceName) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
-        Map<String, String> bpmSongMap = new TreeMap<>();
         for (ProjectInfo projectInfo : projects) {
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo);
             if (sequencesAndSongs.containsSequence(sequenceName)) {
-                System.out.printf("Found project '%s' with '%s' sequence%n", sequenceName, projectInfo.getProjectName());
+                System.out.printf("Found project '%s' with '%s' sequence%n", projectInfo.getProjectName(), sequenceName);
                 Helper.copyProject(projectInfo, targetDir);
                 Project project = new Project();
                 project.load(projectInfo);
-                bpmSongMap.put(project.getBpm(), projectInfo.getProjectName());
             }
         }
+    }
+
+    public void createProjectBpmFile(String scanDirPath) {
+        List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
+        Map<String, String> bpmSongMap = new TreeMap<>();
+        for (ProjectInfo projectInfo : projects) {
+            Project project = new Project();
+            project.load(projectInfo);
+            bpmSongMap.put(projectInfo.getProjectName(), project.getBpm());
+            System.out.printf("Found project '%s' with BPM '%s'%n", projectInfo.getProjectName(), project.getBpm());
+        }
         if (!bpmSongMap.isEmpty()) {
-            File bpmFile = new File(targetDir + "/Project_BPM.txt");
+            File bpmFile = new File(scanDirPath + "/Project_BPM.txt");
             Helper.writeMapFile(bpmFile, bpmSongMap);
         }
     }
+
 
 }

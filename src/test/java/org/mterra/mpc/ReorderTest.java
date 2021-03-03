@@ -19,20 +19,20 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withAirSequence() throws Exception {
         String projectName = "Aerial";
-        String[] args = new String[]{"reorder", "./src/test/resources/projects", "./target/result"};
+        String[] args = new String[]{"reorder", "./src/test/resources/projects", resultDir.getPath()};
         MpcUtils.main(args);
         File projectDataFolder = new File(args[1] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
-        assertSequenceNumber(new ProjectInfo(projectDataFolder), "./target/result/" + projectName);
+        assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "20.sxq", "Air");
     }
 
     @Test
     public void withUnusedSequences() throws Exception {
         String projectName = "WithLives";
-        String[] args = new String[]{"reorder", "./src/test/resources/projects", "./target/result"};
+        String[] args = new String[]{"reorder", "./src/test/resources/projects", resultDir.getPath()};
         MpcUtils.main(args);
         File projectDataFolder = new File(args[1] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
-        assertSequenceNumber(new ProjectInfo(projectDataFolder), "./target/result/" + projectName);
+        assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "1.sxq", "20");
         assertFileContent(projectName, "14.sxq", "live1");
         assertFileContent(projectName, "15.sxq", "live2");
