@@ -13,6 +13,8 @@ public class MpcUtils {
     public static final String SEQ_SUFFIX = "sxq";
     public static final String PROJ_SUFFIX = "xpj";
 
+    private static final String HELP = "java -jar <mpc-utils-jar>";
+
     public static void main(String[] args) {
         Options options = new Options();
         Option helpOpt = Option.builder("h").longOpt("help")
@@ -39,12 +41,12 @@ public class MpcUtils {
             CommandLineParser parser = new DefaultParser();
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
-            new HelpFormatter().printHelp("java -jar <mpc-utils-jar>", options);
+            new HelpFormatter().printHelp(HELP, options);
             System.exit(1);
         }
 
         if (cmd.hasOption(helpOpt.getOpt())) {
-            new HelpFormatter().printHelp("java -jar <mpc-utils-jar>", options);
+            new HelpFormatter().printHelp(HELP, options);
             return;
         }
 
