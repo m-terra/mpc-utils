@@ -7,12 +7,17 @@ import org.mterra.mpc.model.ProjectInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -88,9 +93,22 @@ public class Helper {
         for (File srcDir : scanDir.listFiles()) {
             if (srcDir.getName().endsWith(MpcUtils.PROJECT_FOLDER_SUFFIX)) {
                 ProjectInfo projectInfo = new ProjectInfo(srcDir);
-                result.add(projectInfo);
+                if (projectInfo.getProjectFile().exists()) {
+                    result.add(projectInfo);
+                }
             }
         }
         return result;
+    }
+
+    public static void writeDocument(Document document, File targetFile) {
+        try {
+            FileOutputStream outStream = new FileOutputStream(targetFile);
+            document.setXmlStandalone(true);
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(new DOMSource(document), new StreamResult(outStream));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -9,12 +9,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,20 +40,12 @@ public class SequencesAndSongs {
     }
 
     public void changeSequenceIndexInSong(Integer position, String index) {
-        Element songSeqIdx = (Element) songSeqIdxNodeList.item(position);
-        songSeqIdx.setTextContent(index);
+        songSeqIdxNodeList.item(position).setTextContent(index);
     }
 
     public void writeDocument(File targetDir) {
-        try {
-            File output = new File(targetDir, MpcUtils.ALL_SEQS_FILE_NAME);
-            FileOutputStream outStream = new FileOutputStream(output);
-            document.setXmlStandalone(true);
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(new DOMSource(document), new StreamResult(outStream));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        File output = new File(targetDir, MpcUtils.ALL_SEQS_FILE_NAME);
+        Helper.writeDocument(document, output);
     }
 
     public NodeList getSeqNodeList() {
@@ -118,8 +105,7 @@ public class SequencesAndSongs {
     public void addSequence(Integer number, String name) {
         Element seq = (Element) sequenceNodeTemplate.cloneNode(true);
         seq.setAttribute("number", number.toString());
-        Element nameEl = (Element) seq.getElementsByTagName("Name").item(0);
-        nameEl.setTextContent(name);
+        seq.getElementsByTagName("Name").item(0).setTextContent(name);
         seqs.appendChild(seq);
     }
 

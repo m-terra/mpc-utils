@@ -19,12 +19,12 @@ public class ServiceDispatcher {
         File targetDir = new File(targetDirPath);
         for (ProjectInfo projectInfo : projects) {
             System.out.printf("Found project to reorder '%s'%n", projectInfo.getProjectName());
-            Reorderer inst = new Reorderer();
+            Reorderer reorderer = new Reorderer();
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo, songNumber);
-            Map<Integer, SeqInfo> reordered = inst.calculateNewOrder(sequencesAndSongs);
+            Map<Integer, SeqInfo> reordered = reorderer.calculateNewOrder(sequencesAndSongs);
             Helper.copyProject(projectInfo, targetDir);
-            inst.updateFiles(sequencesAndSongs, reordered, targetDir, projectInfo.getProjectName());
+            reorderer.updateFiles(sequencesAndSongs, reordered, targetDir, projectInfo.getProjectName());
         }
     }
 
@@ -58,5 +58,16 @@ public class ServiceDispatcher {
         }
     }
 
+    public void createLiveset(String scanDirPath, String targetDirPath) {
+        File targetDir = new File(targetDirPath);
+        List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
+        for (ProjectInfo projectInfo : projects) {
+            Liveset liveset = new Liveset(projectInfo);
+            liveset.configureLivesetQLinks();
+            Helper.copyProject(projectInfo, targetDir);
+            liveset.updateProjectFile(targetDir);
+            System.out.printf("Configure liveset for project '%s'%n", projectInfo.getProjectName());
+        }
+    }
 
 }

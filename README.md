@@ -11,11 +11,16 @@ be appended after the sequences used in the song.
 
 ### Project Filtering
 
-Filters out projects that contain a sequence with the specified name. Default filter is 'Live'. C
+Filters out projects that contain a sequence with the specified name. Default filter is 'Live'.
 
 ### Project BPM Listing
 
 Creates a text file with the BPM of all filtered projects.
+
+### Liveset
+
+Activates QLink mode "Project" and custom QLink assignements for all projects. QLink assignements 2nd row: volume track
+1-4, 3rd row: mute track 1-4
 
 ## Setup
 
@@ -25,7 +30,7 @@ Creates a text file with the BPM of all filtered projects.
 ## Usage
 
     usage: java -jar <mpc-utils-jar>
-    -c,--command <arg>           reorder|filter|bpm
+    -c,--command <arg>           reorder|filter|bpmliveset
     -h,--help                    show help
     -i,--inputDirectory <arg>    input directory path
     -o,--outputDirectory <arg>   output directory path
