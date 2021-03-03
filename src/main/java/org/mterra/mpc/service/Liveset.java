@@ -8,7 +8,10 @@ import java.io.File;
 public class Liveset {
 
     public static final String QLINK_MODE_PROJECT = "Project";
-    private ProjectInfo projectInfo;
+    public static final String QLINK_TYPE_MIDI_TRACK = "MidiTrack";
+    public static final String QLINK_PARAMTER_VOLUME = "7";
+    public static final String QLINK_PARAMTER_MUTE = "256";
+    private final ProjectInfo projectInfo;
     private Project project;
 
     public Liveset(ProjectInfo projectInfo) {
@@ -26,6 +29,18 @@ public class Liveset {
     public void configureLivesetQLinks() {
         Project project = getProject();
         project.setQLinkMode(QLINK_MODE_PROJECT);
+
+        project.setQLinkProjectTrackAssignement(2, 3, QLINK_PARAMTER_VOLUME);
+        project.setQLinkProjectTrackAssignement(3, 3, QLINK_PARAMTER_MUTE);
+
+        project.setQLinkProjectTrackAssignement(6, 2, QLINK_PARAMTER_VOLUME);
+        project.setQLinkProjectTrackAssignement(7, 2, QLINK_PARAMTER_MUTE);
+
+        project.setQLinkProjectTrackAssignement(10, 1, QLINK_PARAMTER_VOLUME);
+        project.setQLinkProjectTrackAssignement(11, 1, QLINK_PARAMTER_MUTE);
+
+        project.setQLinkProjectTrackAssignement(14, 0, QLINK_PARAMTER_VOLUME);
+        project.setQLinkProjectTrackAssignement(15, 0, QLINK_PARAMTER_MUTE);
     }
 
     public void updateProjectFile(File targetDir) {

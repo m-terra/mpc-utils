@@ -30,9 +30,9 @@ Activates QLink mode "Project" and custom QLink assignements for all projects. Q
 ## Usage
 
     usage: java -jar <mpc-utils-jar>
-    -c,--command <arg>           reorder|filter|bpmliveset
-    -h,--help                    show help
-    -i,--inputDirectory <arg>    input directory path
-    -o,--outputDirectory <arg>   output directory path
-    --sequenceName <arg>      the sequenceName to use
-    --songNumber <arg>        the songNumber to use
+            -c,--command <arg>           reorder|filter|bpm|liveset
+            -h,--help                    show help
+            -i,--inputDirectory <arg>    input directory path
+            -o,--outputDirectory <arg>   output directory path
+            --sequenceName <arg>         optional sequenceName to use for filtering
+            --songNumber <arg>           optional songNumber to use for reordering

@@ -49,8 +49,8 @@ public class MpcUtilsService {
         for (ProjectInfo projectInfo : projects) {
             Project project = new Project();
             project.load(projectInfo);
-            bpmSongMap.put(projectInfo.getProjectName(), project.getBpm());
             System.out.printf("Found project '%s' with BPM '%s'%n", projectInfo.getProjectName(), project.getBpm());
+            bpmSongMap.put(projectInfo.getProjectName(), project.getBpm());
         }
         if (!bpmSongMap.isEmpty()) {
             File bpmFile = new File(scanDirPath + "/Project_BPM.txt");
@@ -62,11 +62,11 @@ public class MpcUtilsService {
         File targetDir = new File(targetDirPath);
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         for (ProjectInfo projectInfo : projects) {
+            System.out.printf("Configuring liveset for project '%s'%n", projectInfo.getProjectName());
             Liveset liveset = new Liveset(projectInfo);
             liveset.configureLivesetQLinks();
             Helper.copyProject(projectInfo, targetDir);
             liveset.updateProjectFile(targetDir);
-            System.out.printf("Configure liveset for project '%s'%n", projectInfo.getProjectName());
         }
     }
 
