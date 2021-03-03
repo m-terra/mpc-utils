@@ -2,6 +2,7 @@ package org.mterra.mpc;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mterra.mpc.model.ProjectInfo;
 import org.mterra.mpc.model.SequencesAndSongs;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,7 +21,8 @@ public class ReorderTest extends BaseTest {
         String projectName = "Aerial";
         String[] args = new String[]{"reorder", "./src/test/resources/projects", "./target/result"};
         MpcUtils.main(args);
-        assertSequenceNumber(args[1] + "/" + projectName, "./target/result/" + projectName);
+        File projectDataFolder = new File(args[1] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        assertSequenceNumber(new ProjectInfo(projectDataFolder), "./target/result/" + projectName);
         assertFileContent(projectName, "20.sxq", "Air");
     }
 
@@ -29,7 +31,8 @@ public class ReorderTest extends BaseTest {
         String projectName = "WithLives";
         String[] args = new String[]{"reorder", "./src/test/resources/projects", "./target/result"};
         MpcUtils.main(args);
-        assertSequenceNumber(args[1] + "/" + projectName, "./target/result/" + projectName);
+        File projectDataFolder = new File(args[1] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        assertSequenceNumber(new ProjectInfo(projectDataFolder), "./target/result/" + projectName);
         assertFileContent(projectName, "1.sxq", "20");
         assertFileContent(projectName, "14.sxq", "live1");
         assertFileContent(projectName, "15.sxq", "live2");
@@ -43,13 +46,13 @@ public class ReorderTest extends BaseTest {
         Assertions.assertEquals(expectedContent, content);
     }
 
-    private void assertSequenceNumber(String sourceDir, String targetDir) {
+    private void assertSequenceNumber(ProjectInfo projectInfo, String targetDir) {
         SequencesAndSongs origProj = new SequencesAndSongs();
-        origProj.load(new File(sourceDir + MpcUtils.PROJECT_FOLDER_SUFFIX));
+        origProj.load(projectInfo);
 
         File targetProjFolder = new File(targetDir + MpcUtils.PROJECT_FOLDER_SUFFIX);
         SequencesAndSongs targetProj = new SequencesAndSongs();
-        targetProj.load(targetProjFolder);
+        targetProj.load(new ProjectInfo(targetProjFolder));
 
         Assertions.assertEquals(origProj.getSeqInfoMap().size(), targetProj.getSeqInfoMap().size());
         NodeList seqNodes = targetProj.getSeqNodeList();

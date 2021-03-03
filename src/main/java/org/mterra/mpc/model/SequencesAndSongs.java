@@ -29,16 +29,15 @@ public class SequencesAndSongs {
     private NodeList songSeqIdxNodeList;
     private Node sequenceNodeTemplate;
 
-    public void load(File srcDir) {
-        load(srcDir, "1");
+    public void load(ProjectInfo projectInfo) {
+        load(projectInfo, "1");
     }
 
-    public void load(File srcDir, String songNumber) {
+    public void load(ProjectInfo projectInfo, String songNumber) {
         try {
-            File allSeqs = new File(srcDir, MpcUtils.ALL_SEQS_FILE_NAME);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            document = db.parse(allSeqs);
+            document = db.parse(projectInfo.getSequencesAndSongsFile());
             loadSong(songNumber);
         } catch (Exception e) {
             throw new RuntimeException(e);

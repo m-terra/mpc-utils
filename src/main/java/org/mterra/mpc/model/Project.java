@@ -1,25 +1,22 @@
 package org.mterra.mpc.model;
 
-import org.mterra.mpc.MpcUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
 
 public class Project {
 
     private String projectName;
     private Document document;
 
-    public void load(File srcDir, String projectName) {
+    public void load(ProjectInfo projectInfo) {
         try {
-            File allSeqs = new File(srcDir, projectName + "." + MpcUtils.PROJ_SUFFIX);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            document = db.parse(allSeqs);
+            document = db.parse(projectInfo.getProjectFile());
             this.projectName = projectName;
         } catch (Exception e) {
             throw new RuntimeException(e);

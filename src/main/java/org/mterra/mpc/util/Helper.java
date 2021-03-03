@@ -2,6 +2,7 @@ package org.mterra.mpc.util;
 
 import org.apache.commons.io.FileUtils;
 import org.mterra.mpc.MpcUtils;
+import org.mterra.mpc.model.ProjectInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -29,14 +30,14 @@ public class Helper {
         }
     }
 
-    public static void copyProject(File srcDir, File targetDir, String projectName) {
+    public static void copyProject(ProjectInfo projectInfo, File targetDir) {
         try {
-            Path orig = Paths.get(srcDir.getParentFile().getPath(), projectName + ".xpj");
-            Path target = Paths.get(targetDir.getPath(), projectName + ".xpj");
+            Path orig = projectInfo.getProjectFile().toPath();
+            Path target = Paths.get(targetDir.getPath(), projectInfo.getProjectFile().getName());
             FileUtils.copyFile(orig.toFile(), target.toFile());
 
-            orig = Paths.get(srcDir.getParentFile().getPath(), projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
-            target = Paths.get(targetDir.getPath(), projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+            orig = projectInfo.getProjectDataFolder().toPath();
+            target = Paths.get(targetDir.getPath(), projectInfo.getProjectDataFolder().getName());
             FileUtils.copyDirectory(orig.toFile(), target.toFile());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -76,5 +77,17 @@ public class Helper {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<ProjectInfo> getProjectsInDirectory(String scanDirPath) {
+        List<ProjectInfo> result = new ArrayList<>();
+        File scanDir = new File(scanDirPath);
+        for (File srcDir : scanDir.listFiles()) {
+            if (srcDir.getName().endsWith(MpcUtils.PROJECT_FOLDER_SUFFIX)) {
+                ProjectInfo projectInfo = new ProjectInfo(srcDir);
+                result.add(projectInfo);
+            }
+        }
+        return result;
     }
 }
