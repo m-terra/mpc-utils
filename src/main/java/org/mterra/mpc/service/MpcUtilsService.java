@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ServiceDispatcher {
+public class MpcUtilsService {
 
 
-    public void reorder(String scanDirPath, String targetDirPath, String songNumber) {
+    public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
         for (ProjectInfo projectInfo : projects) {

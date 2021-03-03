@@ -10,7 +10,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,9 +20,8 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withAirSequence() throws Exception {
         String projectName = "Aerial";
-        String[] args = new String[]{"-c", "reorder", "-i", "./src/test/resources/projects", "-o", resultDir.getPath()};
-        MpcUtils.main(args);
-        File projectDataFolder = new File(args[3] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), "1");
+        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "20.sxq", "Air");
     }
@@ -31,9 +29,8 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withUnusedSequences() throws Exception {
         String projectName = "WithLives";
-        String[] args = new String[]{"-c", "reorder", "-i", "./src/test/resources/projects", "-o", resultDir.getPath()};
-        MpcUtils.main(args);
-        File projectDataFolder = new File(args[3] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), "1");
+        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "1.sxq", "20");
         assertFileContent(projectName, "14.sxq", "live1");
@@ -42,8 +39,8 @@ public class ReorderTest extends BaseTest {
         Assertions.assertFalse(new File("./target/result/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX + "/22.sxq").exists());
     }
 
-    private void assertFileContent(String projDirPrefix, String filename, String expectedContent) throws IOException {
-        byte[] bytes = Files.readAllBytes(Path.of("target", "result", projDirPrefix + "_[ProjectData]", filename));
+    private void assertFileContent(String projDirPrefix, String filename, String expectedContent) throws Exception {
+        byte[] bytes = Files.readAllBytes(Path.of(resultDir.getPath(), projDirPrefix + MpcUtils.PROJECT_FOLDER_SUFFIX, filename));
         String content = new String(bytes, StandardCharsets.UTF_8);
         Assertions.assertEquals(expectedContent, content);
     }
