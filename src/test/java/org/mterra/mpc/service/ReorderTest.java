@@ -1,7 +1,9 @@
-package org.mterra.mpc;
+package org.mterra.mpc.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mterra.mpc.BaseTest;
+import org.mterra.mpc.MpcUtils;
 import org.mterra.mpc.model.ProjectInfo;
 import org.mterra.mpc.model.SequencesAndSongs;
 import org.w3c.dom.Element;
@@ -19,9 +21,9 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withAirSequence() throws Exception {
         String projectName = "Aerial";
-        String[] args = new String[]{"reorder", "./src/test/resources/projects", resultDir.getPath()};
+        String[] args = new String[]{"-c", "reorder", "-i", "./src/test/resources/projects", "-o", resultDir.getPath()};
         MpcUtils.main(args);
-        File projectDataFolder = new File(args[1] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        File projectDataFolder = new File(args[3] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "20.sxq", "Air");
     }
@@ -29,9 +31,9 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withUnusedSequences() throws Exception {
         String projectName = "WithLives";
-        String[] args = new String[]{"reorder", "./src/test/resources/projects", resultDir.getPath()};
+        String[] args = new String[]{"-c", "reorder", "-i", "./src/test/resources/projects", "-o", resultDir.getPath()};
         MpcUtils.main(args);
-        File projectDataFolder = new File(args[1] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        File projectDataFolder = new File(args[3] + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "1.sxq", "20");
         assertFileContent(projectName, "14.sxq", "live1");

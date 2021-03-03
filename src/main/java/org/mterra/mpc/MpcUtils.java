@@ -1,5 +1,6 @@
 package org.mterra.mpc;
 
+import org.apache.commons.cli.*;
 import org.mterra.mpc.service.ServiceDispatcher;
 import org.mterra.mpc.util.Helper;
 
@@ -13,40 +14,66 @@ public class MpcUtils {
     public static final String PROJ_SUFFIX = "xpj";
 
     public static void main(String[] args) {
-        String cmd = args[0];
-        if (args.length < 2) {
-            printUsage();
-        }
-        String srcDir = args[1];
-        String targetDir = args.length > 2 ? args[2] : null;
-        if (Objects.equals(srcDir, targetDir)) {
-            System.out.printf("<scanDirectory> <targetDirectory> must be different%n");
-        }
-        Helper.createDirs(targetDir);
-        System.out.printf("Executing command '%s' srcDir '%s' targetDir '%s'%n", cmd, srcDir, targetDir);
-        ServiceDispatcher service = new ServiceDispatcher();
-        if ("reorder".equalsIgnoreCase(cmd)) {
-            String songNumber = "1";
-            if (args.length == 4) {
-                songNumber = args[3];
-            }
-            service.reorder(srcDir, targetDir, songNumber);
-        } else if ("filter".equalsIgnoreCase(cmd)) {
-            String sequenceName = "Live";
-            if (args.length == 4) {
-                sequenceName = args[3];
-            }
-            service.filterProjects(srcDir, targetDir, sequenceName);
-        } else if ("bpm".equalsIgnoreCase(cmd)) {
-            service.createProjectBpmFile(srcDir);
-        } else {
-            printUsage();
-        }
-    }
+        Options options = new Options();
+        Option helpOpt = Option.builder("h").longOpt("help")
+                .optionalArg(true).desc("show help").build();
+        options.addOption(helpOpt);
+        Option commandOpt = Option.builder("c").longOpt("command")
+                .optionalArg(false).hasArg(true).desc("reorder|filter|bpm").build();
+        options.addOption(commandOpt);
+        Option inputDirOpt = Option.builder("i").longOpt("inputDirectory")
+                .optionalArg(false).hasArg(true).desc("input directory path").build();
+        options.addOption(inputDirOpt);
+        Option outputDirOpt = Option.builder("o").longOpt("outputDirectory")
+                .optionalArg(true).hasArg(true).desc("output directory path").build();
+        options.addOption(outputDirOpt);
+        Option songNumberOpt = Option.builder().longOpt("songNumber")
+                .optionalArg(true).hasArg(true).desc("the songNumber to use").build();
+        options.addOption(songNumberOpt);
+        Option sequenceNameOpt = Option.builder().longOpt("sequenceName")
+                .optionalArg(true).hasArg(true).desc("the sequenceName to use").build();
+        options.addOption(sequenceNameOpt);
 
-    private static void printUsage() {
-        System.out.printf("java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [optionals]%n");
-        System.out.printf("See README.md%n");
+        CommandLine cmd = null;
+        try {
+            CommandLineParser parser = new DefaultParser();
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            new HelpFormatter().printHelp("java -jar <mpc-utils-jar>", options);
+            System.exit(1);
+        }
+
+        if (cmd.hasOption(helpOpt.getOpt())) {
+            new HelpFormatter().printHelp("java -jar <mpc-utils-jar>", options);
+            return;
+        }
+
+        String command = cmd.getOptionValue(commandOpt.getOpt());
+        String inputDirectoryPath = cmd.getOptionValue(inputDirOpt.getOpt());
+        String outputDirectoryPath = cmd.getOptionValue(outputDirOpt.getOpt());
+
+        if (inputDirectoryPath != null && Objects.equals(inputDirectoryPath, outputDirectoryPath)) {
+            System.out.printf("%s %s must be different%n", inputDirOpt.getLongOpt(), outputDirOpt.getLongOpt());
+            System.exit(1);
+        }
+        Helper.createDirs(outputDirectoryPath);
+        System.out.printf("Executing command '%s' srcDir '%s' targetDir '%s'%n", command, inputDirectoryPath, outputDirectoryPath);
+        ServiceDispatcher service = new ServiceDispatcher();
+
+        switch (command) {
+            case "reorder":
+                String songNumber = cmd.getOptionValue(songNumberOpt.getLongOpt(), "1");
+                service.reorder(inputDirectoryPath, outputDirectoryPath, songNumber);
+                break;
+            case "filter":
+                String sequenceName = cmd.getOptionValue(sequenceNameOpt.getLongOpt(), "Live");
+                service.filterProjects(inputDirectoryPath, outputDirectoryPath, sequenceName);
+                break;
+            case "bpm":
+                service.createProjectBpmFile(inputDirectoryPath);
+                break;
+        }
+
     }
 
 }

@@ -24,10 +24,10 @@ Creates a text file with the BPM of all filtered projects.
 
 ## Usage
 
-    java -jar <mpc-utils-jar> <command> <scanDirectory> <targetDirectory> [songNumber|sequenceName]
-
-    <mpc-utils-jar> The binary of this software
-    <command> [reorder|filter|bpm]
-    <scanDirectory> The directory containing the MPC projects to reorder
-    <targetDirectory> The directory to save the reordered projects
-    [songNumber|sequenceName] Optional. reorder: song number, default '1', filter: sequence name, default 'Live'
+    usage: java -jar <mpc-utils-jar>
+    -c,--command <arg>           reorder|filter|bpm
+    -h,--help                    show help
+    -i,--inputDirectory <arg>    input directory path
+    -o,--outputDirectory <arg>   output directory path
+    --sequenceName <arg>      the sequenceName to use
+    --songNumber <arg>        the songNumber to use
