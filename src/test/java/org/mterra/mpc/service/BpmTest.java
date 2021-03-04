@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mterra.mpc.BaseTest;
 import org.mterra.mpc.model.ProjectInfo;
+import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 
 import java.io.File;
@@ -20,7 +21,7 @@ public class BpmTest extends BaseTest {
             Helper.copyProject(projectInfo, resultDir);
         }
         service.createProjectBpmFile(resultDir.getPath());
-        File bpmFile = new File(resultDir, "Project_BPM.txt");
+        File bpmFile = new File(resultDir, Constants.DEFAULT_BPM_FILE_NAME);
         Assertions.assertTrue(bpmFile.exists());
 
         String bpmFileContent = Files.readString(bpmFile.toPath());

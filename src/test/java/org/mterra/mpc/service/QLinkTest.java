@@ -38,4 +38,5 @@ public class QLinkTest extends BaseTest {
         Assertions.assertEquals(Constants.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignementParameter(volumeIndex));
         Assertions.assertEquals(Constants.QLINK_PARAMTER_MUTE, project.getQLinkProjectAssignementParameter(muteIndex));
     }
+
 }

@@ -15,7 +15,7 @@ public class MpcUtils {
                 .optionalArg(true).desc("show help").build();
         options.addOption(helpOpt);
         Option commandOpt = Option.builder("c").longOpt("command").required()
-                .optionalArg(false).hasArg(true).desc("reorder|filter|bpm|qlinks").build();
+                .optionalArg(false).hasArg(true).desc("reorder|filter|bpm|qlinks|liveset").build();
         options.addOption(commandOpt);
         Option inputDirOpt = Option.builder("i").longOpt("inputDirectory").required()
                 .optionalArg(false).hasArg(true).desc("input directory path").build();
@@ -29,8 +29,11 @@ public class MpcUtils {
         Option sequenceNameOpt = Option.builder().longOpt("sequenceName")
                 .optionalArg(false).hasArg(true).desc("optional sequenceName to use for filtering").build();
         options.addOption(sequenceNameOpt);
+        Option uniqueSequencesOpt = Option.builder().longOpt("uniqueSequences")
+                .hasArg(false).desc("keeps the sequences unique when reordering").build();
+        options.addOption(uniqueSequencesOpt);
 
-        CommandLine cmd = null;
+        CommandLine cmd;
         try {
             CommandLineParser parser = new DefaultParser();
             cmd = parser.parse(options, args);
@@ -48,6 +51,7 @@ public class MpcUtils {
         String outputDirectoryPath = cmd.getOptionValue(outputDirOpt.getOpt());
         String songNumber = cmd.getOptionValue(songNumberOpt.getLongOpt(), Constants.DEFAULT_SONG_NUMBER);
         String sequenceName = cmd.getOptionValue(sequenceNameOpt.getLongOpt(), Constants.DEFAULT_FILTER_SEQUENCE_NAME);
+        Boolean uniqueSequences = cmd.hasOption(uniqueSequencesOpt.getLongOpt());
 
 
         if (inputDirectoryPath != null && Objects.equals(inputDirectoryPath, outputDirectoryPath)) {
@@ -60,7 +64,7 @@ public class MpcUtils {
 
         switch (command) {
             case "reorder":
-                service.reorderSequences(inputDirectoryPath, outputDirectoryPath, songNumber);
+                service.reorderSequences(inputDirectoryPath, outputDirectoryPath, songNumber, uniqueSequences);
                 break;
             case "filter":
                 service.filterProjects(inputDirectoryPath, outputDirectoryPath, sequenceName);
@@ -70,6 +74,9 @@ public class MpcUtils {
                 break;
             case "qlinks":
                 service.configureProjectQLinks(inputDirectoryPath, outputDirectoryPath);
+                break;
+            case "liveset":
+                service.createLiveset(inputDirectoryPath, outputDirectoryPath, sequenceName, songNumber, uniqueSequences);
                 break;
             default:
                 printUsage(options);

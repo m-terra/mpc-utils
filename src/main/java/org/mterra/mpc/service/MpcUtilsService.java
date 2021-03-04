@@ -1,12 +1,15 @@
 package org.mterra.mpc.service;
 
+import org.apache.commons.io.FileUtils;
 import org.mterra.mpc.model.Project;
 import org.mterra.mpc.model.ProjectInfo;
 import org.mterra.mpc.model.SeqInfo;
 import org.mterra.mpc.model.SequencesAndSongs;
+import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,7 +17,7 @@ import java.util.TreeMap;
 public class MpcUtilsService {
 
 
-    public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber) {
+    public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber, Boolean uniqueSeqs) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
         for (ProjectInfo projectInfo : projects) {
@@ -53,7 +56,7 @@ public class MpcUtilsService {
             bpmSongMap.put(projectInfo.getProjectName(), project.getBpm());
         }
         if (!bpmSongMap.isEmpty()) {
-            File bpmFile = new File(scanDirPath + "/Project_BPM.txt");
+            File bpmFile = new File(scanDirPath + "/" + Constants.DEFAULT_BPM_FILE_NAME);
             Helper.writeMapFile(bpmFile, bpmSongMap);
         }
     }
@@ -70,4 +73,22 @@ public class MpcUtilsService {
         }
     }
 
+    public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber, Boolean uniqueSeqs) {
+        File filteredPath = new File(targetDirPath + "./filtered");
+        File reorderedPath = new File(targetDirPath + "./reordered");
+        if (!(filteredPath.mkdirs() && reorderedPath.mkdirs())) {
+            System.out.printf("Unable to create staging subdirectories in directory '%s'%n", targetDirPath);
+        }
+        System.out.printf("Creating liveset for all filtered projects in directory '%s'%n", targetDirPath);
+        filterProjects(scanDirPath, filteredPath.getPath(), sequenceName);
+        reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs);
+        configureProjectQLinks(reorderedPath.getPath(), targetDirPath);
+        createProjectBpmFile(targetDirPath);
+        try {
+            FileUtils.deleteDirectory(filteredPath);
+            FileUtils.deleteDirectory(reorderedPath);
+        } catch (IOException e) {
+            System.out.printf("Unable to delete staging subdirectories in directory '%s'%n", targetDirPath);
+        }
+    }
 }

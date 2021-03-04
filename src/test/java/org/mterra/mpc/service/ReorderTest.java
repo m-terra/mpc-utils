@@ -20,7 +20,7 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withAirSequence() throws Exception {
         String projectName = "Aerial";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, true);
         File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "20.sxq", "Air");
@@ -29,7 +29,7 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withUnusedSequences() throws Exception {
         String projectName = "WithLives";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, true);
         File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "1.sxq", "20");

@@ -22,6 +22,11 @@ Creates a text file with the BPM of all filtered projects.
 Activates QLink mode "Project" and custom QLink assignements for all projects. QLink assignements 2nd row: volume track
 1-4, 3rd row: mute track 1-4
 
+### Liveset Preparation
+
+Filters out all projects with a 'Live' seqeuence, reorders the sequences of those, configures the QLinks and create a
+project BPM List.
+
 ## Setup
 
 - A Java Runtime Environment (JRE) 11 or greater is installed
@@ -30,9 +35,10 @@ Activates QLink mode "Project" and custom QLink assignements for all projects. Q
 ## Usage
 
     usage: java -jar <mpc-utils-jar>
-            -c,--command <arg>           reorder|filter|bpm|qlinks
-            -h,--help                    show help
-            -i,--inputDirectory <arg>    input directory path
-            -o,--outputDirectory <arg>   output directory path
-            --sequenceName <arg>         optional sequenceName to use for filtering
-            --songNumber <arg>           optional songNumber to use for reordering
+    -c,--command <arg>           reorder|filter|bpm|qlinks|liveset
+    -h,--help                    show help
+    -i,--inputDirectory <arg>    input directory path
+    -o,--outputDirectory <arg>   output directory path
+    --sequenceName <arg>         optional sequenceName to use for filtering
+    --songNumber <arg>           optional songNumber to use for reordering
+    --uniqueSequences            keeps the sequences unique when reordering
