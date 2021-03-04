@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mterra.mpc.BaseTest;
 import org.mterra.mpc.model.Project;
 import org.mterra.mpc.model.ProjectInfo;
+import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class QLinkTest extends BaseTest {
             Project project = new Project();
             project.load(projectInfo);
 
-            Assertions.assertEquals(QLinks.QLINK_MODE_PROJECT, project.getQLinkMode());
+            Assertions.assertEquals(Constants.QLINK_MODE_PROJECT, project.getQLinkMode());
             assertQLinkConfig(project, 2, 3);
             assertQLinkConfig(project, 6, 7);
             assertQLinkConfig(project, 10, 11);
@@ -31,10 +32,10 @@ public class QLinkTest extends BaseTest {
     }
 
     private void assertQLinkConfig(Project project, Integer volumeIndex, Integer muteIndex) {
-        Assertions.assertEquals(QLinks.QLINK_TYPE_MIDI_TRACK, project.getQLinkProjectAssignementType(volumeIndex));
-        Assertions.assertEquals(QLinks.QLINK_TYPE_MIDI_TRACK, project.getQLinkProjectAssignementType(muteIndex));
+        Assertions.assertEquals(Constants.QLINK_TYPE_MIDI_TRACK, project.getQLinkProjectAssignementType(volumeIndex));
+        Assertions.assertEquals(Constants.QLINK_TYPE_MIDI_TRACK, project.getQLinkProjectAssignementType(muteIndex));
 
-        Assertions.assertEquals(QLinks.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignementParameter(volumeIndex));
-        Assertions.assertEquals(QLinks.QLINK_PARAMTER_MUTE, project.getQLinkProjectAssignementParameter(muteIndex));
+        Assertions.assertEquals(Constants.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignementParameter(volumeIndex));
+        Assertions.assertEquals(Constants.QLINK_PARAMTER_MUTE, project.getQLinkProjectAssignementParameter(muteIndex));
     }
 }

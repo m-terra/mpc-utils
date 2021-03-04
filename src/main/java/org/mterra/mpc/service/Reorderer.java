@@ -2,9 +2,9 @@ package org.mterra.mpc.service;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mterra.mpc.MpcUtils;
 import org.mterra.mpc.model.SeqInfo;
 import org.mterra.mpc.model.SequencesAndSongs;
+import org.mterra.mpc.util.Constants;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -47,7 +47,7 @@ public class Reorderer {
     }
 
     public void updateFiles(SequencesAndSongs sequencesAndSongs, Map<Integer, SeqInfo> reordered, File targetDir, String projectName) {
-        File targetProjDir = new File(targetDir, projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        File targetProjDir = new File(targetDir, projectName + Constants.PROJECT_FOLDER_SUFFIX);
         try {
             sequencesAndSongs.removeAllSequences();
 
@@ -59,8 +59,8 @@ public class Reorderer {
                     sequencesAndSongs.changeSequenceIndexInSong(pos, String.valueOf(entry.getKey() - 1));
                 }
                 if (seqInfo.needsMoving(newSeqNumber)) {
-                    Path src = Paths.get(targetProjDir.getPath(), seqInfo.getSeqNumber() + "." + MpcUtils.SEQ_SUFFIX);
-                    Path dest = Paths.get(targetProjDir.getPath(), newSeqNumber + "." + MpcUtils.SEQ_SUFFIX + "tmp");
+                    Path src = Paths.get(targetProjDir.getPath(), seqInfo.getSeqNumber() + "." + Constants.SEQ_SUFFIX);
+                    Path dest = Paths.get(targetProjDir.getPath(), newSeqNumber + "." + Constants.SEQ_SUFFIX + "tmp");
                     Files.move(src, dest, StandardCopyOption.REPLACE_EXISTING);
                     System.out.printf("Moved sequence '%s' from number '%s' to number '%s'%n", seqInfo.getName(), seqInfo.getSeqNumber(), newSeqNumber);
                 } else {
@@ -70,7 +70,7 @@ public class Reorderer {
 
             sequencesAndSongs.writeDocument(targetProjDir);
 
-            Collection<?> seqFiles = FileUtils.listFiles(targetProjDir, new String[]{MpcUtils.SEQ_SUFFIX + "tmp"}, false);
+            Collection<?> seqFiles = FileUtils.listFiles(targetProjDir, new String[]{Constants.SEQ_SUFFIX + "tmp"}, false);
             for (Object el : seqFiles) {
                 if (el instanceof File) {
                     File src = (File) el;

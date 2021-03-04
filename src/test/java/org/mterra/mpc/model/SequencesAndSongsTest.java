@@ -3,7 +3,7 @@ package org.mterra.mpc.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mterra.mpc.MpcUtils;
+import org.mterra.mpc.util.Constants;
 
 import java.io.File;
 
@@ -13,7 +13,7 @@ public class SequencesAndSongsTest {
 
     @BeforeEach
     public void setup() throws Exception {
-        File srcDir = new File("./src/test/resources/projects/WithLives" + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        File srcDir = new File("./src/test/resources/projects/WithLives" + Constants.PROJECT_FOLDER_SUFFIX);
         this.projectInfo = new ProjectInfo(srcDir);
     }
 
@@ -21,7 +21,7 @@ public class SequencesAndSongsTest {
     public void containsSequence() throws Exception {
         SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
         sequencesAndSongs.load(projectInfo);
-        Assertions.assertTrue(sequencesAndSongs.containsSequence("Live"));
+        Assertions.assertTrue(sequencesAndSongs.containsSequence(Constants.DEFAULT_FILTER_SEQUENCE_NAME));
     }
 
     @Test

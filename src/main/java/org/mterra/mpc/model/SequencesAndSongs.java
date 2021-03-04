@@ -1,6 +1,6 @@
 package org.mterra.mpc.model;
 
-import org.mterra.mpc.MpcUtils;
+import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,7 +25,7 @@ public class SequencesAndSongs {
     private Node sequenceNodeTemplate;
 
     public void load(ProjectInfo projectInfo) {
-        load(projectInfo, "1");
+        load(projectInfo, Constants.DEFAULT_SONG_NUMBER);
     }
 
     public void load(ProjectInfo projectInfo, String songNumber) {
@@ -44,7 +44,7 @@ public class SequencesAndSongs {
     }
 
     public void writeDocument(File targetDir) {
-        File output = new File(targetDir, MpcUtils.ALL_SEQS_FILE_NAME);
+        File output = new File(targetDir, Constants.ALL_SEQS_FILE_NAME);
         Helper.writeDocument(document, output);
     }
 

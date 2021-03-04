@@ -2,7 +2,6 @@ package org.mterra.mpc.util;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mterra.mpc.MpcUtils;
 import org.mterra.mpc.model.ProjectInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -91,7 +90,7 @@ public class Helper {
         List<ProjectInfo> result = new ArrayList<>();
         File scanDir = new File(scanDirPath);
         for (File srcDir : scanDir.listFiles()) {
-            if (srcDir.getName().endsWith(MpcUtils.PROJECT_FOLDER_SUFFIX)) {
+            if (srcDir.getName().endsWith(Constants.PROJECT_FOLDER_SUFFIX)) {
                 ProjectInfo projectInfo = new ProjectInfo(srcDir);
                 if (projectInfo.getProjectFile().exists()) {
                     result.add(projectInfo);

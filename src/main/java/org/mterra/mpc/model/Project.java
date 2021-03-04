@@ -1,6 +1,6 @@
 package org.mterra.mpc.model;
 
-import org.mterra.mpc.service.QLinks;
+import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -64,7 +64,7 @@ public class Project {
             typeElement = document.createElement("Type");
             qlinkAssElement.appendChild(typeElement);
         }
-        typeElement.setTextContent(QLinks.QLINK_TYPE_MIDI_TRACK);
+        typeElement.setTextContent(Constants.QLINK_TYPE_MIDI_TRACK);
         typeElement.setAttribute("index", trackIndex.toString());
         qlinkAssElement.getElementsByTagName("Parameter").item(0).setTextContent(parameter);
     }

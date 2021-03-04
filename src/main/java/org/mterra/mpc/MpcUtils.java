@@ -2,18 +2,12 @@ package org.mterra.mpc;
 
 import org.apache.commons.cli.*;
 import org.mterra.mpc.service.MpcUtilsService;
+import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 
 import java.util.Objects;
 
 public class MpcUtils {
-
-    public static final String PROJECT_FOLDER_SUFFIX = "_[ProjectData]";
-    public static final String ALL_SEQS_FILE_NAME = "All Sequences & Songs.xal";
-    public static final String SEQ_SUFFIX = "sxq";
-    public static final String PROJ_SUFFIX = "xpj";
-
-    private static final String HELP = "java -jar <mpc-utils-jar>";
 
     public static void main(String[] args) {
         Options options = new Options();
@@ -45,13 +39,16 @@ public class MpcUtils {
         }
 
         if (cmd == null || cmd.hasOption(helpOpt.getOpt())) {
-            new HelpFormatter().printHelp(HELP, options);
+            new HelpFormatter().printHelp("java -jar <mpc-utils-jar>", options);
             return;
         }
 
         String command = cmd.getOptionValue(commandOpt.getOpt());
         String inputDirectoryPath = cmd.getOptionValue(inputDirOpt.getOpt());
         String outputDirectoryPath = cmd.getOptionValue(outputDirOpt.getOpt());
+        String songNumber = cmd.getOptionValue(songNumberOpt.getLongOpt(), Constants.DEFAULT_SONG_NUMBER);
+        String sequenceName = cmd.getOptionValue(sequenceNameOpt.getLongOpt(), Constants.DEFAULT_FILTER_SEQUENCE_NAME);
+
 
         if (inputDirectoryPath != null && Objects.equals(inputDirectoryPath, outputDirectoryPath)) {
             System.out.printf("%s %s must be different%n", inputDirOpt.getLongOpt(), outputDirOpt.getLongOpt());
@@ -63,11 +60,9 @@ public class MpcUtils {
 
         switch (command) {
             case "reorder":
-                String songNumber = cmd.getOptionValue(songNumberOpt.getLongOpt(), "1");
                 service.reorderSequences(inputDirectoryPath, outputDirectoryPath, songNumber);
                 break;
             case "filter":
-                String sequenceName = cmd.getOptionValue(sequenceNameOpt.getLongOpt(), "Live");
                 service.filterProjects(inputDirectoryPath, outputDirectoryPath, sequenceName);
                 break;
             case "bpm":

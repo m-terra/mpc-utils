@@ -3,9 +3,9 @@ package org.mterra.mpc.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mterra.mpc.BaseTest;
-import org.mterra.mpc.MpcUtils;
 import org.mterra.mpc.model.ProjectInfo;
 import org.mterra.mpc.model.SequencesAndSongs;
+import org.mterra.mpc.util.Constants;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -20,8 +20,8 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withAirSequence() throws Exception {
         String projectName = "Aerial";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), "1");
-        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER);
+        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "20.sxq", "Air");
     }
@@ -29,18 +29,18 @@ public class ReorderTest extends BaseTest {
     @Test
     public void withUnusedSequences() throws Exception {
         String projectName = "WithLives";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), "1");
-        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER);
+        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
         assertFileContent(projectName, "1.sxq", "20");
         assertFileContent(projectName, "14.sxq", "live1");
         assertFileContent(projectName, "15.sxq", "live2");
         assertFileContent(projectName, "16.sxq", "live3");
-        Assertions.assertFalse(new File("./target/result/" + projectName + MpcUtils.PROJECT_FOLDER_SUFFIX + "/22.sxq").exists());
+        Assertions.assertFalse(new File("./target/result/" + projectName + Constants.PROJECT_FOLDER_SUFFIX + "/22.sxq").exists());
     }
 
     private void assertFileContent(String projDirPrefix, String filename, String expectedContent) throws Exception {
-        byte[] bytes = Files.readAllBytes(Path.of(resultDir.getPath(), projDirPrefix + MpcUtils.PROJECT_FOLDER_SUFFIX, filename));
+        byte[] bytes = Files.readAllBytes(Path.of(resultDir.getPath(), projDirPrefix + Constants.PROJECT_FOLDER_SUFFIX, filename));
         String content = new String(bytes, StandardCharsets.UTF_8);
         Assertions.assertEquals(expectedContent, content);
     }
@@ -49,7 +49,7 @@ public class ReorderTest extends BaseTest {
         SequencesAndSongs origProj = new SequencesAndSongs();
         origProj.load(projectInfo);
 
-        File targetProjFolder = new File(targetDir + MpcUtils.PROJECT_FOLDER_SUFFIX);
+        File targetProjFolder = new File(targetDir + Constants.PROJECT_FOLDER_SUFFIX);
         SequencesAndSongs targetProj = new SequencesAndSongs();
         targetProj.load(new ProjectInfo(targetProjFolder));
 
