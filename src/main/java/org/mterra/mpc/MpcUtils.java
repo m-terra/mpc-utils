@@ -39,7 +39,7 @@ public class MpcUtils {
         }
 
         if (cmd == null || cmd.hasOption(helpOpt.getOpt())) {
-            new HelpFormatter().printHelp("java -jar <mpc-utils-jar>", options);
+            printUsage(options);
             return;
         }
 
@@ -71,8 +71,13 @@ public class MpcUtils {
             case "qlinks":
                 service.configureProjectQLinks(inputDirectoryPath, outputDirectoryPath);
                 break;
+            default:
+                printUsage(options);
         }
+    }
 
+    private static void printUsage(Options options) {
+        new HelpFormatter().printHelp("java -jar <mpc-utils-jar>", options);
     }
 
 }
