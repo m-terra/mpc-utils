@@ -2,7 +2,6 @@ package org.mterra.mpc.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SeqInfo {
 
@@ -27,8 +26,10 @@ public class SeqInfo {
         return posInSong;
     }
 
-    public boolean needsMoving(Integer newIdx) {
-        return !Objects.equals(seqNumber, newIdx.toString());
+    public SeqInfo cloneWithSongPosition(Integer pos) {
+        SeqInfo clone = new SeqInfo(name, seqNumber);
+        clone.posInSong.add(pos);
+        return clone;
     }
 
 }

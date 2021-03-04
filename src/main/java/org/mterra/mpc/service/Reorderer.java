@@ -1,21 +1,24 @@
 package org.mterra.mpc.service;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.mterra.mpc.model.ProjectInfo;
 import org.mterra.mpc.model.SeqInfo;
 import org.mterra.mpc.model.SequencesAndSongs;
 import org.mterra.mpc.util.Constants;
+import org.mterra.mpc.util.Helper;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Reorderer {
 
-    public Map<Integer, SeqInfo> calculateNewOrder(SequencesAndSongs sequencesAndSongs) {
+    public Map<Integer, SeqInfo> calculateNewOrder(SequencesAndSongs sequencesAndSongs, Boolean uniqueSeqs) {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
         List<SeqInfo> notUsedInSong = new ArrayList<>();
         SeqInfo airSeq = null;
@@ -25,29 +28,47 @@ public class Reorderer {
             } else if (seqInfo.getPosInSong().size() == 0) {
                 notUsedInSong.add(seqInfo);
             } else {
-                ordered.put(seqInfo.getPosInSong().get(0), seqInfo);
+                if (uniqueSeqs) {
+                    ordered.put(seqInfo.getPosInSong().get(0), seqInfo);
+                } else {
+                    for (Integer pos : seqInfo.getPosInSong()) {
+                        ordered.put(pos, seqInfo.cloneWithSongPosition(pos));
+                    }
+                }
             }
         }
 
-        Map<Integer, SeqInfo> finalOrdered = new TreeMap<>();
-        int newSeqNumber = 1;
-        for (SeqInfo seqInfo : ordered.values()) {
-            finalOrdered.put(newSeqNumber++, seqInfo);
+        if (uniqueSeqs) {
+            Map<Integer, SeqInfo> finalOrdered = new TreeMap<>();
+            int newSeqNumber = 1;
+            for (SeqInfo seqInfo : ordered.values()) {
+                finalOrdered.put(newSeqNumber++, seqInfo);
+            }
+            for (SeqInfo seqInfo : notUsedInSong) {
+                finalOrdered.put(newSeqNumber++, seqInfo);
+            }
+            addAirSequence(finalOrdered, airSeq);
+            return finalOrdered;
+        } else {
+            addAirSequence(ordered, airSeq);
+            return ordered;
         }
-        for (SeqInfo seqInfo : notUsedInSong) {
-            finalOrdered.put(newSeqNumber++, seqInfo);
-        }
+    }
+
+    private void addAirSequence(Map<Integer, SeqInfo> seqs, SeqInfo airSeq) {
         if (airSeq != null) {
+            int newSeqNumber = seqs.size();
             while (newSeqNumber % 10 != 0) {
                 newSeqNumber++;
             }
-            finalOrdered.put(newSeqNumber, airSeq);
+            seqs.put(newSeqNumber, airSeq);
         }
-        return finalOrdered;
     }
 
-    public void updateFiles(SequencesAndSongs sequencesAndSongs, Map<Integer, SeqInfo> reordered, File targetDir, String projectName) {
-        File targetProjDir = new File(targetDir, projectName + Constants.PROJECT_FOLDER_SUFFIX);
+    public void writeReorderedProject(ProjectInfo projectInfo, SequencesAndSongs sequencesAndSongs, Map<Integer, SeqInfo> reordered, File targetDir) {
+        Helper.copyProject(projectInfo, targetDir);
+        File newProjectDataFolder = new File(targetDir.getPath(), projectInfo.getProjectDataFolder().getName());
+        Helper.deleteFilesByExtension(newProjectDataFolder, Constants.SEQ_SUFFIX);
         try {
             sequencesAndSongs.removeAllSequences();
 
@@ -58,27 +79,13 @@ public class Reorderer {
                 for (Integer pos : seqInfo.getPosInSong()) {
                     sequencesAndSongs.changeSequenceIndexInSong(pos, String.valueOf(entry.getKey() - 1));
                 }
-                if (seqInfo.needsMoving(newSeqNumber)) {
-                    Path src = Paths.get(targetProjDir.getPath(), seqInfo.getSeqNumber() + "." + Constants.SEQ_SUFFIX);
-                    Path dest = Paths.get(targetProjDir.getPath(), newSeqNumber + "." + Constants.SEQ_SUFFIX + "tmp");
-                    Files.move(src, dest, StandardCopyOption.REPLACE_EXISTING);
-                    System.out.printf("Moved sequence '%s' from number '%s' to number '%s'%n", seqInfo.getName(), seqInfo.getSeqNumber(), newSeqNumber);
-                } else {
-                    System.out.printf("Sequence '%s' keeps number '%s'%n", seqInfo.getName(), seqInfo.getSeqNumber());
-                }
+                Path src = Paths.get(projectInfo.getProjectDataFolder().getPath(), seqInfo.getSeqNumber() + "." + Constants.SEQ_SUFFIX);
+                Path dest = Paths.get(newProjectDataFolder.getPath(), newSeqNumber + "." + Constants.SEQ_SUFFIX);
+                Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
+                System.out.printf("Sequence '%s' now used at '%s' (%s)%n", seqInfo.getSeqNumber(), newSeqNumber, seqInfo.getName());
             }
 
-            sequencesAndSongs.writeDocument(targetProjDir);
-
-            Collection<?> seqFiles = FileUtils.listFiles(targetProjDir, new String[]{Constants.SEQ_SUFFIX + "tmp"}, false);
-            for (Object el : seqFiles) {
-                if (el instanceof File) {
-                    File src = (File) el;
-                    Path fileToMovePath = Paths.get(src.getPath());
-                    Path targetPath = Paths.get(StringUtils.substringBefore(src.getPath(), "tmp"));
-                    Files.move(fileToMovePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-                }
-            }
+            sequencesAndSongs.writeDocument(newProjectDataFolder);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

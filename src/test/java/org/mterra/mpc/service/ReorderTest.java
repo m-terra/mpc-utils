@@ -18,20 +18,29 @@ import java.nio.file.Path;
 public class ReorderTest extends BaseTest {
 
     @Test
-    public void withAirSequence() throws Exception {
+    public void withAir() throws Exception {
         String projectName = "Aerial";
         service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, true);
-        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
-        assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
+        File projectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
+        assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName, true);
         assertFileContent(projectName, "20.sxq", "Air");
     }
 
     @Test
-    public void withUnusedSequences() throws Exception {
+    public void withAirCopySeqs() throws Exception {
+        String projectName = "Aerial";
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, false);
+        File projectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
+        assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName, false);
+        assertFileContent(projectName, "20.sxq", "Air");
+    }
+
+    @Test
+    public void withUnusedSes() throws Exception {
         String projectName = "WithLives";
         service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, true);
-        File projectDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
-        assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName);
+        File projectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
+        assertSequenceNumber(new ProjectInfo(projectDataFolder), resultDir.getPath() + "/" + projectName, true);
         assertFileContent(projectName, "1.sxq", "20");
         assertFileContent(projectName, "14.sxq", "live1");
         assertFileContent(projectName, "15.sxq", "live2");
@@ -45,7 +54,7 @@ public class ReorderTest extends BaseTest {
         Assertions.assertEquals(expectedContent, content);
     }
 
-    private void assertSequenceNumber(ProjectInfo projectInfo, String targetDir) {
+    private void assertSequenceNumber(ProjectInfo projectInfo, String targetDir, boolean uniqueSeqs) {
         SequencesAndSongs origProj = new SequencesAndSongs();
         origProj.load(projectInfo);
 
@@ -53,7 +62,11 @@ public class ReorderTest extends BaseTest {
         SequencesAndSongs targetProj = new SequencesAndSongs();
         targetProj.load(new ProjectInfo(targetProjFolder));
 
-        Assertions.assertEquals(origProj.getSeqInfoMap().size(), targetProj.getSeqInfoMap().size());
+        if (uniqueSeqs) {
+            Assertions.assertEquals(origProj.getSeqInfoMap().size(), targetProj.getSeqInfoMap().size());
+        } else {
+            Assertions.assertTrue(origProj.getSeqInfoMap().size() < targetProj.getSeqInfoMap().size());
+        }
         NodeList seqNodes = targetProj.getSeqNodeList();
 
         int seqIdx = 1;

@@ -24,13 +24,13 @@ public class MpcUtils {
                 .optionalArg(false).hasArg(true).desc("output directory path").build();
         options.addOption(outputDirOpt);
         Option songNumberOpt = Option.builder().longOpt("songNumber")
-                .optionalArg(false).hasArg(true).desc("optional songNumber to use for reordering").build();
+                .optionalArg(false).hasArg(true).desc("optional songNumber for reordering").build();
         options.addOption(songNumberOpt);
         Option sequenceNameOpt = Option.builder().longOpt("sequenceName")
-                .optionalArg(false).hasArg(true).desc("optional sequenceName to use for filtering").build();
+                .optionalArg(false).hasArg(true).desc("optional sequenceName for filtering").build();
         options.addOption(sequenceNameOpt);
         Option uniqueSequencesOpt = Option.builder().longOpt("uniqueSequences")
-                .hasArg(false).desc("keeps the sequences unique when reordering").build();
+                .hasArg(false).desc("keep the sequences unique when reordering").build();
         options.addOption(uniqueSequencesOpt);
 
         CommandLine cmd;

@@ -21,14 +21,15 @@ import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class Helper {
 
-    public static void createDirs(String dir) {
-        if (StringUtils.isNotBlank(dir)) {
-            File targetDir = new File(dir);
+    public static void createDirs(String directoryPath) {
+        if (StringUtils.isNotBlank(directoryPath)) {
+            File targetDir = new File(directoryPath);
             if (!targetDir.exists()) {
                 if (!targetDir.mkdirs()) {
                     throw new RuntimeException("Cannot create target directory " + targetDir.getAbsolutePath());
@@ -86,9 +87,9 @@ public class Helper {
         }
     }
 
-    public static List<ProjectInfo> getProjectsInDirectory(String scanDirPath) {
+    public static List<ProjectInfo> getProjectsInDirectory(String directoryPath) {
         List<ProjectInfo> result = new ArrayList<>();
-        File scanDir = new File(scanDirPath);
+        File scanDir = new File(directoryPath);
         for (File srcDir : scanDir.listFiles()) {
             if (srcDir.getName().endsWith(Constants.PROJECT_FOLDER_SUFFIX)) {
                 ProjectInfo projectInfo = new ProjectInfo(srcDir);
@@ -108,6 +109,15 @@ public class Helper {
             transformer.transform(new DOMSource(document), new StreamResult(outStream));
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteFilesByExtension(File directory, String extension) {
+        Collection toDelete = FileUtils.listFiles(directory, new String[]{extension}, false);
+        for (Object el : toDelete) {
+            if (el instanceof File) {
+                ((File) el).delete();
+            }
         }
     }
 }

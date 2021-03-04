@@ -83,7 +83,7 @@ public class SequencesAndSongs {
         }
 
         System.out.printf("Loaded song '%s' with '%s' entries, total sequences '%s'%n",
-                songName, songSeqIdxNodeList.getLength(), seqNodeList.getLength());
+                songName, songSeqIdxNodeList.getLength(), seqInfoMap.size());
     }
 
     public void removeAllSequences() {

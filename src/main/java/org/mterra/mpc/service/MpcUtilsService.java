@@ -25,9 +25,8 @@ public class MpcUtilsService {
             Reorderer reorderer = new Reorderer();
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo, songNumber);
-            Map<Integer, SeqInfo> reordered = reorderer.calculateNewOrder(sequencesAndSongs);
-            Helper.copyProject(projectInfo, targetDir);
-            reorderer.updateFiles(sequencesAndSongs, reordered, targetDir, projectInfo.getProjectName());
+            Map<Integer, SeqInfo> reordered = reorderer.calculateNewOrder(sequencesAndSongs, uniqueSeqs);
+            reorderer.writeReorderedProject(projectInfo, sequencesAndSongs, reordered, targetDir);
         }
     }
 
@@ -74,8 +73,8 @@ public class MpcUtilsService {
     }
 
     public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber, Boolean uniqueSeqs) {
-        File filteredPath = new File(targetDirPath + "./filtered");
-        File reorderedPath = new File(targetDirPath + "./reordered");
+        File filteredPath = new File(targetDirPath + "/filtered");
+        File reorderedPath = new File(targetDirPath + "/reordered");
         if (!(filteredPath.mkdirs() && reorderedPath.mkdirs())) {
             System.out.printf("Unable to create staging subdirectories in directory '%s'%n", targetDirPath);
         }
