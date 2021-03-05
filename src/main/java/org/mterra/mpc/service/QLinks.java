@@ -27,17 +27,21 @@ public class QLinks {
         Project project = getProject();
         project.setQLinkMode(Constants.QLINK_MODE_PROJECT);
 
-        project.setQLinkProjectTrackAssignement(2, 3, Constants.QLINK_PARAMTER_VOLUME);
-        project.setQLinkProjectTrackAssignement(3, 3, Constants.QLINK_PARAMTER_MUTE);
+        project.setQLinkProjectTrackAssignement(2, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkProjectTrackAssignement(3, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_MUTE, false);
 
-        project.setQLinkProjectTrackAssignement(6, 2, Constants.QLINK_PARAMTER_VOLUME);
-        project.setQLinkProjectTrackAssignement(7, 2, Constants.QLINK_PARAMTER_MUTE);
+        project.setQLinkProjectTrackAssignement(6, Constants.QLINK_TYPE_MIDI_TRACK, 2, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkProjectTrackAssignement(7, Constants.QLINK_TYPE_MIDI_TRACK, 2, Constants.QLINK_PARAMTER_MUTE, false);
 
-        project.setQLinkProjectTrackAssignement(10, 1, Constants.QLINK_PARAMTER_VOLUME);
-        project.setQLinkProjectTrackAssignement(11, 1, Constants.QLINK_PARAMTER_MUTE);
+        project.setQLinkProjectTrackAssignement(10, Constants.QLINK_TYPE_MIDI_TRACK, 1, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkProjectTrackAssignement(11, Constants.QLINK_TYPE_MIDI_TRACK, 1, Constants.QLINK_PARAMTER_MUTE, false);
 
-        project.setQLinkProjectTrackAssignement(14, 0, Constants.QLINK_PARAMTER_VOLUME);
-        project.setQLinkProjectTrackAssignement(15, 0, Constants.QLINK_PARAMTER_MUTE);
+        project.setQLinkProjectTrackAssignement(14, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkProjectTrackAssignement(15, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_MUTE, false);
+
+        project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, "32772", true);
+        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 16, "32785", true);
     }
 
     public void updateProjectFile(File targetDir) {

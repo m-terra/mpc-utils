@@ -1,6 +1,5 @@
 package org.mterra.mpc.model;
 
-import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,7 +50,7 @@ public class Project {
         return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
     }
 
-    public void setQLinkProjectTrackAssignement(Integer qLinkIndex, Integer trackIndex, String parameter) {
+    public void setQLinkProjectTrackAssignement(Integer qLinkIndex, String type, Integer typeIndex, String parameter, boolean momentary) {
         String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']";
         NodeList nodeList = Helper.evaluateXPath(document, xpathExpression);
         Element qlinkAssElement = (Element) nodeList.item(0);
@@ -59,14 +58,22 @@ public class Project {
         Element typeElement;
         if (typeNodeList.getLength() > 0) {
             typeElement = (Element) typeNodeList.item(0);
-
         } else {
             typeElement = document.createElement("Type");
             qlinkAssElement.appendChild(typeElement);
         }
-        typeElement.setTextContent(Constants.QLINK_TYPE_MIDI_TRACK);
-        typeElement.setAttribute("index", trackIndex.toString());
+        typeElement.setTextContent(type);
+        typeElement.setAttribute("index", typeIndex.toString());
         qlinkAssElement.getElementsByTagName("Parameter").item(0).setTextContent(parameter);
+        NodeList momentaryNodeList = qlinkAssElement.getElementsByTagName("Momentary");
+        Element momentaryElement;
+        if (momentaryNodeList.getLength() > 0) {
+            momentaryElement = (Element) momentaryNodeList.item(0);
+        } else {
+            momentaryElement = document.createElement("Momentary");
+            qlinkAssElement.appendChild(momentaryElement);
+        }
+        momentaryElement.setTextContent(momentary ? "1" : "0");
     }
 
     public String getQLinkProjectAssignementParameter(Integer qLinkIndex) {

@@ -12,6 +12,7 @@ public class Constants {
 
     public static final String QLINK_MODE_PROJECT = "Project";
     public static final String QLINK_TYPE_MIDI_TRACK = "MidiTrack";
+    public static final String QLINK_TYPE_MASTER = "Master";
     public static final String QLINK_PARAMTER_VOLUME = "7";
     public static final String QLINK_PARAMTER_MUTE = "256";
 
