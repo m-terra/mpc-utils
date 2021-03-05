@@ -15,7 +15,6 @@ public class Constants {
     public static final String QLINK_TYPE_MASTER = "Master";
     public static final String QLINK_PARAMTER_VOLUME = "7";
     public static final String QLINK_PARAMTER_MUTE = "256";
-    public static final String QLINK_PARAMTER_EQ_HIGH_GAIN = "32785";
-    public static final String QLINK_PARAMTER_EQ_LOW_GAIN = "32772";
+
 
 }

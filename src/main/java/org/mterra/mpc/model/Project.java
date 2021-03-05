@@ -1,5 +1,6 @@
 package org.mterra.mpc.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mterra.mpc.util.Helper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -84,6 +85,16 @@ public class Project {
     public String getQLinkProjectAssignementType(Integer qLinkIndex) {
         String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']/Type/text()";
         return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
+    }
+
+    public String getMasterEqInsertIndex() {
+        String xpathExpression = "/Project/Mixer/Mixer.Output/*[Name='AIR Para EQ']";
+        NodeList res = Helper.evaluateXPath(document, xpathExpression);
+        if (res.getLength() > 0) {
+            return StringUtils.substringAfter(res.item(0).getNodeName(), "Insert");
+        } else {
+            return null;
+        }
     }
 
 }

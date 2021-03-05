@@ -12,20 +12,20 @@ public class SequencesAndSongsTest {
     private ProjectInfo projectInfo;
 
     @BeforeEach
-    public void setup() throws Exception {
+    public void setup() {
         File srcDir = new File("./src/test/resources/projects/WithLives" + Constants.PROJECT_FOLDER_SUFFIX);
         this.projectInfo = new ProjectInfo(srcDir);
     }
 
     @Test
-    public void containsSequence() throws Exception {
+    public void containsSequence() {
         SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
         sequencesAndSongs.load(projectInfo);
         Assertions.assertTrue(sequencesAndSongs.containsSequence(Constants.DEFAULT_FILTER_SEQUENCE_NAME));
     }
 
     @Test
-    public void notContainsSequence() throws Exception {
+    public void notContainsSequence() {
         SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
         sequencesAndSongs.load(projectInfo);
         Assertions.assertFalse(sequencesAndSongs.containsSequence("FooBar"));

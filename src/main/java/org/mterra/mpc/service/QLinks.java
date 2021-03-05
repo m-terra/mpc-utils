@@ -5,6 +5,7 @@ import org.mterra.mpc.model.ProjectInfo;
 import org.mterra.mpc.util.Constants;
 
 import java.io.File;
+import java.util.Objects;
 
 public class QLinks {
 
@@ -47,10 +48,13 @@ public class QLinks {
     }
 
     private void configureMasterQLinks(Project project) {
+        boolean eqIsOn1stInsert = Objects.equals("1", project.getMasterEqInsertIndex());
+        String QLINK_PARAMTER_EQ_HIGH_GAIN = eqIsOn1stInsert ? "24593" : "32785";
+        String QLINK_PARAMTER_EQ_LOW_GAIN = eqIsOn1stInsert ? "24580" : "32772";
         project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkProjectTrackAssignement(8, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_LOW_GAIN, false);
-        project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_LOW_GAIN, true);
-        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_HIGH_GAIN, true);
+        project.setQLinkProjectTrackAssignement(8, Constants.QLINK_TYPE_MASTER, 0, QLINK_PARAMTER_EQ_LOW_GAIN, false);
+        project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, QLINK_PARAMTER_EQ_LOW_GAIN, true);
+        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, QLINK_PARAMTER_EQ_HIGH_GAIN, true);
     }
 
     public void updateProjectFile(File targetDir) {
