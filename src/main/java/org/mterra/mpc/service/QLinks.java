@@ -27,6 +27,12 @@ public class QLinks {
         Project project = getProject();
         project.setQLinkMode(Constants.QLINK_MODE_PROJECT);
 
+        configureTrackQLinks(project);
+        configureMasterQLinks(project);
+
+    }
+
+    private void configureTrackQLinks(Project project) {
         project.setQLinkProjectTrackAssignement(2, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_VOLUME, false);
         project.setQLinkProjectTrackAssignement(3, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_MUTE, false);
 
@@ -38,8 +44,11 @@ public class QLinks {
 
         project.setQLinkProjectTrackAssignement(14, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_VOLUME, false);
         project.setQLinkProjectTrackAssignement(15, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_MUTE, false);
+    }
 
+    private void configureMasterQLinks(Project project) {
         project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkProjectTrackAssignement(8, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_LOW_GAIN, false);
         project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_LOW_GAIN, true);
         project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_HIGH_GAIN, true);
     }
