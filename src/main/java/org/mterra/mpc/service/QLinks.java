@@ -41,7 +41,7 @@ public class QLinks {
 
         project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
         project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, "32772", true);
-        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 16, "32785", true);
+        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, "32785", true);
     }
 
     public void updateProjectFile(File targetDir) {

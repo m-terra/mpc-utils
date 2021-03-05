@@ -82,7 +82,6 @@ public class Reorderer {
                 Path src = Paths.get(projectInfo.getProjectDataFolder().getPath(), seqInfo.getSeqNumber() + "." + Constants.SEQ_SUFFIX);
                 Path dest = Paths.get(newProjectDataFolder.getPath(), newSeqNumber + "." + Constants.SEQ_SUFFIX);
                 Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
-                System.out.printf("Sequence '%s' now used at '%s' (%s)%n", seqInfo.getSeqNumber(), newSeqNumber, seqInfo.getName());
             }
 
             sequencesAndSongs.writeDocument(newProjectDataFolder);
