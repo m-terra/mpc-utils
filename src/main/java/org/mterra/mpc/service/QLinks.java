@@ -40,8 +40,8 @@ public class QLinks {
         project.setQLinkProjectTrackAssignement(15, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_MUTE, false);
 
         project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, "32772", true);
-        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, "32785", true);
+        project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_LOW_GAIN, true);
+        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_EQ_HIGH_GAIN, true);
     }
 
     public void updateProjectFile(File targetDir) {
