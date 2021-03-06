@@ -2,6 +2,7 @@ package org.mterra.mpc.util;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.mterra.mpc.model.Bpm;
 import org.mterra.mpc.model.ProjectInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -51,11 +52,11 @@ public class Helper {
         }
     }
 
-    public static void writeMapFile(File targetFile, Collection<String> lines) {
+    public static void writeMapFile(File targetFile, List<Bpm> bpms) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile))) {
             if (targetFile.exists() || targetFile.createNewFile()) {
-                for (String line : lines) {
-                    writer.write(line + "\n");
+                for (Bpm bpm : bpms) {
+                    writer.write(bpm.getBpm() + "\t" + bpm.getProjectName() + "\n");
                 }
             }
         } catch (Exception e) {

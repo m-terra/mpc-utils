@@ -1,18 +1,16 @@
 package org.mterra.mpc.service;
 
 import org.apache.commons.io.FileUtils;
-import org.mterra.mpc.model.Project;
-import org.mterra.mpc.model.ProjectInfo;
-import org.mterra.mpc.model.SeqInfo;
-import org.mterra.mpc.model.SequencesAndSongs;
+import org.mterra.mpc.model.*;
 import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class MpcUtilsService {
 
@@ -47,17 +45,17 @@ public class MpcUtilsService {
 
     public void createProjectBpmFile(String scanDirPath) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
-        Map<String, String> bpmSongMap = new TreeMap<>();
+        List<Bpm> bpms = new ArrayList<>();
         for (ProjectInfo projectInfo : projects) {
             Project project = new Project();
             project.load(projectInfo);
             System.out.printf("Found project '%s' with BPM '%s'%n", projectInfo.getProjectName(), project.getBpm());
-            String print = project.getBpm() + "\t" + projectInfo.getProjectName();
-            bpmSongMap.put(print, print);
+            bpms.add(new Bpm(Double.parseDouble(project.getBpm()), projectInfo.getProjectName()));
         }
-        if (!bpmSongMap.isEmpty()) {
+        if (!bpms.isEmpty()) {
             File bpmFile = new File(scanDirPath + "/" + Constants.DEFAULT_BPM_FILE_NAME);
-            Helper.writeMapFile(bpmFile, bpmSongMap.keySet());
+            Collections.sort(bpms);
+            Helper.writeMapFile(bpmFile, bpms);
         }
     }
 

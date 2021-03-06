@@ -8,7 +8,7 @@
     <Platform>Linux</Platform>
   </Version>
   <ProductCode>1299211094</ProductCode>
-  <BPM>90.000000</BPM>
+  <BPM>121.000000</BPM>
   <MasterVolume>0.707946</MasterVolume>
   <FileList>
     <File>./Aerial_[ProjectData]/All Sequences &amp; Songs.xal</File>
@@ -505,7 +505,7 @@
       <Mute>False</Mute>
       <Solo>False</Solo>
       <Pan>0.500000</Pan>
-      <AutomationFilter>1</AutomationFilter>
+      <ALongutomationFilter>1</ALongutomationFilter>
     </Mixer.Submix>
     <Mixer.Output number="1">
       <Xfader.Position>0.500000</Xfader.Position>

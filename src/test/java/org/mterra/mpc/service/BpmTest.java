@@ -23,11 +23,8 @@ public class BpmTest extends BaseTest {
         service.createProjectBpmFile(resultDir.getPath());
         File bpmFile = new File(resultDir, Constants.DEFAULT_BPM_FILE_NAME);
         Assertions.assertTrue(bpmFile.exists());
-
         String bpmFileContent = Files.readString(bpmFile.toPath());
-        Assertions.assertTrue(bpmFileContent.contains("95.000000\tPieces and Fractures"));
-        Assertions.assertTrue(bpmFileContent.contains("90.000000\tWithLives"));
-        Assertions.assertTrue(bpmFileContent.contains("90.000000\tAerial"));
+        Assertions.assertEquals("90.0\tAerial\n95.0\tPieces and Fractures\n121.0\tWithLives\n", bpmFileContent);
     }
 
 }
