@@ -60,11 +60,11 @@ public class MpcUtilsService {
         }
     }
 
-    public void configureProjectQLinks(String scanDirPath, String targetDirPath) {
+    public void configureProjectQLinkMap(String scanDirPath, String targetDirPath) {
         File targetDir = new File(targetDirPath);
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         for (ProjectInfo projectInfo : projects) {
-            System.out.printf("Configuring project for project '%s'%n", projectInfo.getProjectName());
+            System.out.printf("Configuring project QLink map for project '%s'%n", projectInfo.getProjectName());
             QLinks QLinks = new QLinks(projectInfo);
             QLinks.configureProjectQLinks();
             Helper.copyProject(projectInfo, targetDir);
@@ -72,20 +72,36 @@ public class MpcUtilsService {
         }
     }
 
-    public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber, Boolean uniqueSeqs) {
+    public void configureQLinkMode(String scanDirPath, String targetDirPath, String qlinkMode) {
+        File targetDir = new File(targetDirPath);
+        List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
+        for (ProjectInfo projectInfo : projects) {
+            System.out.printf("Configuring QLink mode '%s' for project '%s'%n", qlinkMode, projectInfo.getProjectName());
+            QLinks QLinks = new QLinks(projectInfo);
+            QLinks.configureQLinkMode(qlinkMode);
+            Helper.copyProject(projectInfo, targetDir);
+            QLinks.updateProjectFile(targetDir);
+        }
+    }
+
+    public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber,
+                              Boolean uniqueSeqs, String qlinkMode) {
         File filteredPath = new File(targetDirPath + "/filtered");
         File reorderedPath = new File(targetDirPath + "/reordered");
+        File qlinkModePath = new File(targetDirPath + "/qlink");
         if (!(filteredPath.mkdirs() && reorderedPath.mkdirs())) {
             System.out.printf("Unable to create staging subdirectories in directory '%s'%n", targetDirPath);
         }
         System.out.printf("Creating liveset for all filtered projects in directory '%s'%n", targetDirPath);
         filterProjects(scanDirPath, filteredPath.getPath(), sequenceName);
         reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs);
-        configureProjectQLinks(reorderedPath.getPath(), targetDirPath);
+        configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
+        configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath);
         createProjectBpmFile(targetDirPath);
         try {
             FileUtils.deleteDirectory(filteredPath);
             FileUtils.deleteDirectory(reorderedPath);
+            FileUtils.deleteDirectory(qlinkModePath);
         } catch (IOException e) {
             System.out.printf("Unable to delete staging subdirectories in directory '%s'%n", targetDirPath);
         }

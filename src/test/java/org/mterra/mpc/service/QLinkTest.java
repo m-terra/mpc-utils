@@ -14,8 +14,8 @@ import java.util.List;
 public class QLinkTest extends BaseTest {
 
     @Test
-    public void configureProjectQLinks() {
-        service.configureProjectQLinks(projectsDir.getPath(), resultDir.getPath());
+    public void configureQLinkMode() {
+        service.configureQLinkMode(projectsDir.getPath(), resultDir.getPath(), "Program");
         List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDir.getPath());
 
         Assertions.assertEquals(3, resultProjects.size());
@@ -23,7 +23,20 @@ public class QLinkTest extends BaseTest {
             Project project = new Project();
             project.load(projectInfo);
 
-            Assertions.assertEquals(Constants.QLINK_MODE_PROJECT, project.getQLinkMode());
+            Assertions.assertEquals("Program", project.getQLinkMode());
+        }
+    }
+
+    @Test
+    public void configureProjectQLinkMap() {
+        service.configureProjectQLinkMap(projectsDir.getPath(), resultDir.getPath());
+        List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDir.getPath());
+
+        Assertions.assertEquals(3, resultProjects.size());
+        for (ProjectInfo projectInfo : resultProjects) {
+            Project project = new Project();
+            project.load(projectInfo);
+
             assertQLinkConfig(project, 2, 3);
             assertQLinkConfig(project, 6, 7);
             assertQLinkConfig(project, 10, 11);

@@ -25,18 +25,17 @@ public class QLinks {
     }
 
     public void configureProjectQLinks() {
+        configureTrackQLinks();
+        configureMasterQLinks();
+
+    }
+
+    public void configureQLinkMode(String qlinkMode) {
+        getProject().setQLinkMode(qlinkMode);
+    }
+
+    private void configureTrackQLinks() {
         Project project = getProject();
-        configureQLinkMode(project, Constants.QLINK_MODE_PROJECT);
-        configureTrackQLinks(project);
-        configureMasterQLinks(project);
-
-    }
-
-    public void configureQLinkMode(Project project, String qlinkMode) {
-        project.setQLinkMode(qlinkMode);
-    }
-
-    private void configureTrackQLinks(Project project) {
         project.setQLinkProjectTrackAssignement(2, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_VOLUME, false);
         project.setQLinkProjectTrackAssignement(3, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_MUTE, false);
 
@@ -50,7 +49,7 @@ public class QLinks {
         project.setQLinkProjectTrackAssignement(15, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_MUTE, false);
     }
 
-    private void configureMasterQLinks(Project project) {
+    private void configureMasterQLinks() {
         String paramEqHiGain = null;
         String paramEqLoGain = null;
         switch (project.getMasterEqInsertIndex()) {
@@ -72,6 +71,7 @@ public class QLinks {
                 break;
         }
 
+        Project project = getProject();
         project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
         if (StringUtils.isNotBlank(paramEqHiGain)) {
             project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, paramEqHiGain, true);
