@@ -21,7 +21,7 @@ Command: filter Options: --sequenceName
 ### Project BPM Listing
 
 Creates a text file 'Project_BPM.txt' in the specified input directory path. The file contains a list of all projects
-and their BPM.
+and their BPM, ordered by BPM.
 
 Command: bpm Options: <none>
 

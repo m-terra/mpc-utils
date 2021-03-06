@@ -52,11 +52,12 @@ public class MpcUtilsService {
             Project project = new Project();
             project.load(projectInfo);
             System.out.printf("Found project '%s' with BPM '%s'%n", projectInfo.getProjectName(), project.getBpm());
-            bpmSongMap.put(projectInfo.getProjectName(), project.getBpm());
+            String print = project.getBpm() + "\t" + projectInfo.getProjectName();
+            bpmSongMap.put(print, print);
         }
         if (!bpmSongMap.isEmpty()) {
             File bpmFile = new File(scanDirPath + "/" + Constants.DEFAULT_BPM_FILE_NAME);
-            Helper.writeMapFile(bpmFile, bpmSongMap);
+            Helper.writeMapFile(bpmFile, bpmSongMap.keySet());
         }
     }
 

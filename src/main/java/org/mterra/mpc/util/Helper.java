@@ -23,7 +23,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class Helper {
 
@@ -52,11 +51,12 @@ public class Helper {
         }
     }
 
-    public static void writeMapFile(File targetFile, Map<String, String> values) {
+    public static void writeMapFile(File targetFile, Collection<String> lines) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile))) {
-            targetFile.createNewFile();
-            for (Map.Entry<String, String> entry : values.entrySet()) {
-                writer.write(entry.getValue() + "\t" + entry.getKey() + "\n");
+            if (targetFile.exists() || targetFile.createNewFile()) {
+                for (String line : lines) {
+                    writer.write(line + "\n");
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -113,10 +113,13 @@ public class Helper {
     }
 
     public static void deleteFilesByExtension(File directory, String extension) {
-        Collection toDelete = FileUtils.listFiles(directory, new String[]{extension}, false);
+        Collection<?> toDelete = FileUtils.listFiles(directory, new String[]{extension}, false);
         for (Object el : toDelete) {
             if (el instanceof File) {
-                ((File) el).delete();
+                File file = (File) el;
+                if (!file.delete()) {
+                    System.out.printf("Unable to delete '%s'%n", el);
+                }
             }
         }
     }
