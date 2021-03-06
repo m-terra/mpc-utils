@@ -1,6 +1,8 @@
-# mpc-utils for AKAI MPC One/X/Live/Live2
+# MPC Utils for AKAI MPC One/X/Live/Live2
 
-## Copy On Write
+## Tested for firmware 2.9.1
+
+### Copy On Write
 
 mpc-utils will not alter the original projects but create a new project version in the specified target directory.
 
