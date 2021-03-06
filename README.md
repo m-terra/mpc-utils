@@ -61,7 +61,7 @@ Command: liveset Options: --uniqueSequences --sequenceName --qlinkMode
         -h,--help                    show help
         -i,--inputDirectory <arg>    input directory path
         -o,--outputDirectory <arg>   output directory path
-           --qlinkMode <arg>         Project|Program|Pad|Screen
+           --qlinkMode <arg>         Project|Program|PadScene|PadParam|Screen
            --sequenceName <arg>      optional sequenceName for filtering
            --songNumber <arg>        optional songNumber for reordering
            --uniqueSequences         keep the sequences unique when reordering

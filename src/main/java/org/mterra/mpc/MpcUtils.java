@@ -33,7 +33,7 @@ public class MpcUtils {
                 .hasArg(false).desc("keep the sequences unique when reordering").build();
         options.addOption(uniqueSequencesOpt);
         Option qlinkModeOpt = Option.builder().longOpt("qlinkMode")
-                .optionalArg(false).hasArg(true).desc("Project|Program|Pad|Screen").build();
+                .optionalArg(false).hasArg(true).desc("Project|Program|PadScene|PadParam|Screen").build();
         options.addOption(qlinkModeOpt);
 
         CommandLine cmd;
