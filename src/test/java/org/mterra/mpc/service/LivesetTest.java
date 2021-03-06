@@ -23,7 +23,7 @@ public class LivesetTest extends BaseTest {
         Assertions.assertTrue(bpmFile.exists());
 
         String bpmFileContent = Files.readString(bpmFile.toPath());
-        Assertions.assertEquals("95.0\tPieces and Fractures\n121.0\tWithLives\n", bpmFileContent);
+        Assertions.assertEquals(" 95.0\tPieces and Fractures\n121.0\tWithLives\n", bpmFileContent);
 
         Assertions.assertTrue(new File(resultDir, "WithLives.xpj").exists());
         Assertions.assertTrue(new File(resultDir, "Pieces and Fractures.xpj").exists());

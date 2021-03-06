@@ -21,11 +21,14 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class Helper {
+    private static final NumberFormat bpmFormatter = new DecimalFormat("#0.0");
 
     public static void createDirs(String directoryPath) {
         if (StringUtils.isNotBlank(directoryPath)) {
@@ -52,11 +55,12 @@ public class Helper {
         }
     }
 
-    public static void writeMapFile(File targetFile, List<Bpm> bpms) {
+    public static void writeBpmFile(File targetFile, List<Bpm> bpms) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile))) {
             if (targetFile.exists() || targetFile.createNewFile()) {
                 for (Bpm bpm : bpms) {
-                    writer.write(bpm.getBpm() + "\t" + bpm.getProjectName() + "\n");
+                    String formattedBpm = StringUtils.leftPad(bpmFormatter.format(bpm.getBpm()), 5);
+                    writer.write(formattedBpm + "\t" + bpm.getProjectName() + "\n");
                 }
             }
         } catch (Exception e) {

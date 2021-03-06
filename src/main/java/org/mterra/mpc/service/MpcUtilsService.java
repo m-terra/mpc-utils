@@ -55,7 +55,7 @@ public class MpcUtilsService {
         if (!bpms.isEmpty()) {
             File bpmFile = new File(scanDirPath + "/" + Constants.DEFAULT_BPM_FILE_NAME);
             Collections.sort(bpms);
-            Helper.writeMapFile(bpmFile, bpms);
+            Helper.writeBpmFile(bpmFile, bpms);
         }
     }
 
