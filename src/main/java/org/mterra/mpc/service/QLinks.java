@@ -1,11 +1,11 @@
 package org.mterra.mpc.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mterra.mpc.model.Project;
 import org.mterra.mpc.model.ProjectInfo;
 import org.mterra.mpc.util.Constants;
 
 import java.io.File;
-import java.util.Objects;
 
 public class QLinks {
 
@@ -26,11 +26,14 @@ public class QLinks {
 
     public void configureProjectQLinks() {
         Project project = getProject();
-        project.setQLinkMode(Constants.QLINK_MODE_PROJECT);
-
+        configureQLinkMode(project, Constants.QLINK_MODE_PROJECT);
         configureTrackQLinks(project);
         configureMasterQLinks(project);
 
+    }
+
+    public void configureQLinkMode(Project project, String qlinkMode) {
+        project.setQLinkMode(qlinkMode);
     }
 
     private void configureTrackQLinks(Project project) {
@@ -48,13 +51,35 @@ public class QLinks {
     }
 
     private void configureMasterQLinks(Project project) {
-        boolean eqIsOn1stInsert = Objects.equals("1", project.getMasterEqInsertIndex());
-        String QLINK_PARAMTER_EQ_HIGH_GAIN = eqIsOn1stInsert ? "24593" : "32785";
-        String QLINK_PARAMTER_EQ_LOW_GAIN = eqIsOn1stInsert ? "24580" : "32772";
+        String paramEqHiGain = null;
+        String paramEqLoGain = null;
+        switch (project.getMasterEqInsertIndex()) {
+            case "1":
+                paramEqHiGain = "24593";
+                paramEqLoGain = "24580";
+                break;
+            case "2":
+                paramEqHiGain = "28689";
+                paramEqLoGain = "28676";
+                break;
+            case "3":
+                paramEqHiGain = "32785";
+                paramEqLoGain = "32772";
+                break;
+            case "4":
+                paramEqHiGain = "36881";
+                paramEqLoGain = "36868";
+                break;
+        }
+
         project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkProjectTrackAssignement(8, Constants.QLINK_TYPE_MASTER, 0, QLINK_PARAMTER_EQ_LOW_GAIN, false);
-        project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, QLINK_PARAMTER_EQ_LOW_GAIN, true);
-        project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, QLINK_PARAMTER_EQ_HIGH_GAIN, true);
+        if (StringUtils.isNotBlank(paramEqHiGain)) {
+            project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, paramEqHiGain, true);
+        }
+        if (StringUtils.isNotBlank(paramEqHiGain)) {
+            project.setQLinkProjectTrackAssignement(8, Constants.QLINK_TYPE_MASTER, 0, paramEqLoGain, false);
+            project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, paramEqLoGain, true);
+        }
     }
 
     public void updateProjectFile(File targetDir) {

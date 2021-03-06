@@ -16,5 +16,4 @@ public class Constants {
     public static final String QLINK_PARAMTER_VOLUME = "7";
     public static final String QLINK_PARAMTER_MUTE = "256";
 
-
 }
