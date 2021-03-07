@@ -45,8 +45,8 @@ public class QLinkTest extends BaseTest {
     }
 
     private void assertQLinkConfig(Project project, Integer volumeIndex, Integer muteIndex) {
-        Assertions.assertEquals(Constants.QLINK_TYPE_MIDI_TRACK, project.getQLinkProjectAssignementType(volumeIndex));
-        Assertions.assertEquals(Constants.QLINK_TYPE_MIDI_TRACK, project.getQLinkProjectAssignementType(muteIndex));
+        Assertions.assertEquals(Constants.QLINK_TYPE_PROGRAM, project.getQLinkProjectAssignementType(volumeIndex));
+        Assertions.assertEquals(Constants.QLINK_TYPE_PROGRAM, project.getQLinkProjectAssignementType(muteIndex));
 
         Assertions.assertEquals(Constants.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignementParameter(volumeIndex));
         Assertions.assertEquals(Constants.QLINK_PARAMTER_MUTE, project.getQLinkProjectAssignementParameter(muteIndex));

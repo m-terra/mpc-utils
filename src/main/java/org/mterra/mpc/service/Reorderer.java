@@ -18,7 +18,7 @@ import java.util.TreeMap;
 
 public class Reorderer {
 
-    public Map<Integer, SeqInfo> calculateNewOrder(SequencesAndSongs sequencesAndSongs, Boolean uniqueSeqs) {
+    public Map<Integer, SeqInfo> reorderSequences(SequencesAndSongs sequencesAndSongs, Boolean uniqueSeqs) {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
         List<SeqInfo> notUsedInSong = new ArrayList<>();
         SeqInfo airSeq = null;
@@ -32,27 +32,22 @@ public class Reorderer {
                     ordered.put(seqInfo.getPosInSong().get(0), seqInfo);
                 } else {
                     for (Integer pos : seqInfo.getPosInSong()) {
-                        ordered.put(pos, seqInfo.cloneWithSongPosition(pos));
+                        ordered.put(pos + 1, seqInfo.cloneWithSongPosition(pos));
                     }
                 }
             }
         }
 
-        if (uniqueSeqs) {
-            Map<Integer, SeqInfo> finalOrdered = new TreeMap<>();
-            int newSeqNumber = 1;
-            for (SeqInfo seqInfo : ordered.values()) {
-                finalOrdered.put(newSeqNumber++, seqInfo);
-            }
-            for (SeqInfo seqInfo : notUsedInSong) {
-                finalOrdered.put(newSeqNumber++, seqInfo);
-            }
-            addAirSequence(finalOrdered, airSeq);
-            return finalOrdered;
-        } else {
-            addAirSequence(ordered, airSeq);
-            return ordered;
+        int newSeqNumber = 1;
+        Map<Integer, SeqInfo> finalOrdered = new TreeMap<>();
+        for (SeqInfo seqInfo : ordered.values()) {
+            finalOrdered.put(newSeqNumber++, seqInfo);
         }
+        for (SeqInfo seqInfo : notUsedInSong) {
+            finalOrdered.put(newSeqNumber++, seqInfo);
+        }
+        addAirSequence(finalOrdered, airSeq);
+        return finalOrdered;
     }
 
     private void addAirSequence(Map<Integer, SeqInfo> seqs, SeqInfo airSeq) {

@@ -23,7 +23,7 @@ public class MpcUtilsService {
             Reorderer reorderer = new Reorderer();
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo, songNumber);
-            Map<Integer, SeqInfo> reordered = reorderer.calculateNewOrder(sequencesAndSongs, uniqueSeqs);
+            Map<Integer, SeqInfo> reordered = reorderer.reorderSequences(sequencesAndSongs, uniqueSeqs);
             reorderer.writeReorderedProject(projectInfo, sequencesAndSongs, reordered, targetDir);
         }
     }

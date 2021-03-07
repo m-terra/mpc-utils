@@ -51,7 +51,7 @@ public class Project {
         return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
     }
 
-    public void setQLinkProjectTrackAssignement(Integer qLinkIndex, String type, Integer typeIndex, String parameter, boolean momentary) {
+    public void setQLinkAssignement(Integer qLinkIndex, String type, Integer typeIndex, String parameter, boolean momentary) {
         String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']";
         NodeList nodeList = Helper.evaluateXPath(document, xpathExpression);
         Element qlinkAssElement = (Element) nodeList.item(0);

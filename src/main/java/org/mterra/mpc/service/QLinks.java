@@ -25,7 +25,7 @@ public class QLinks {
     }
 
     public void configureProjectQLinks() {
-        configureTrackQLinks();
+        configureTrackQLinks(true);
         configureMasterQLinks();
 
     }
@@ -34,19 +34,20 @@ public class QLinks {
         getProject().setQLinkMode(qlinkMode);
     }
 
-    private void configureTrackQLinks() {
+    private void configureTrackQLinks(boolean usePrograms) {
+        String type = usePrograms ? Constants.QLINK_TYPE_PROGRAM : Constants.QLINK_TYPE_TRACK;
         Project project = getProject();
-        project.setQLinkProjectTrackAssignement(2, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkProjectTrackAssignement(3, Constants.QLINK_TYPE_MIDI_TRACK, 3, Constants.QLINK_PARAMTER_MUTE, false);
+        project.setQLinkAssignement(2, type, 3, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkAssignement(3, type, 3, Constants.QLINK_PARAMTER_MUTE, false);
 
-        project.setQLinkProjectTrackAssignement(6, Constants.QLINK_TYPE_MIDI_TRACK, 2, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkProjectTrackAssignement(7, Constants.QLINK_TYPE_MIDI_TRACK, 2, Constants.QLINK_PARAMTER_MUTE, false);
+        project.setQLinkAssignement(6, type, 2, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkAssignement(7, type, 2, Constants.QLINK_PARAMTER_MUTE, false);
 
-        project.setQLinkProjectTrackAssignement(10, Constants.QLINK_TYPE_MIDI_TRACK, 1, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkProjectTrackAssignement(11, Constants.QLINK_TYPE_MIDI_TRACK, 1, Constants.QLINK_PARAMTER_MUTE, false);
+        project.setQLinkAssignement(10, type, 1, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkAssignement(11, type, 1, Constants.QLINK_PARAMTER_MUTE, false);
 
-        project.setQLinkProjectTrackAssignement(14, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkProjectTrackAssignement(15, Constants.QLINK_TYPE_MIDI_TRACK, 0, Constants.QLINK_PARAMTER_MUTE, false);
+        project.setQLinkAssignement(14, type, 0, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkAssignement(15, type, 0, Constants.QLINK_PARAMTER_MUTE, false);
     }
 
     private void configureMasterQLinks() {
@@ -72,13 +73,13 @@ public class QLinks {
         }
 
         Project project = getProject();
-        project.setQLinkProjectTrackAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkAssignement(4, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
         if (StringUtils.isNotBlank(paramEqHiGain)) {
-            project.setQLinkProjectTrackAssignement(16, Constants.QLINK_TYPE_MASTER, 0, paramEqHiGain, true);
+            project.setQLinkAssignement(16, Constants.QLINK_TYPE_MASTER, 0, paramEqHiGain, true);
         }
         if (StringUtils.isNotBlank(paramEqHiGain)) {
-            project.setQLinkProjectTrackAssignement(8, Constants.QLINK_TYPE_MASTER, 0, paramEqLoGain, false);
-            project.setQLinkProjectTrackAssignement(12, Constants.QLINK_TYPE_MASTER, 0, paramEqLoGain, true);
+            project.setQLinkAssignement(8, Constants.QLINK_TYPE_MASTER, 0, paramEqLoGain, false);
+            project.setQLinkAssignement(12, Constants.QLINK_TYPE_MASTER, 0, paramEqLoGain, true);
         }
     }
 
