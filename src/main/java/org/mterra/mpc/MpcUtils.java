@@ -32,6 +32,9 @@ public class MpcUtils {
         Option uniqueSequencesOpt = Option.builder().longOpt("uniqueSequences")
                 .hasArg(false).desc("keep the sequences unique when reordering").build();
         options.addOption(uniqueSequencesOpt);
+        Option mapTracksOpt = Option.builder().longOpt("mapTracks")
+                .hasArg(false).desc("map tracks instead programs to QLinks").build();
+        options.addOption(mapTracksOpt);
         Option qlinkModeOpt = Option.builder().longOpt("qlinkMode")
                 .optionalArg(false).hasArg(true).desc("Project|Program|PadScene|PadParam|Screen").build();
         options.addOption(qlinkModeOpt);
@@ -55,6 +58,7 @@ public class MpcUtils {
         String songNumber = cmd.getOptionValue(songNumberOpt.getLongOpt(), Constants.DEFAULT_SONG_NUMBER);
         String sequenceName = cmd.getOptionValue(sequenceNameOpt.getLongOpt(), Constants.DEFAULT_FILTER_SEQUENCE_NAME);
         Boolean uniqueSequences = cmd.hasOption(uniqueSequencesOpt.getLongOpt());
+        Boolean mapTracks = cmd.hasOption(mapTracksOpt.getLongOpt());
         String qlinkMode = cmd.getOptionValue(qlinkModeOpt.getLongOpt(), Constants.QLINK_MODE_PROJECT);
 
         if (inputDirectoryPath != null && Objects.equals(inputDirectoryPath, outputDirectoryPath)) {
@@ -76,13 +80,14 @@ public class MpcUtils {
                 service.createProjectBpmFile(inputDirectoryPath);
                 break;
             case "qlinkMap":
-                service.configureProjectQLinkMap(inputDirectoryPath, outputDirectoryPath);
+                service.configureProjectQLinkMap(inputDirectoryPath, outputDirectoryPath, mapTracks);
                 break;
             case "qlinkMode":
                 service.configureQLinkMode(inputDirectoryPath, outputDirectoryPath, qlinkMode);
                 break;
             case "liveset":
-                service.createLiveset(inputDirectoryPath, outputDirectoryPath, sequenceName, songNumber, uniqueSequences, qlinkMode);
+                service.createLiveset(inputDirectoryPath, outputDirectoryPath, sequenceName,
+                        songNumber, uniqueSequences, qlinkMode, mapTracks);
                 break;
             default:
                 printUsage(options);

@@ -29,7 +29,7 @@ public class QLinkTest extends BaseTest {
 
     @Test
     public void configureProjectQLinkMap() {
-        service.configureProjectQLinkMap(projectsDir.getPath(), resultDir.getPath());
+        service.configureProjectQLinkMap(projectsDir.getPath(), resultDir.getPath(), false);
         List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDir.getPath());
 
         Assertions.assertEquals(3, resultProjects.size());

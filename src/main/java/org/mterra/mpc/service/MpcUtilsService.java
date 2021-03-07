@@ -59,13 +59,13 @@ public class MpcUtilsService {
         }
     }
 
-    public void configureProjectQLinkMap(String scanDirPath, String targetDirPath) {
+    public void configureProjectQLinkMap(String scanDirPath, String targetDirPath, Boolean useTracks) {
         File targetDir = new File(targetDirPath);
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         for (ProjectInfo projectInfo : projects) {
             System.out.printf("Configuring project QLink map for project '%s'%n", projectInfo.getProjectName());
             QLinks QLinks = new QLinks(projectInfo);
-            QLinks.configureProjectQLinks();
+            QLinks.configureProjectQLinks(useTracks);
             Helper.copyProject(projectInfo, targetDir);
             QLinks.updateProjectFile(targetDir);
         }
@@ -84,7 +84,7 @@ public class MpcUtilsService {
     }
 
     public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber,
-                              Boolean uniqueSeqs, String qlinkMode) {
+                              Boolean uniqueSeqs, String qlinkMode, Boolean mapTracks) {
         File filteredPath = new File(targetDirPath + "/filtered");
         File reorderedPath = new File(targetDirPath + "/reordered");
         File qlinkModePath = new File(targetDirPath + "/qlink");
@@ -95,7 +95,7 @@ public class MpcUtilsService {
         filterProjects(scanDirPath, filteredPath.getPath(), sequenceName);
         reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs);
         configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
-        configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath);
+        configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath, mapTracks);
         createProjectBpmFile(targetDirPath);
         try {
             FileUtils.deleteDirectory(filteredPath);
