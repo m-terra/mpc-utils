@@ -23,14 +23,14 @@ public class LivesetTest extends BaseTest {
         Assertions.assertTrue(bpmFile.exists());
 
         String bpmFileContent = Files.readString(bpmFile.toPath());
-        Assertions.assertEquals(" 95.0\tPieces and Fractures\n121.0\tWithLives\n", bpmFileContent);
+        Assertions.assertEquals(" 95.0\tPieces and Fractures\n100.0\tDeep Stop\n121.0\tWithLives\n", bpmFileContent);
 
         Assertions.assertTrue(new File(resultDir, "WithLives.xpj").exists());
         Assertions.assertTrue(new File(resultDir, "Pieces and Fractures.xpj").exists());
         Assertions.assertFalse(new File(resultDir, "Aerial.xpj").exists());
 
         List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDir.getPath());
-        Assertions.assertEquals(2, resultProjects.size());
+        Assertions.assertEquals(3, resultProjects.size());
         for (ProjectInfo projectInfo : resultProjects) {
             Project project = new Project();
             project.load(projectInfo);

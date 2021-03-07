@@ -71,7 +71,7 @@ public class MpcUtils {
 
         switch (command) {
             case "reorder":
-                service.reorderSequences(inputDirectoryPath, outputDirectoryPath, songNumber, uniqueSequences);
+                service.reorderSequences(inputDirectoryPath, outputDirectoryPath, songNumber, uniqueSequences, false);
                 break;
             case "filter":
                 service.filterProjects(inputDirectoryPath, outputDirectoryPath, sequenceName);

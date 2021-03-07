@@ -18,7 +18,7 @@ public class QLinkTest extends BaseTest {
         service.configureQLinkMode(projectsDir.getPath(), resultDir.getPath(), "Program");
         List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDir.getPath());
 
-        Assertions.assertEquals(3, resultProjects.size());
+        Assertions.assertEquals(4, resultProjects.size());
         for (ProjectInfo projectInfo : resultProjects) {
             Project project = new Project();
             project.load(projectInfo);
@@ -32,7 +32,7 @@ public class QLinkTest extends BaseTest {
         service.configureProjectQLinkMap(projectsDir.getPath(), resultDir.getPath(), false);
         List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDir.getPath());
 
-        Assertions.assertEquals(3, resultProjects.size());
+        Assertions.assertEquals(4, resultProjects.size());
         for (ProjectInfo projectInfo : resultProjects) {
             Project project = new Project();
             project.load(projectInfo);

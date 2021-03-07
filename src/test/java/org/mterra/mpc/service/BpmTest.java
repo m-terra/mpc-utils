@@ -24,7 +24,7 @@ public class BpmTest extends BaseTest {
         File bpmFile = new File(resultDir, Constants.DEFAULT_BPM_FILE_NAME);
         Assertions.assertTrue(bpmFile.exists());
         String bpmFileContent = Files.readString(bpmFile.toPath());
-        Assertions.assertEquals(" 90.0\tAerial\n 95.0\tPieces and Fractures\n121.0\tWithLives\n", bpmFileContent);
+        Assertions.assertEquals(" 90.0\tAerial\n 95.0\tPieces and Fractures\n100.0\tDeep Stop\n121.0\tWithLives\n", bpmFileContent);
     }
 
 }
