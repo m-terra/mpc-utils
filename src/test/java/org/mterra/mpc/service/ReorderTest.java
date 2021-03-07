@@ -53,7 +53,7 @@ public class ReorderTest extends BaseTest {
     @Test
     public void replicateSeqsWithLive() throws Exception {
         boolean uniqueSeqs = false;
-        String projectName = "Aerial";
+        String projectName = "Deep Stop";
         service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
@@ -61,7 +61,8 @@ public class ReorderTest extends BaseTest {
         ProjectInfo targetProjectInfo = new ProjectInfo(targetDataFolder);
 
         assertSequenceNumber(srcProjectInfo, targetProjectInfo, uniqueSeqs);
-        assertFileContent(projectName, "20.sxq", "Air");
+        assertContainsSequences(targetProjectInfo, "Live", "Air");
+        assertFileContent(projectName, "30.sxq", "Air");
     }
 
     @Test
@@ -102,7 +103,7 @@ public class ReorderTest extends BaseTest {
             String name = seq.getElementsByTagName("Name").item(0).getTextContent();
             Integer seqNumber = Integer.parseInt(seq.getAttribute("number"));
             if (name.equalsIgnoreCase("air")) {
-                Assertions.assertEquals(20, seqNumber);
+                Assertions.assertEquals(0, seqNumber % 10);
             } else {
                 Assertions.assertEquals(i + 1, seqNumber);
             }

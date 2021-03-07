@@ -46,17 +46,16 @@ public class Reorderer {
         for (SeqInfo seqInfo : notUsedInSong) {
             finalOrdered.put(newSeqNumber++, seqInfo);
         }
-        addAirSequence(finalOrdered, airSeq);
+        addAirSequence(finalOrdered, airSeq, newSeqNumber++);
         return finalOrdered;
     }
 
-    private void addAirSequence(Map<Integer, SeqInfo> seqs, SeqInfo airSeq) {
+    private void addAirSequence(Map<Integer, SeqInfo> seqs, SeqInfo airSeq, Integer nextFreeSequenceNumber) {
         if (airSeq != null) {
-            int newSeqNumber = seqs.size();
-            while (newSeqNumber % 10 != 0) {
-                newSeqNumber++;
+            while (nextFreeSequenceNumber % 10 != 0) {
+                nextFreeSequenceNumber++;
             }
-            seqs.put(newSeqNumber, airSeq);
+            seqs.put(nextFreeSequenceNumber, airSeq);
         }
     }
 
