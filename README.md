@@ -33,7 +33,7 @@ Changes the QLink mode of all projects to the value specified by --qlinkMode. Th
 
 Command: qlinkMode Options: --qlinkMode
 
-### QLinks Project Configuration (qlinks)
+### QLinks Project Configuration
 
 Configures custom QLink assignements for all projects. QLink assignements:
 
@@ -42,14 +42,14 @@ Configures custom QLink assignements for all projects. QLink assignements:
 * Row 3: mute track 1-4
 * Row 4: Master EQ high and low gain, master volume
 
-Command: qlinkMap Options: <none>
+Command: qlinkMap Options: --mapPrograms
 
 ### Liveset Preparation
 
 Filters out all projects with a 'Live' seqeuence, reorders the sequences of those, configures the QLinks and creates a
 project BPM list text file. Command: liveset Options: --uniqueSequences --sequenceName --qlinkMode
 
-Command: liveset Options: --uniqueSequences --sequenceName --qlinkMode
+Command: liveset Options: --uniqueSequences --sequenceName --qlinkMode --mapPrograms
 
 ## Setup
 
@@ -64,7 +64,7 @@ Command: liveset Options: --uniqueSequences --sequenceName --qlinkMode
         -i,--inputDirectory <arg>    input directory path
         -o,--outputDirectory <arg>   output directory path
            --qlinkMode <arg>         Project|Program|PadScene|PadParam|Screen
-           --mapTracks               map tracks instead programs to QLinks
+           --mapPrograms             map programs instead of tracks to QLinks
            --sequenceName <arg>      optional sequenceName for filtering
            --songNumber <arg>        optional songNumber for reordering
            --uniqueSequences         keep the sequences unique when reordering

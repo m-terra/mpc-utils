@@ -24,8 +24,8 @@ public class QLinks {
         return project;
     }
 
-    public void configureProjectQLinks(boolean useTracks) {
-        configureTrackQLinks(useTracks);
+    public void configureProjectQLinks(boolean mapPrograms) {
+        configureTrackQLinks(mapPrograms);
         configureMasterQLinks();
 
     }
@@ -34,8 +34,8 @@ public class QLinks {
         getProject().setQLinkMode(qlinkMode);
     }
 
-    private void configureTrackQLinks(boolean useTracks) {
-        String type = useTracks ? Constants.QLINK_TYPE_TRACK : Constants.QLINK_TYPE_PROGRAM;
+    private void configureTrackQLinks(boolean mapPrograms) {
+        String type = mapPrograms ? Constants.QLINK_TYPE_PROGRAM : Constants.QLINK_TYPE_TRACK;
         Project project = getProject();
         project.setQLinkAssignement(2, type, 3, Constants.QLINK_PARAMTER_VOLUME, false);
         project.setQLinkAssignement(3, type, 3, Constants.QLINK_PARAMTER_MUTE, false);
