@@ -63,9 +63,7 @@ public class SequencesAndSongs {
             throw new RuntimeException("Song number " + songNumber + " not found");
         }
         Element song = (Element) songNodeList.item(0);
-        Element name = (Element) song.getElementsByTagName("Name").item(0);
         songSeqIdxNodeList = song.getElementsByTagName("SeqIndex");
-        String songName = name.getTextContent();
 
         Element all = (Element) document.getDocumentElement().getElementsByTagName("AllSeqSamps").item(0);
         seqs = (Element) all.getElementsByTagName("Sequences").item(0);
@@ -81,9 +79,6 @@ public class SequencesAndSongs {
             String seqNo = songEl.getTextContent();
             seqInfoMap.get(Integer.parseInt(seqNo) + 1).getPosInSong().add(i);
         }
-
-        System.out.printf("Loaded song '%s' with '%s' entries, total sequences '%s'%n",
-                songName, songSeqIdxNodeList.getLength(), seqInfoMap.size());
     }
 
     public void removeAllSequences() {

@@ -19,7 +19,7 @@ public class MpcUtilsService {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
         for (ProjectInfo projectInfo : projects) {
-            System.out.printf("Found project to reorder '%s'%n", projectInfo.getProjectName());
+            System.out.printf("Reordering project '%s' by songNumber '%s'%n", projectInfo.getProjectName(), songNumber);
             Reorderer reorderer = new Reorderer();
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo, songNumber);
@@ -35,7 +35,7 @@ public class MpcUtilsService {
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo);
             if (sequencesAndSongs.containsSequence(sequenceName)) {
-                System.out.printf("Found project '%s' with '%s' sequence%n", projectInfo.getProjectName(), sequenceName);
+                System.out.printf("Project '%s' matches sequence filter '%s'%n", projectInfo.getProjectName(), sequenceName);
                 Helper.copyProject(projectInfo, targetDir);
                 Project project = new Project();
                 project.load(projectInfo);
@@ -91,7 +91,7 @@ public class MpcUtilsService {
         if (!(filteredPath.mkdirs() && reorderedPath.mkdirs())) {
             System.out.printf("Unable to create staging subdirectories in directory '%s'%n", targetDirPath);
         }
-        System.out.printf("Creating liveset for all filtered projects in directory '%s'%n", targetDirPath);
+        System.out.printf("Creating liveset for projects in directory '%s'%n", scanDirPath);
         filterProjects(scanDirPath, filteredPath.getPath(), sequenceName);
         reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs, true);
         configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
