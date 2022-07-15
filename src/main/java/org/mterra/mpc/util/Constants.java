@@ -15,6 +15,9 @@ public class Constants {
     public static final String QLINK_TYPE_PROGRAM = "Program";
     public static final String QLINK_TYPE_MASTER = "Master";
     public static final String QLINK_PARAMTER_VOLUME = "7";
-    public static final String QLINK_PARAMTER_MUTE = "256";
+
+    public static final Integer QLINK_INDEX_MASTER_VOLUME = 2;
+    public static final Integer QLINK_INDEX_BD_VOLUME = 6;
+    public static final Integer TRACK_INDEX_BD = 12;
 
 }

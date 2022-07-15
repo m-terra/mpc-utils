@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MpcUtilsService {
-
-
     public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber, Boolean uniqueSeqs, boolean liveFirst) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
@@ -59,13 +57,13 @@ public class MpcUtilsService {
         }
     }
 
-    public void configureProjectQLinkMap(String scanDirPath, String targetDirPath, Boolean mapPrograms) {
+    public void configureProjectQLinkMap(String scanDirPath, String targetDirPath) {
         File targetDir = new File(targetDirPath);
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         for (ProjectInfo projectInfo : projects) {
             System.out.printf("Configuring project QLink map for project '%s'%n", projectInfo.getProjectName());
             QLinks QLinks = new QLinks(projectInfo);
-            QLinks.configureProjectQLinks(mapPrograms);
+            QLinks.configureProjectQLinks();
             Helper.copyProject(projectInfo, targetDir);
             QLinks.updateProjectFile(targetDir);
         }
@@ -84,7 +82,7 @@ public class MpcUtilsService {
     }
 
     public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber,
-                              Boolean uniqueSeqs, String qlinkMode, Boolean mapPrograms) {
+                              Boolean uniqueSeqs, String qlinkMode) {
         File filteredPath = new File(targetDirPath + "/filtered");
         File reorderedPath = new File(targetDirPath + "/reordered");
         File qlinkModePath = new File(targetDirPath + "/qlink");
@@ -95,7 +93,7 @@ public class MpcUtilsService {
         filterProjects(scanDirPath, filteredPath.getPath(), sequenceName);
         reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs, true);
         configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
-        configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath, mapPrograms);
+        configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath);
         createProjectBpmFile(targetDirPath);
         try {
             FileUtils.deleteDirectory(filteredPath);

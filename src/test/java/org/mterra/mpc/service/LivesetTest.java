@@ -18,7 +18,7 @@ public class LivesetTest extends BaseTest {
     @Test
     public void createLiveset() throws Exception {
         service.createLiveset(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_FILTER_SEQUENCE_NAME,
-                Constants.DEFAULT_SONG_NUMBER, false, Constants.QLINK_MODE_PROJECT, false);
+                Constants.DEFAULT_SONG_NUMBER, false, Constants.QLINK_MODE_PROJECT);
         File bpmFile = new File(resultDir, Constants.DEFAULT_BPM_FILE_NAME);
         Assertions.assertTrue(bpmFile.exists());
 
