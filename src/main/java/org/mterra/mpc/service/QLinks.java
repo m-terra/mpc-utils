@@ -25,7 +25,6 @@ public class QLinks {
 
     public void configureProjectQLinks() {
         configureTrackQLinks();
-        configureMasterVolumeQLink();
         turnQlinksOff(3, 4, 7, 8, 11, 12, 15, 15);
 
     }
@@ -43,12 +42,8 @@ public class QLinks {
 
     private void configureTrackQLinks() {
         Project project = getProject();
+        project.setQLinkAssignement(Constants.QLINK_INDEX_SN_VOLUME, Constants.QLINK_TYPE_TRACK, Constants.TRACK_INDEX_SN, Constants.QLINK_PARAMTER_VOLUME, false);
         project.setQLinkAssignement(Constants.QLINK_INDEX_BD_VOLUME, Constants.QLINK_TYPE_TRACK, Constants.TRACK_INDEX_BD, Constants.QLINK_PARAMTER_VOLUME, false);
-    }
-
-    private void configureMasterVolumeQLink() {
-        Project project = getProject();
-        project.setQLinkAssignement(Constants.QLINK_INDEX_MASTER_VOLUME, Constants.QLINK_TYPE_MASTER, 0, Constants.QLINK_PARAMTER_VOLUME, false);
     }
 
     public void updateProjectFile(File targetDir) {
