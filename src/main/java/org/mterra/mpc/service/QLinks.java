@@ -26,7 +26,15 @@ public class QLinks {
     public void configureProjectQLinks() {
         configureTrackQLinks();
         configureMasterVolumeQLink();
+        turnQlinksOff(3, 4, 7, 8, 11, 12, 15, 15);
 
+    }
+
+    private void turnQlinksOff(int... qLinkIndexes) {
+        Project project = getProject();
+        for (int qlinkIndex : qLinkIndexes) {
+            project.setQLinkAssignement(qlinkIndex, null, 0, Constants.QLINK_PARAMTER_OFF, false);
+        }
     }
 
     public void configureQLinkMode(String qlinkMode) {

@@ -56,15 +56,22 @@ public class Project {
         NodeList nodeList = Helper.evaluateXPath(document, xpathExpression);
         Element qlinkAssElement = (Element) nodeList.item(0);
         NodeList typeNodeList = qlinkAssElement.getElementsByTagName("Type");
-        Element typeElement;
-        if (typeNodeList.getLength() > 0) {
-            typeElement = (Element) typeNodeList.item(0);
+        if (type != null) {
+            Element typeElement;
+            if (typeNodeList.getLength() > 0) {
+                typeElement = (Element) typeNodeList.item(0);
+            } else {
+                typeElement = document.createElement("Type");
+                qlinkAssElement.appendChild(typeElement);
+            }
+            typeElement.setTextContent(type);
+            typeElement.setAttribute("index", typeIndex.toString());
         } else {
-            typeElement = document.createElement("Type");
-            qlinkAssElement.appendChild(typeElement);
+            for (int i = 0; i < typeNodeList.getLength(); i++) {
+                Element nodeType = (Element) typeNodeList.item(i);
+                qlinkAssElement.removeChild(nodeType);
+            }
         }
-        typeElement.setTextContent(type);
-        typeElement.setAttribute("index", typeIndex.toString());
         qlinkAssElement.getElementsByTagName("Parameter").item(0).setTextContent(parameter);
         NodeList momentaryNodeList = qlinkAssElement.getElementsByTagName("Momentary");
         Element momentaryElement;
