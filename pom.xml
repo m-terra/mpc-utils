@@ -6,7 +6,7 @@
 
     <groupId>org.mterra</groupId>
     <artifactId>mpc-utils</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <organization>
         <name>M'terra</name>
