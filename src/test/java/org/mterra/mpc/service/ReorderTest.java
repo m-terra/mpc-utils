@@ -84,6 +84,18 @@ public class ReorderTest extends BaseTest {
         assertContainsSequences(targetProjectInfo, "Live", "Live2", "Live3");
     }
 
+    @Test
+    public void customLiveSequenceName() {
+        boolean uniqueSeqs = false;
+        String projectName = "WithLives";
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
+                true, "Live2");
+        File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
+        ProjectInfo targetProjectInfo = new ProjectInfo(targetDataFolder);
+
+        assertSequenceAtPosition(targetProjectInfo, "Live2", 1);
+    }
+
     private void assertFileContent(String projDirPrefix, String filename, String expectedContent) throws Exception {
         byte[] bytes = Files.readAllBytes(Path.of(resultDir.getPath(), projDirPrefix + Constants.PROJECT_FOLDER_SUFFIX, filename));
         String content = new String(bytes, StandardCharsets.UTF_8);
@@ -124,6 +136,12 @@ public class ReorderTest extends BaseTest {
         for (String seqName : seqNames) {
             Assertions.assertTrue(songSeqs.containsSequence(seqName));
         }
+    }
+
+    private void assertSequenceAtPosition(ProjectInfo projectInfo, String seqName, Integer seqPosition) {
+        SequencesAndSongs songSeqs = new SequencesAndSongs();
+        songSeqs.load(projectInfo);
+        Assertions.assertEquals(1, songSeqs.getSequenceNumber(seqName));
     }
 
 }

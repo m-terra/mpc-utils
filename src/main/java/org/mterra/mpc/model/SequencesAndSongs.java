@@ -110,4 +110,14 @@ public class SequencesAndSongs {
         return res.size() > 0;
     }
 
+    public Integer getSequenceNumber(String name) {
+        String xpathExpression = "/MPCVObject/AllSeqSamps/Sequences/Sequence[Name='" + name + "']/@number";
+        List<String> res = Helper.evaluateXPathToStrings(document, xpathExpression);
+        if (res.size() > 0){
+            return Integer.parseInt(res.get(0));
+        } else {
+            return -1;
+        }
+    }
+
 }
