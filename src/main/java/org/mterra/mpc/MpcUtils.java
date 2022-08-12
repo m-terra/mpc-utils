@@ -73,7 +73,10 @@ public class MpcUtils {
                 service.filterProjects(inputDirectoryPath, outputDirectoryPath, sequenceName);
                 break;
             case "bpm":
-                service.createProjectBpmFile(inputDirectoryPath);
+                if (outputDirectoryPath == null) {
+                    outputDirectoryPath = inputDirectoryPath;
+                }
+                service.createProjectBpmFile(inputDirectoryPath, outputDirectoryPath);
                 break;
             case "qlinkMap":
                 service.configureProjectQLinkMap(inputDirectoryPath, outputDirectoryPath);

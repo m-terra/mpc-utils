@@ -20,7 +20,7 @@ public class BpmTest extends BaseTest {
         for (ProjectInfo projectInfo : projectInfoList) {
             Helper.copyProject(projectInfo, resultDir);
         }
-        service.createProjectBpmFile(resultDir.getPath());
+        service.createProjectBpmFile(resultDir.getPath(), resultDir.getPath());
         File bpmFile = new File(resultDir, Constants.DEFAULT_BPM_FILE_NAME);
         Assertions.assertTrue(bpmFile.exists());
         String bpmFileContent = Files.readString(bpmFile.toPath());

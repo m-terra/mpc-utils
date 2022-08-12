@@ -44,7 +44,7 @@ public class MpcUtilsService {
         return loaded;
     }
 
-    public void createProjectBpmFile(String scanDirPath) {
+    public void createProjectBpmFile(String scanDirPath, String outputDirectoryPath) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         List<Bpm> bpms = new ArrayList<>();
         for (ProjectInfo projectInfo : projects) {
@@ -54,7 +54,7 @@ public class MpcUtilsService {
             bpms.add(new Bpm(Double.parseDouble(project.getBpm()), projectInfo.getProjectName()));
         }
         if (!bpms.isEmpty()) {
-            File bpmFile = new File(scanDirPath + "/" + Constants.DEFAULT_BPM_FILE_NAME);
+            File bpmFile = new File(outputDirectoryPath + "/" + Constants.DEFAULT_BPM_FILE_NAME);
             Collections.sort(bpms);
             Helper.writeBpmFile(bpmFile, bpms);
         }
@@ -100,7 +100,7 @@ public class MpcUtilsService {
             reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs, true);
             configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
             configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath);
-            createProjectBpmFile(targetDirPath);
+            createProjectBpmFile(targetDirPath, targetDirPath);
         }
         try {
             FileUtils.deleteDirectory(filteredPath);
