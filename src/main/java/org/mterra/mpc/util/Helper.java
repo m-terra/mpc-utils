@@ -26,6 +26,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class Helper {
     private static final NumberFormat bpmFormatter = new DecimalFormat("#0.0");
@@ -95,7 +96,10 @@ public class Helper {
     public static List<ProjectInfo> getProjectsInDirectory(String directoryPath) {
         List<ProjectInfo> result = new ArrayList<>();
         File scanDir = new File(directoryPath);
-        for (File srcDir : scanDir.listFiles()) {
+        if (!scanDir.exists()) {
+            throw new RuntimeException("Directory does not exist: " + directoryPath);
+        }
+        for (File srcDir : Objects.requireNonNull(scanDir.listFiles())) {
             if (srcDir.getName().endsWith(Constants.PROJECT_FOLDER_SUFFIX)) {
                 ProjectInfo projectInfo = new ProjectInfo(srcDir);
                 if (projectInfo.getProjectFile().exists()) {
@@ -103,6 +107,7 @@ public class Helper {
                 }
             }
         }
+
         return result;
     }
 
