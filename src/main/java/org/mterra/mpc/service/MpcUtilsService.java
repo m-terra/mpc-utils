@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MpcUtilsService {
-    public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber, Boolean uniqueSeqs, boolean liveFirst) {
+    public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber, Boolean uniqueSeqs,
+                                 boolean liveFirst, String liveSequenceName) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
         for (ProjectInfo projectInfo : projects) {
@@ -21,7 +22,7 @@ public class MpcUtilsService {
             Reorderer reorderer = new Reorderer();
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo, songNumber);
-            Map<Integer, SeqInfo> reordered = reorderer.reorderSequences(sequencesAndSongs, uniqueSeqs, liveFirst);
+            Map<Integer, SeqInfo> reordered = reorderer.reorderSequences(sequencesAndSongs, uniqueSeqs, liveFirst, liveSequenceName);
             reorderer.writeReorderedProject(projectInfo, sequencesAndSongs, reordered, targetDir);
         }
     }
@@ -97,7 +98,7 @@ public class MpcUtilsService {
         if (filterProjects(scanDirPath, filteredPath.getPath(), sequenceName) < 1) {
             System.out.printf("Sequence filter '%s' returned no projects %n", sequenceName);
         } else {
-            reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs, true);
+            reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs, true, sequenceName);
             configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
             configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath);
             createProjectBpmFile(targetDirPath, targetDirPath);

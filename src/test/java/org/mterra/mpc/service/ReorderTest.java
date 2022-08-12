@@ -21,7 +21,8 @@ public class ReorderTest extends BaseTest {
     public void uniqueSeqswithAir() throws Exception {
         boolean uniqueSeqs = true;
         String projectName = "Aerial";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, false);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
+                false, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
@@ -35,7 +36,8 @@ public class ReorderTest extends BaseTest {
     public void uniqueSeqsWithLive() throws Exception {
         boolean uniqueSeqs = true;
         String projectName = "WithLives";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, false);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
+                false, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
@@ -54,7 +56,8 @@ public class ReorderTest extends BaseTest {
     public void replicateSeqsWithLive() throws Exception {
         boolean uniqueSeqs = false;
         String projectName = "Deep Stop";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, true);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
+                true, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
@@ -67,10 +70,11 @@ public class ReorderTest extends BaseTest {
     }
 
     @Test
-    public void replicateSequencesWithUnused() throws Exception {
+    public void replicateSequencesWithUnused() {
         boolean uniqueSeqs = false;
         String projectName = "WithLives";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, false);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
+                false, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
