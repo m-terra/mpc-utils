@@ -27,9 +27,9 @@ public class Project {
     }
 
     public String getBpm() {
-        NodeList bpms = document.getDocumentElement().getElementsByTagName("BPM");
+        NodeList bpms = document.getDocumentElement().getElementsByTagName("MasterTempo.Value");
         if (bpms.getLength() > 0) {
-            return ((Element) bpms.item(0)).getTextContent();
+            return bpms.item(0).getTextContent();
         } else {
             throw new RuntimeException("BPM not found in project '" + projectInfo.getProjectName() + "'");
         }
