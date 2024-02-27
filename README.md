@@ -42,7 +42,7 @@ Command: qlinkMode Options: -i <arg> -o <arg> --qlinkMode <arg>
 
 ### QLinks Project Configuration
 
-Configures custom QLink assignements for all projects. QLink assignements in vertical rows from top:
+Configures custom QLink assignments for all projects. QLink assignments in vertical rows from top:
 
 * Row 1: Not mapped, reserved for individual mappings
 * Row 2: Volume track 1-4, program 1-4 if --mapPrograms is set

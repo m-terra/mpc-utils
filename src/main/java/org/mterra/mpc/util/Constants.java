@@ -3,6 +3,7 @@ package org.mterra.mpc.util;
 public class Constants {
 
     public static final String PROJECT_FOLDER_SUFFIX = "_[ProjectData]";
+    public static final String PROJECT_SETTINGS_FILE_NAME = "Project Settings.xml";
     public static final String ALL_SEQS_FILE_NAME = "All Sequences & Songs.xal";
     public static final String PROJ_SUFFIX = "xpj";
     public static final String SEQ_SUFFIX = "sxq";

@@ -32,7 +32,7 @@ public class QLinks {
     private void turnQlinksOff(int... qLinkIndexes) {
         Project project = getProject();
         for (int qlinkIndex : qLinkIndexes) {
-            project.setQLinkAssignement(qlinkIndex, null, 0, Constants.QLINK_PARAMTER_OFF, false);
+            project.setQLinkAssignment(qlinkIndex, null, 0, Constants.QLINK_PARAMTER_OFF, false);
         }
     }
 
@@ -42,12 +42,12 @@ public class QLinks {
 
     private void configureTrackQLinks() {
         Project project = getProject();
-        project.setQLinkAssignement(Constants.QLINK_INDEX_SN_VOLUME, Constants.QLINK_TYPE_TRACK, Constants.TRACK_INDEX_SN, Constants.QLINK_PARAMTER_VOLUME, false);
-        project.setQLinkAssignement(Constants.QLINK_INDEX_BD_VOLUME, Constants.QLINK_TYPE_TRACK, Constants.TRACK_INDEX_BD, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkAssignment(Constants.QLINK_INDEX_SN_VOLUME, Constants.QLINK_TYPE_TRACK, Constants.TRACK_INDEX_SN, Constants.QLINK_PARAMTER_VOLUME, false);
+        project.setQLinkAssignment(Constants.QLINK_INDEX_BD_VOLUME, Constants.QLINK_TYPE_TRACK, Constants.TRACK_INDEX_BD, Constants.QLINK_PARAMTER_VOLUME, false);
     }
 
     public void updateProjectFile(File targetDir) {
-        getProject().writeDocument(targetDir);
+        getProject().writeProjectDocument(targetDir);
     }
 
 }

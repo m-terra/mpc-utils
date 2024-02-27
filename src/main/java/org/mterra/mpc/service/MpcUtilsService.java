@@ -85,12 +85,28 @@ public class MpcUtilsService {
         }
     }
 
+    public void configureArpSettings(String scanDirPath, String targetDirPath) {
+        File targetDir = new File(targetDirPath);
+        List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
+        for (ProjectInfo projectInfo : projects) {
+            System.out.printf("Configuring ARP Settings for project '%s'%n", projectInfo.getProjectName());
+            ProjectSettings projectSettings = new ProjectSettings(projectInfo);
+            projectSettings.configureArpLiveSettings();
+            Helper.copyProject(projectInfo, targetDir);
+            projectSettings.updateProjectSettingsFile(targetDir);
+        }
+    }
+
     public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber,
                               Boolean uniqueSeqs, String qlinkMode) {
         File filteredPath = new File(targetDirPath + "/filtered");
         File reorderedPath = new File(targetDirPath + "/reordered");
         File qlinkModePath = new File(targetDirPath + "/qlink");
-        if (!(filteredPath.mkdirs() && reorderedPath.mkdirs())) {
+        File arpSettingsPath = new File(targetDirPath + "/arp");
+        if (!(filteredPath.mkdirs()
+                && reorderedPath.mkdirs()
+                && qlinkModePath.mkdirs()
+                && arpSettingsPath.mkdirs())) {
             System.out.printf("Unable to create staging subdirectories in directory '%s'%n", targetDirPath);
             return;
         }
@@ -100,13 +116,15 @@ public class MpcUtilsService {
         } else {
             reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs, true, sequenceName);
             configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
-            configureProjectQLinkMap(qlinkModePath.getPath(), targetDirPath);
+            configureProjectQLinkMap(qlinkModePath.getPath(), arpSettingsPath.getPath());
+            configureArpSettings(arpSettingsPath.getPath(), targetDirPath);
             createProjectBpmFile(targetDirPath, targetDirPath);
         }
         try {
             FileUtils.deleteDirectory(filteredPath);
             FileUtils.deleteDirectory(reorderedPath);
             FileUtils.deleteDirectory(qlinkModePath);
+            FileUtils.deleteDirectory(arpSettingsPath);
         } catch (IOException e) {
             System.out.printf("Unable to delete staging subdirectories in directory '%s'%n", targetDirPath);
         }

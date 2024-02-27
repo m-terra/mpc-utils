@@ -35,6 +35,7 @@ public class LivesetTest extends BaseTest {
             Project project = new Project();
             project.load(projectInfo);
             Assertions.assertEquals(Constants.QLINK_MODE_PROJECT, project.getQLinkMode());
+            Assertions.assertTrue(project.isArpEnabled());
         }
     }
 

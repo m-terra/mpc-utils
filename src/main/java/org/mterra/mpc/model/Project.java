@@ -13,13 +13,15 @@ import java.io.File;
 public class Project {
 
     private ProjectInfo projectInfo;
-    private Document document;
+    private Document documentProject;
+    private Document documentProjectSettings;
 
     public void load(ProjectInfo projectInfo) {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            document = db.parse(projectInfo.getProjectFile());
+            documentProject = db.parse(projectInfo.getProjectFile());
+            documentProjectSettings = db.parse(projectInfo.getProjectSettingsFile());
             this.projectInfo = projectInfo;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -27,7 +29,7 @@ public class Project {
     }
 
     public String getBpm() {
-        NodeList bpms = document.getDocumentElement().getElementsByTagName("MasterTempo.Value");
+        NodeList bpms = documentProject.getDocumentElement().getElementsByTagName("MasterTempo.Value");
         if (bpms.getLength() > 0) {
             return bpms.item(0).getTextContent();
         } else {
@@ -37,23 +39,29 @@ public class Project {
 
     public void setQLinkMode(String mode) {
         String xpathExpression = "/Project/QLinkAssignments/CurrentMode";
-        NodeList nodeList = Helper.evaluateXPath(document, xpathExpression);
+        NodeList nodeList = Helper.evaluateXPath(documentProject, xpathExpression);
         nodeList.item(0).setTextContent(mode);
     }
 
-    public void writeDocument(File targetDir) {
+    public void writeProjectDocument(File targetDir) {
         File output = new File(targetDir, projectInfo.getProjectFile().getName());
-        Helper.writeDocument(document, output);
+        Helper.writeDocument(documentProject, output);
+    }
+
+    public void writeProjectSettingsDocument(File targetDir) {
+        File outputData = new File(targetDir, projectInfo.getProjectDataFolder().getName());
+        File output = new File(outputData, projectInfo.getProjectSettingsFile().getName());
+        Helper.writeDocument(documentProjectSettings, output);
     }
 
     public String getQLinkMode() {
         String xpathExpression = "/Project/QLinkAssignments/CurrentMode/text()";
-        return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
+        return Helper.evaluateXPathToStrings(documentProject, xpathExpression).get(0);
     }
 
-    public void setQLinkAssignement(Integer qLinkIndex, String type, Integer typeIndex, String parameter, boolean momentary) {
+    public void setQLinkAssignment(Integer qLinkIndex, String type, Integer typeIndex, String parameter, boolean momentary) {
         String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']";
-        NodeList nodeList = Helper.evaluateXPath(document, xpathExpression);
+        NodeList nodeList = Helper.evaluateXPath(documentProject, xpathExpression);
         Element qlinkAssElement = (Element) nodeList.item(0);
         NodeList typeNodeList = qlinkAssElement.getElementsByTagName("Type");
         if (type != null) {
@@ -61,7 +69,7 @@ public class Project {
             if (typeNodeList.getLength() > 0) {
                 typeElement = (Element) typeNodeList.item(0);
             } else {
-                typeElement = document.createElement("Type");
+                typeElement = documentProject.createElement("Type");
                 qlinkAssElement.appendChild(typeElement);
             }
             typeElement.setTextContent(type);
@@ -78,30 +86,42 @@ public class Project {
         if (momentaryNodeList.getLength() > 0) {
             momentaryElement = (Element) momentaryNodeList.item(0);
         } else {
-            momentaryElement = document.createElement("Momentary");
+            momentaryElement = documentProject.createElement("Momentary");
             qlinkAssElement.appendChild(momentaryElement);
         }
         momentaryElement.setTextContent(momentary ? "1" : "0");
     }
 
-    public String getQLinkProjectAssignementParameter(Integer qLinkIndex) {
+    public String getQLinkProjectAssignmentParameter(Integer qLinkIndex) {
         String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']/Parameter/text()";
-        return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
+        return Helper.evaluateXPathToStrings(documentProject, xpathExpression).get(0);
     }
 
-    public String getQLinkProjectAssignementType(Integer qLinkIndex) {
+    public String getQLinkProjectAssignmentType(Integer qLinkIndex) {
         String xpathExpression = "/Project/QLinkAssignments/ProjectMode/QLink[@index='" + qLinkIndex + "']/Type/text()";
-        return Helper.evaluateXPathToStrings(document, xpathExpression).get(0);
+        return Helper.evaluateXPathToStrings(documentProject, xpathExpression).get(0);
     }
 
     public String getMasterEqInsertIndex() {
         String xpathExpression = "/Project/Mixer/Mixer.Output/*[Name='AIR Para EQ']";
-        NodeList res = Helper.evaluateXPath(document, xpathExpression);
+        NodeList res = Helper.evaluateXPath(documentProject, xpathExpression);
         if (res.getLength() > 0) {
             return StringUtils.substringAfter(res.item(0).getNodeName(), "Insert");
         } else {
             return null;
         }
+    }
+
+    public void setArpLiveSettings() {
+        String xpathExpression = "/settings/VALUE[@name='Arpeggiator.Enabled']";
+        NodeList nodeList = Helper.evaluateXPath(documentProjectSettings, xpathExpression);
+        ((Element) nodeList.item(0)).setAttribute("val", "1");
+    }
+
+    public boolean isArpEnabled() {
+        String xpathExpression = "/settings/VALUE[@name='Arpeggiator.Enabled']/@val";
+        NodeList nodeList = Helper.evaluateXPath(documentProjectSettings, xpathExpression);
+        return nodeList.item(0).getTextContent().equals("1");
     }
 
 }

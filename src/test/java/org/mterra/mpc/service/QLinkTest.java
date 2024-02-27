@@ -37,10 +37,10 @@ public class QLinkTest extends BaseTest {
             Project project = new Project();
             project.load(projectInfo);
 
-            Assertions.assertEquals(Constants.QLINK_TYPE_TRACK, project.getQLinkProjectAssignementType(Constants.QLINK_INDEX_BD_VOLUME));
-            Assertions.assertEquals(Constants.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignementParameter(Constants.QLINK_INDEX_BD_VOLUME));
-            Assertions.assertEquals(Constants.QLINK_TYPE_TRACK, project.getQLinkProjectAssignementType(Constants.QLINK_INDEX_SN_VOLUME));
-            Assertions.assertEquals(Constants.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignementParameter(Constants.QLINK_INDEX_BD_VOLUME));
+            Assertions.assertEquals(Constants.QLINK_TYPE_TRACK, project.getQLinkProjectAssignmentType(Constants.QLINK_INDEX_BD_VOLUME));
+            Assertions.assertEquals(Constants.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignmentParameter(Constants.QLINK_INDEX_BD_VOLUME));
+            Assertions.assertEquals(Constants.QLINK_TYPE_TRACK, project.getQLinkProjectAssignmentType(Constants.QLINK_INDEX_SN_VOLUME));
+            Assertions.assertEquals(Constants.QLINK_PARAMTER_VOLUME, project.getQLinkProjectAssignmentParameter(Constants.QLINK_INDEX_BD_VOLUME));
         }
     }
 
