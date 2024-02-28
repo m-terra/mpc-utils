@@ -18,8 +18,18 @@ public class ProjectInfo {
         this.projectName = StringUtils.substringBefore(projectDataFolder.getName(), Constants.PROJECT_FOLDER_SUFFIX);
         this.projectDataFolder = projectDataFolder;
         this.projectFile = new File(projectDataFolder.getParentFile(), projectName + "." + Constants.PROJ_SUFFIX);
-        this.projectSettingsFile = new File(projectDataFolder, Constants.PROJECT_SETTINGS_FILE_NAME);
         this.sequencesAndSongsFile = new File(projectDataFolder, Constants.ALL_SEQS_FILE_NAME);
+        File projSett = new File(projectDataFolder, Constants.PROJECT_SETTINGS_FILE_NAME);
+        File padSett = new File(projectDataFolder, Constants.PADPERFORM_SETTINGS_FILE_NAME);
+
+        if (projSett.exists()) {
+            this.projectSettingsFile = projSett;
+        } else if (projSett.exists()) {
+            this.projectSettingsFile = padSett;
+        } else {
+            this.projectSettingsFile = null;
+        }
+
     }
 
     public String getProjectName() {
@@ -38,6 +48,9 @@ public class ProjectInfo {
         return projectSettingsFile;
     }
 
+    public boolean hasProjectSettingsFile() {
+        return projectSettingsFile != null;
+    }
 
     public File getSequencesAndSongsFile() {
         return sequencesAndSongsFile;

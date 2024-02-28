@@ -21,7 +21,9 @@ public class Project {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             documentProject = db.parse(projectInfo.getProjectFile());
-            documentProjectSettings = db.parse(projectInfo.getProjectSettingsFile());
+            if (projectInfo.hasProjectSettingsFile()) {
+                documentProjectSettings = db.parse(projectInfo.getProjectSettingsFile());
+            }
             this.projectInfo = projectInfo;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -113,15 +115,27 @@ public class Project {
     }
 
     public void setArpLiveSettings() {
-        String xpathExpression = "/settings/VALUE[@name='Arpeggiator.Enabled']";
-        NodeList nodeList = Helper.evaluateXPath(documentProjectSettings, xpathExpression);
-        ((Element) nodeList.item(0)).setAttribute("val", "1");
+        if (documentProjectSettings != null) {
+            setSettingsValue("Quantiser.TimeDivision", "1/4");
+            setSettingsValue("Quantiser.Enabled", "1");
+            setSettingsValue("Arpeggiator.Latch", "1");
+            setSettingsValue("Arpeggiator.ArpIndex", "Up");
+            setSettingsValue("Arpeggiator.StepSize", "960");
+        }
     }
 
-    public boolean isArpEnabled() {
-        String xpathExpression = "/settings/VALUE[@name='Arpeggiator.Enabled']/@val";
+    public boolean isArpLatched() {
+        String xpathExpression = "/settings/VALUE[@name='Arpeggiator.Latch']/@val";
         NodeList nodeList = Helper.evaluateXPath(documentProjectSettings, xpathExpression);
-        return nodeList.item(0).getTextContent().equals("1");
+        return nodeList.getLength() == 0 || nodeList.item(0).getTextContent().equals("1");
+    }
+
+    private void setSettingsValue(String name, String value) {
+        String xpathExpression = "/settings/VALUE[@name='" + name + "']";
+        NodeList nodeList = Helper.evaluateXPath(documentProjectSettings, xpathExpression);
+        if (nodeList.getLength() > 0) {
+            ((Element) nodeList.item(0)).setAttribute("val", value);
+        }
     }
 
 }

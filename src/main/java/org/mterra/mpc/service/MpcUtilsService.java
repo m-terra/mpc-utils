@@ -89,11 +89,16 @@ public class MpcUtilsService {
         File targetDir = new File(targetDirPath);
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         for (ProjectInfo projectInfo : projects) {
-            System.out.printf("Configuring ARP Settings for project '%s'%n", projectInfo.getProjectName());
-            ProjectSettings projectSettings = new ProjectSettings(projectInfo);
-            projectSettings.configureArpLiveSettings();
-            Helper.copyProject(projectInfo, targetDir);
-            projectSettings.updateProjectSettingsFile(targetDir);
+            if (projectInfo.hasProjectSettingsFile()) {
+                System.out.printf("Configuring ARP Settings for project '%s'%n", projectInfo.getProjectName());
+                ProjectSettings projectSettings = new ProjectSettings(projectInfo);
+                projectSettings.configureArpLiveSettings();
+                Helper.copyProject(projectInfo, targetDir);
+                projectSettings.updateProjectSettingsFile(targetDir);
+            } else {
+                System.out.printf("Skipping ARP Settings for project '%s'%n", projectInfo.getProjectName());
+                Helper.copyProject(projectInfo, targetDir);
+            }
         }
     }
 
