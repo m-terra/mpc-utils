@@ -12,7 +12,7 @@ public class FilterTest extends BaseTest {
 
     @Test
     public void filter() {
-        service.filterProjects(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_FILTER_SEQUENCE_NAME);
+        service.filterProjects(projectsDir.getPath(), resultDir.getPath());
         Assertions.assertTrue(new File(resultDir, "WithLives.xpj").exists());
         Assertions.assertTrue(new File(resultDir, "WithLives" + Constants.PROJECT_FOLDER_SUFFIX).exists());
         Assertions.assertTrue(new File(resultDir, "Pieces and Fractures.xpj").exists());

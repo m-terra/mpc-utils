@@ -16,21 +16,21 @@ import java.util.List;
 public class LivesetTest extends BaseTest {
 
     @Test
-    public void createLiveset() throws Exception {
-        service.createLiveset(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_FILTER_SEQUENCE_NAME,
-                Constants.DEFAULT_SONG_NUMBER, false, Constants.QLINK_MODE_PROJECT);
-        File bpmFile = new File(resultDir, Constants.DEFAULT_BPM_FILE_NAME);
+    public void createLiveset() {
+        File resultDirBasic = new File(resultDir, "/Basic");
+        File resultDirParty = new File(resultDir, "/Party");
+
+        service.createLiveset(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, false, Constants.QLINK_MODE_PROJECT);
+
+        File bpmFile = new File(resultDir + "/Party", Constants.DEFAULT_BPM_FILE_NAME);
         Assertions.assertTrue(bpmFile.exists());
 
-        String bpmFileContent = Files.readString(bpmFile.toPath());
-        Assertions.assertEquals(" 95.0\tPieces and Fractures\n100.0\tDeep Stop\n121.0\tWithLives\n", bpmFileContent);
+        Assertions.assertTrue(new File(resultDirBasic, "WithLives.xpj").exists());
+        Assertions.assertTrue(new File(resultDirParty, "Pieces and Fractures.xpj").exists());
+        Assertions.assertTrue(new File(resultDirBasic, "Deep Stop.xpj").exists());
 
-        Assertions.assertTrue(new File(resultDir, "WithLives.xpj").exists());
-        Assertions.assertTrue(new File(resultDir, "Pieces and Fractures.xpj").exists());
-        Assertions.assertFalse(new File(resultDir, "Aerial.xpj").exists());
-
-        List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDir.getPath());
-        Assertions.assertEquals(3, resultProjects.size());
+        List<ProjectInfo> resultProjects = Helper.getProjectsInDirectory(resultDirBasic.getPath());
+        Assertions.assertEquals(2, resultProjects.size());
         for (ProjectInfo projectInfo : resultProjects) {
             Project project = new Project();
             project.load(projectInfo);

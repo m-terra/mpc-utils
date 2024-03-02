@@ -1,5 +1,6 @@
 package org.mterra.mpc.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mterra.mpc.util.Constants;
 import org.mterra.mpc.util.Helper;
 import org.w3c.dom.Document;
@@ -104,10 +105,29 @@ public class SequencesAndSongs {
         seqs.appendChild(seq);
     }
 
-    public boolean containsSequence(String name) {
-        String xpathExpression = "/MPCVObject/AllSeqSamps/Sequences/Sequence[Name='" + name + "']/@number";
+    public boolean containsSequenceWithPrefix(String prefix) {
+        String xpathExpression = "/MPCVObject/AllSeqSamps/Sequences/Sequence/Name/text()";
         List<String> res = Helper.evaluateXPathToStrings(document, xpathExpression);
-        return !res.isEmpty();
+        for (String seqName : res) {
+            if (seqName.startsWith(prefix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getLivesetSuffix() {
+        String xpathExpression = "/MPCVObject/AllSeqSamps/Sequences/Sequence/Name/text()";
+        List<String> res = Helper.evaluateXPathToStrings(document, xpathExpression);
+        for (String seqName : res) {
+            if (seqName.equals("Live")) {
+                return "Basic";
+            }
+            if (seqName.startsWith(Constants.LIVESET_SEQUENCE_PREFIX)) {
+                return StringUtils.substringAfter(seqName, Constants.LIVESET_SEQUENCE_PREFIX);
+            }
+        }
+        return null;
     }
 
     public Integer getSequenceNumber(String name) {

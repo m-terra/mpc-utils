@@ -56,7 +56,7 @@
             </Sequence>
             <Sequence number="12">
                 <Active>True</Active>
-                <Name>Live</Name>
+                <Name>LivesetParty</Name>
             </Sequence>
             <Sequence number="15">
                 <Active>True</Active>

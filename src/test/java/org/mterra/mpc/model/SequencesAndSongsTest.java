@@ -21,14 +21,14 @@ public class SequencesAndSongsTest {
     public void containsSequence() {
         SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
         sequencesAndSongs.load(projectInfo);
-        Assertions.assertTrue(sequencesAndSongs.containsSequence(Constants.DEFAULT_FILTER_SEQUENCE_NAME));
+        Assertions.assertTrue(sequencesAndSongs.containsSequenceWithPrefix(Constants.LIVE_SEQUENCE_BASIC));
     }
 
     @Test
     public void notContainsSequence() {
         SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
         sequencesAndSongs.load(projectInfo);
-        Assertions.assertFalse(sequencesAndSongs.containsSequence("FooBar"));
+        Assertions.assertFalse(sequencesAndSongs.containsSequenceWithPrefix("FooBar"));
     }
 
 

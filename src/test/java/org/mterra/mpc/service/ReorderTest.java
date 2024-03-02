@@ -21,8 +21,7 @@ public class ReorderTest extends BaseTest {
     public void uniqueSeqswithAir() throws Exception {
         boolean uniqueSeqs = true;
         String projectName = "Aerial";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
-                false, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, false);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
@@ -36,16 +35,14 @@ public class ReorderTest extends BaseTest {
     public void uniqueSeqsWithLive() throws Exception {
         boolean uniqueSeqs = true;
         String projectName = "WithLives";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
-                false, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, false);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
         ProjectInfo targetProjectInfo = new ProjectInfo(targetDataFolder);
 
         assertSequenceNumber(srcProjectInfo, targetProjectInfo, uniqueSeqs);
-        assertFileContent(projectName, "1.sxq", "20");
-        assertFileContent(projectName, "14.sxq", "live1");
+        assertFileContent(projectName, "1.sxq", "live");
         assertFileContent(projectName, "15.sxq", "live2");
         assertFileContent(projectName, "16.sxq", "live3");
         Assertions.assertFalse(new File(targetDataFolder.getPath() + "/22.sxq").exists());
@@ -56,8 +53,7 @@ public class ReorderTest extends BaseTest {
     public void replicateSeqsWithLive() throws Exception {
         boolean uniqueSeqs = false;
         String projectName = "Deep Stop";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
-                true, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, true);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
@@ -73,8 +69,7 @@ public class ReorderTest extends BaseTest {
     public void replicateSequencesWithUnused() {
         boolean uniqueSeqs = false;
         String projectName = "WithLives";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
-                false, Constants.DEFAULT_FILTER_SEQUENCE_NAME);
+        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs, false);
         File srcProjectDataFolder = new File(projectsDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
         ProjectInfo srcProjectInfo = new ProjectInfo(srcProjectDataFolder);
@@ -82,18 +77,6 @@ public class ReorderTest extends BaseTest {
 
         assertSequenceNumber(srcProjectInfo, targetProjectInfo, uniqueSeqs);
         assertContainsSequences(targetProjectInfo, "Live", "Live2", "Live3");
-    }
-
-    @Test
-    public void customLiveSequenceName() {
-        boolean uniqueSeqs = false;
-        String projectName = "WithLives";
-        service.reorderSequences(projectsDir.getPath(), resultDir.getPath(), Constants.DEFAULT_SONG_NUMBER, uniqueSeqs,
-                true, "Live2");
-        File targetDataFolder = new File(resultDir.getPath() + "/" + projectName + Constants.PROJECT_FOLDER_SUFFIX);
-        ProjectInfo targetProjectInfo = new ProjectInfo(targetDataFolder);
-
-        assertSequenceAtPosition(targetProjectInfo, "Live2", 1);
     }
 
     private void assertFileContent(String projDirPrefix, String filename, String expectedContent) throws Exception {
@@ -134,14 +117,8 @@ public class ReorderTest extends BaseTest {
         songSeqs.load(projectInfo);
 
         for (String seqName : seqNames) {
-            Assertions.assertTrue(songSeqs.containsSequence(seqName));
+            Assertions.assertTrue(songSeqs.containsSequenceWithPrefix(seqName));
         }
-    }
-
-    private void assertSequenceAtPosition(ProjectInfo projectInfo, String seqName, Integer seqPosition) {
-        SequencesAndSongs songSeqs = new SequencesAndSongs();
-        songSeqs.load(projectInfo);
-        Assertions.assertEquals(1, songSeqs.getSequenceNumber(seqName));
     }
 
 }

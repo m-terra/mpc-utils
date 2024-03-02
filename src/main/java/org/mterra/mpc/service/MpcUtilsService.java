@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MpcUtilsService {
-    public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber, Boolean uniqueSeqs,
-                                 boolean liveFirst, String liveSequenceName) {
+    public void reorderSequences(String scanDirPath, String targetDirPath, String songNumber, Boolean uniqueSeqs, boolean liveFirst) {
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
         for (ProjectInfo projectInfo : projects) {
@@ -22,20 +21,20 @@ public class MpcUtilsService {
             Reorderer reorderer = new Reorderer();
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo, songNumber);
-            Map<Integer, SeqInfo> reordered = reorderer.reorderSequences(sequencesAndSongs, uniqueSeqs, liveFirst, liveSequenceName);
+            Map<Integer, SeqInfo> reordered = reorderer.reorderSequences(sequencesAndSongs, uniqueSeqs, liveFirst);
             reorderer.writeReorderedProject(projectInfo, sequencesAndSongs, reordered, targetDir);
         }
     }
 
-    public int filterProjects(String scanDirPath, String targetDirPath, String sequenceName) {
+    public int filterProjects(String scanDirPath, String targetDirPath) {
         int loaded = 0;
         List<ProjectInfo> projects = Helper.getProjectsInDirectory(scanDirPath);
         File targetDir = new File(targetDirPath);
         for (ProjectInfo projectInfo : projects) {
             SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
             sequencesAndSongs.load(projectInfo);
-            if (sequencesAndSongs.containsSequence(sequenceName)) {
-                System.out.printf("Project '%s' matches sequence filter '%s'%n", projectInfo.getProjectName(), sequenceName);
+            if (sequencesAndSongs.containsSequenceWithPrefix(Constants.LIVE_SEQUENCE_BASIC)) {
+                System.out.printf("Project '%s' matches sequence filter %n", projectInfo.getProjectName());
                 Helper.copyProject(projectInfo, targetDir);
                 Project project = new Project();
                 project.load(projectInfo);
@@ -102,36 +101,57 @@ public class MpcUtilsService {
         }
     }
 
-    public void createLiveset(String scanDirPath, String targetDirPath, String sequenceName, String songNumber,
-                              Boolean uniqueSeqs, String qlinkMode) {
-        File filteredPath = new File(targetDirPath + "/filtered");
-        File reorderedPath = new File(targetDirPath + "/reordered");
-        File qlinkModePath = new File(targetDirPath + "/qlink");
-        File arpSettingsPath = new File(targetDirPath + "/arp");
-        if (!(filteredPath.mkdirs()
-                && reorderedPath.mkdirs()
-                && qlinkModePath.mkdirs()
-                && arpSettingsPath.mkdirs())) {
-            System.out.printf("Unable to create staging subdirectories in directory '%s'%n", targetDirPath);
-            return;
+    public void copyToSpecificLivesetTargets(String srcPath, String targetDirPath) {
+        File targetDir = new File(targetDirPath);
+        List<ProjectInfo> projects = Helper.getProjectsInDirectory(srcPath);
+        for (ProjectInfo projectInfo : projects) {
+            SequencesAndSongs sequencesAndSongs = new SequencesAndSongs();
+            sequencesAndSongs.load(projectInfo);
+            String targetSubDir = sequencesAndSongs.getLivesetSuffix();
+            if (targetSubDir != null) {
+                Helper.copyProject(projectInfo, new File(targetDir, targetSubDir));
+            }
         }
+    }
+
+    public void createLiveset(String scanDirPath, String targetDirPath, String songNumber, Boolean uniqueSeqs, String qlinkMode) {
+        List<File> stagingDirs = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            File dir = new File(targetDirPath + "/" + i);
+            stagingDirs.add(i, dir);
+            if (!dir.mkdirs()) {
+                System.out.printf("Unable to create staging subdirectories in directory '%s'%n", targetDirPath);
+                return;
+            }
+        }
+
         System.out.printf("Creating liveset for projects in directory '%s'%n", scanDirPath);
-        if (filterProjects(scanDirPath, filteredPath.getPath(), sequenceName) < 1) {
-            System.out.printf("Sequence filter '%s' returned no projects %n", sequenceName);
+        if (filterProjects(scanDirPath, stagingDirs.get(0).getPath()) < 1) {
+            System.out.printf("Sequence filter returned no projects %n");
         } else {
-            reorderSequences(filteredPath.getPath(), reorderedPath.getPath(), songNumber, uniqueSeqs, true, sequenceName);
-            configureQLinkMode(reorderedPath.getPath(), qlinkModePath.getPath(), qlinkMode);
-            configureProjectQLinkMap(qlinkModePath.getPath(), arpSettingsPath.getPath());
-            configureArpSettings(arpSettingsPath.getPath(), targetDirPath);
-            createProjectBpmFile(targetDirPath, targetDirPath);
+            reorderSequences(stagingDirs.get(0).getPath(), stagingDirs.get(1).getPath(), songNumber, uniqueSeqs, true);
+            configureQLinkMode(stagingDirs.get(1).getPath(), stagingDirs.get(2).getPath(), qlinkMode);
+            configureProjectQLinkMap(stagingDirs.get(2).getPath(), stagingDirs.get(3).getPath());
+            configureArpSettings(stagingDirs.get(3).getPath(), stagingDirs.get(4).getPath());
+            copyToSpecificLivesetTargets(stagingDirs.get(4).getPath(), targetDirPath);
         }
+
         try {
-            FileUtils.deleteDirectory(filteredPath);
-            FileUtils.deleteDirectory(reorderedPath);
-            FileUtils.deleteDirectory(qlinkModePath);
-            FileUtils.deleteDirectory(arpSettingsPath);
+            for (File dir : stagingDirs) {
+                FileUtils.deleteDirectory(dir);
+            }
         } catch (IOException e) {
             System.out.printf("Unable to delete staging subdirectories in directory '%s'%n", targetDirPath);
         }
+
+        File[] scanDirs = new File(targetDirPath).listFiles();
+        if (scanDirs != null) {
+            for (File dir : scanDirs) {
+                if (dir.isDirectory()) {
+                    createProjectBpmFile(dir.getPath(), dir.getPath());
+                }
+            }
+        }
+
     }
 }

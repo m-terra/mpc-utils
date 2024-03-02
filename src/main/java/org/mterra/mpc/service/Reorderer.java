@@ -18,8 +18,7 @@ import java.util.TreeMap;
 
 public class Reorderer {
 
-    public Map<Integer, SeqInfo> reorderSequences(SequencesAndSongs sequencesAndSongs, Boolean uniqueSeqs,
-                                                  Boolean liveFirst, String liveSequenceName) {
+    public Map<Integer, SeqInfo> reorderSequences(SequencesAndSongs sequencesAndSongs, Boolean uniqueSeqs, Boolean liveFirst) {
         Map<Integer, SeqInfo> ordered = new TreeMap<>();
         List<SeqInfo> notUsedInSong = new ArrayList<>();
         SeqInfo airSeq = null;
@@ -27,9 +26,9 @@ public class Reorderer {
         for (SeqInfo seqInfo : sequencesAndSongs.getSeqInfoMap().values()) {
             if (seqInfo.getName().equalsIgnoreCase("air")) {
                 airSeq = seqInfo;
-            } else if (liveFirst && seqInfo.getName().equals(liveSequenceName)) {
+            } else if (liveFirst && seqInfo.getName().startsWith(Constants.LIVESET_SEQUENCE_PREFIX) || seqInfo.getName().equals(Constants.LIVE_SEQUENCE_BASIC)) {
                 liveSeq = seqInfo;
-            } else if (seqInfo.getPosInSong().size() == 0) {
+            } else if (seqInfo.getPosInSong().isEmpty()) {
                 notUsedInSong.add(seqInfo);
             } else {
                 if (uniqueSeqs) {

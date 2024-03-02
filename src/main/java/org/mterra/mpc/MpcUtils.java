@@ -15,7 +15,7 @@ public class MpcUtils {
                 .optionalArg(true).desc("show help").build();
         options.addOption(helpOpt);
         Option commandOpt = Option.builder("c").longOpt("command").required()
-                .optionalArg(false).hasArg(true).desc("reorder|filter|bpm|qlinkMode|qlinkMap|liveset").build();
+                .optionalArg(false).hasArg(true).desc("reorder|bpm|liveset").build();
         options.addOption(commandOpt);
         Option inputDirOpt = Option.builder("i").longOpt("inputDirectory").required()
                 .optionalArg(false).hasArg(true).desc("input directory path").build();
@@ -26,15 +26,9 @@ public class MpcUtils {
         Option songNumberOpt = Option.builder().longOpt("songNumber")
                 .optionalArg(false).hasArg(true).desc("optional songNumber for reordering").build();
         options.addOption(songNumberOpt);
-        Option sequenceNameOpt = Option.builder().longOpt("sequenceName")
-                .optionalArg(false).hasArg(true).desc("optional sequenceName for filtering").build();
-        options.addOption(sequenceNameOpt);
         Option uniqueSequencesOpt = Option.builder().longOpt("uniqueSequences")
                 .hasArg(false).desc("keep the sequences unique when reordering").build();
         options.addOption(uniqueSequencesOpt);
-        Option qlinkModeOpt = Option.builder().longOpt("qlinkMode")
-                .optionalArg(false).hasArg(true).desc("Project|Program|PadScene|PadParam|Screen").build();
-        options.addOption(qlinkModeOpt);
 
         CommandLine cmd;
         try {
@@ -53,9 +47,7 @@ public class MpcUtils {
         String inputDirectoryPath = cmd.getOptionValue(inputDirOpt.getOpt());
         String outputDirectoryPath = cmd.getOptionValue(outputDirOpt.getOpt());
         String songNumber = cmd.getOptionValue(songNumberOpt.getLongOpt(), Constants.DEFAULT_SONG_NUMBER);
-        String sequenceName = cmd.getOptionValue(sequenceNameOpt.getLongOpt(), Constants.DEFAULT_FILTER_SEQUENCE_NAME);
         Boolean uniqueSequences = cmd.hasOption(uniqueSequencesOpt.getLongOpt());
-        String qlinkMode = cmd.getOptionValue(qlinkModeOpt.getLongOpt(), Constants.QLINK_MODE_PROJECT);
 
         if (inputDirectoryPath != null && Objects.equals(inputDirectoryPath, outputDirectoryPath)) {
             System.out.printf("%s %s must be different%n", inputDirOpt.getLongOpt(), outputDirOpt.getLongOpt());
@@ -67,10 +59,7 @@ public class MpcUtils {
 
         switch (command) {
             case "reorder":
-                service.reorderSequences(inputDirectoryPath, outputDirectoryPath, songNumber, uniqueSequences, false, sequenceName);
-                break;
-            case "filter":
-                service.filterProjects(inputDirectoryPath, outputDirectoryPath, sequenceName);
+                service.reorderSequences(inputDirectoryPath, outputDirectoryPath, songNumber, uniqueSequences, false);
                 break;
             case "bpm":
                 if (outputDirectoryPath == null) {
@@ -78,15 +67,8 @@ public class MpcUtils {
                 }
                 service.createProjectBpmFile(inputDirectoryPath, outputDirectoryPath);
                 break;
-            case "qlinkMap":
-                service.configureProjectQLinkMap(inputDirectoryPath, outputDirectoryPath);
-                break;
-            case "qlinkMode":
-                service.configureQLinkMode(inputDirectoryPath, outputDirectoryPath, qlinkMode);
-                break;
             case "liveset":
-                service.createLiveset(inputDirectoryPath, outputDirectoryPath, sequenceName,
-                        songNumber, uniqueSequences, qlinkMode);
+                service.createLiveset(inputDirectoryPath, outputDirectoryPath, songNumber, uniqueSequences, Constants.QLINK_MODE_PROJECT);
                 break;
             default:
                 printUsage(options);
