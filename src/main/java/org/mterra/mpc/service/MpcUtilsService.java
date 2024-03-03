@@ -109,7 +109,10 @@ public class MpcUtilsService {
             sequencesAndSongs.load(projectInfo);
             String targetSubDir = sequencesAndSongs.getLivesetSuffix();
             if (targetSubDir != null) {
+                System.out.printf("Copying project '%s' to liveset '%s'%n", projectInfo.getProjectName(), targetSubDir);
                 Helper.copyProject(projectInfo, new File(targetDir, targetSubDir));
+            } else {
+                System.out.printf("No liveset type found for project '%s'%n", projectInfo.getProjectName());
             }
         }
     }
@@ -126,14 +129,16 @@ public class MpcUtilsService {
         }
 
         System.out.printf("Creating liveset for projects in directory '%s'%n", scanDirPath);
-        if (filterProjects(scanDirPath, stagingDirs.get(0).getPath()) < 1) {
+
+        int stagingIndex = 0;
+        if (filterProjects(scanDirPath, stagingDirs.get(stagingIndex).getPath()) < 1) {
             System.out.printf("Sequence filter returned no projects %n");
         } else {
-            reorderSequences(stagingDirs.get(0).getPath(), stagingDirs.get(1).getPath(), songNumber, uniqueSeqs, true);
-            configureQLinkMode(stagingDirs.get(1).getPath(), stagingDirs.get(2).getPath(), qlinkMode);
-            configureProjectQLinkMap(stagingDirs.get(2).getPath(), stagingDirs.get(3).getPath());
-            configureArpSettings(stagingDirs.get(3).getPath(), stagingDirs.get(4).getPath());
-            copyToSpecificLivesetTargets(stagingDirs.get(4).getPath(), targetDirPath);
+            reorderSequences(stagingDirs.get(stagingIndex).getPath(), stagingDirs.get(++stagingIndex).getPath(), songNumber, uniqueSeqs, true);
+            configureQLinkMode(stagingDirs.get(stagingIndex).getPath(), stagingDirs.get(++stagingIndex).getPath(), qlinkMode);
+            configureProjectQLinkMap(stagingDirs.get(stagingIndex).getPath(), stagingDirs.get(++stagingIndex).getPath());
+            configureArpSettings(stagingDirs.get(stagingIndex).getPath(), stagingDirs.get(++stagingIndex).getPath());
+            copyToSpecificLivesetTargets(stagingDirs.get(stagingIndex).getPath(), targetDirPath);
         }
 
         try {
@@ -144,6 +149,11 @@ public class MpcUtilsService {
             System.out.printf("Unable to delete staging subdirectories in directory '%s'%n", targetDirPath);
         }
 
+        createBpmFileForSubdirs(targetDirPath);
+
+    }
+
+    private void createBpmFileForSubdirs(String targetDirPath) {
         File[] scanDirs = new File(targetDirPath).listFiles();
         if (scanDirs != null) {
             for (File dir : scanDirs) {
@@ -152,6 +162,5 @@ public class MpcUtilsService {
                 }
             }
         }
-
     }
 }
