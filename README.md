@@ -6,11 +6,6 @@
 
 mpc-utils will not alter the original projects but create a new project version in the specified target directory.
 
-## Setup
-
-- A Java Runtime Environment (JRE) 11 or greater is installed
-- Download the latest binary jar from https://github.com/andybaer/mpc-utils/releases
-
 ## Functions
 
 ### Sequence Reordering
