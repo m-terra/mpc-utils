@@ -116,8 +116,16 @@ public class Project {
 
     public void setArpLiveSettings() {
         if (documentProjectSettings != null) {
+            setSettingsValue("PadPerform.Type", "1");
+            setSettingsValue("PadPerform.BaseNote", "3");
+            setSettingsValue("PadPerform.StartOctave", "4");
+            setSettingsValue("PadPerform.ScaleType", "0");
+            // pad perform mode with whole notes
+            // setSettingsValue("PadPerform.ScaleType", "18");
+
             setSettingsValue("Quantiser.TimeDivision", "1/4");
             setSettingsValue("Quantiser.Enabled", "1");
+
             setSettingsValue("Arpeggiator.Latch", "1");
             setSettingsValue("Arpeggiator.ArpIndex", "Up");
             setSettingsValue("Arpeggiator.StepSize", "960");
